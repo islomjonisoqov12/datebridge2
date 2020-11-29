@@ -38,4 +38,18 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.insertBoard(params);
 	}
 
+
+	@Override
+	public BoardDto selectBoard(int seq) throws Exception {
+		// TODO Auto-generated method stub
+		return boardMapper.selectBoard(seq) ;
+	}
+
+
+	@Override
+	public boolean deleteBoard(int seq) throws Exception {
+		// TODO Auto-generated method stub
+		return boardMapper.deleteBoard(seq);
+	}
+
 }

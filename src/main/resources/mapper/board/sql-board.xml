@@ -32,19 +32,37 @@
 		
 	</select>
 	
+	<select id="selectBoard" parameterType="int" resultType="com.kdatalab.bridge.board.dto.BoardDto">
+		select seq,
+			bbs_id,
+			title,
+			noticeat,
+			atchmnfl,
+			cn,
+			reg_user,
+			reg_dt,
+			mod_user,
+			mod_dt
+		from BBS_DTL
+		where seq = #{seq}
+	
+	</select>
+	
 	<insert id="insertBoard" parameterType="com.kdatalab.bridge.board.dto.BoardDto">
 	
-		insert into BBS_DTL(bbs_id,
-			 title,
-			 noticeat,
-			 atchmnfl,
-			 cn,
-			 reg_user, 
-			 reg_dt,
-			 mod_user,
-			 mod_dt)
+		insert into BBS_DTL(
+			seq,
+			bbs_id,
+			title,
+			noticeat,
+			atchmnfl,
+			cn,
+			reg_user, 
+			reg_dt,
+			mod_user,
+			mod_dt)
 		values(
-		
+			#{seq},
 			#{bbsId},
 			#{title},
 			#{noticeat},
@@ -53,11 +71,23 @@
 			#{regUser},
 			now(),
 			#{modUser},
-			now(),
+			now()
 		)
+		on DUPLICATE KEY UPDATE 
+			bbs_id = #{bbsId},
+			title = #{title},
+			noticeat = #{noticeat},
+			atchmnfl = #{atchmnfl},
+			cn = #{cn},
+			mod_user = #{modUser},
+			mod_dt = now()
 		
 	</insert>
-	 
+	
+	<delete id="deleteBoard" parameterType="int">
+		delete from BBS_DTL 
+		where seq = #{seq}
+	</delete>
 	
 </mapper>
 

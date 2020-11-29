@@ -10,4 +10,8 @@ public interface BoardService {
 
 	boolean insertBoard(BoardDto params) throws Exception;
 
+	BoardDto selectBoard(int seq) throws Exception ;
+
+	boolean deleteBoard(int seq) throws Exception;
+
 }

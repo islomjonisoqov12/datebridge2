@@ -141,8 +141,25 @@
   <!-- containers --> 
   <div class="containers">  
     <!-- ◆◆◆ #body ◆◆◆ --> 
+	
+	<form id="form" method="post" name="form" enctype="multipart/form-data">    
+		<div>
+			<input type="hidden" name="_method" id="method" />
+			<input type="hidden" id="seq" name="seq" th:value="${board.seq}">
+			
+			<p>제목:<input type="text" id="title" name="title" th:value="${board.title}"></p>
+	   		<p>내용:<textarea rows="5" id="cn" name="cn" th:text="${board.cn}"></textarea></p>
+	   		<p>등록자:<input type="text" id="regUser" name="regUser" th:value="${board.regUser}"></p>
+	   		<input type="hidden" name="bbsId" id="bbsId" value="5" >
+	   	</div>
+	   	
+    </form>
+    <br>
+    <br>
     
-    글쓰기
+    <a href="/board" class="btn">목록으로</a>
+    <input type="button" id="insert" value="등록하기">
+    <input type="button" id="delete" value="삭제하기">
     
     
     <!-- ◆◆◆ /#body ◆◆◆ --> 
@@ -189,6 +206,7 @@
 </div>   
 <!--◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇ /#containers ◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇-->
 
+<script src="/js/board/board.js"></script>
 
 </body>
 

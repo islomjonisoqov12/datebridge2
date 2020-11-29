@@ -176,7 +176,7 @@
           <tbody>
 	          <tr th:if="${#lists.size(boardList)} > 0" th:each="list:${boardList}">
 	          	<td class="tac" th:text="${list.title}"></td>
-	          	<td><a href="?">직원의 안전을 위한 교육입니다. <i class="ic1 new">새 글</i></a></td>
+	          	<td><a th:href="@{board/{seq}(seq=${list.seq})}" th:text="${list.cn}"></a><i class="ic1 new">새 글</i></td>
 	          	<td class="tac">2020.09.22~2020.12.31</td>
 	          	<td class="tac">30분</td>
 	          </tr>
@@ -215,13 +215,8 @@
 	        </div>
 	        <!-- /pagination -->   
         	
-        	
-        		
-        	
         </div>
-        
-        
-        
+        <a href="/board/write" class="btn">새글쓰기</a>
         
         <!-- /bfInfo1 -->           
         

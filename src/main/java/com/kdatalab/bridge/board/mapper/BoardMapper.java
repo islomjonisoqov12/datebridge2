@@ -10,6 +10,12 @@ import com.kdatalab.bridge.board.dto.BoardDto;
 public interface BoardMapper {
 	
 	List<BoardDto> selectBoardList(BoardDto params) throws Exception;
+	
 	int selectBoardTotalCount(BoardDto params) throws Exception;
-	boolean insertBoard(BoardDto params);
+	
+	boolean insertBoard(BoardDto params) throws Exception;
+	
+	BoardDto selectBoard(int seq) throws Exception;
+
+	boolean deleteBoard(int seq) throws Exception;
 }
