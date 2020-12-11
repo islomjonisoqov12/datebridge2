@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://thymeleaf.org">
+<html lang="ko" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
   <!-- Title -->
@@ -66,12 +66,29 @@
   <link rel="stylesheet" href="assets/css/custom-lib.css">
   <link rel="stylesheet" href="assets/css/custom-layout.css">
   <link rel="stylesheet" href="assets/css/custom-template.css">
+  <script src="/assets/vendor/jquery-ui/jquery-ui.js"></script>
   <script src="assets/js/custom-lib.js"></script>
+  <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
   
   <!-- 메인에서만 사용 -->
   <link rel="stylesheet" href="assets/css/custom-main.css">
 
 <script src="assets/js/custom-main.js"></script>
+
+  <script th:inline="javascript">
+    function fnSearch(){
+      var offset = $('#div1').offset();
+      var schActiveYn = $("#schActiveYn").val();
+      location.href = "?schActiveYn="+schActiveYn+"#main_s2";
+    }
+
+    function fnSetActiveYn(activeYn){
+      $("#schActiveYn").val(activeYn);
+
+      fnSearch();
+    }
+
+  </script>
 
 </head>
 
@@ -102,9 +119,12 @@
       <!-- /#logo -->
       <!-- #gn1 -->
       <div id="gn1">
-        <ul id="gn1c1" class="clearfix"> 
-          <li><a href="/login/login">로그인</a></li>
-          <li><a href="/login/join">회원가입</a></li>
+        <ul id="gn1c1" class="clearfix">
+          <li sec:authorize="isAuthenticated()"><a><i class="ic_coin1"></i><span th:text="${#numbers.formatInteger(userInfo.nowpoint, 0, 'COMMA')}">320,000</span></a></li>
+          <li sec:authorize="isAuthenticated()"><a href="#">마이페이지</a></li>
+          <li sec:authorize="isAuthenticated()"><a href="/user/logout">로그아웃</a></li>
+          <li sec:authorize="!isAuthenticated()"><a href="/user/login">로그인</a></li>
+          <li sec:authorize="!isAuthenticated()"><a href="/join/sign">회원가입</a></li>
         </ul>
       </div>
       <!-- /#gn1 -->				
@@ -121,12 +141,12 @@
       <div id="visual">
         <div class="ct1"><span class="ct1t1">AI 학습용 클라우드</span> <span class="ct1t2">소싱 플랫폼!</span></div>
         <div class="search1">
-          <form>
-          <fieldset>
-          <legend class="blind"><strong>통합검색</strong></legend>            
-          <input type="text" name="" id="" value="" placeholder=" 작업명으로 검색" title="검색어" />
-          <button type="submit"><i class="ic1"></i><span class="blind">검색</span></button>
-          </fieldset>
+          <form action="sub">
+            <fieldset>
+            <legend class="blind"><strong>통합검색</strong></legend>
+            <input type="text" name="schSubject" id="schSubject" value="" placeholder=" 작업명으로 검색" title="검색어" />
+            <button type="submit"><i class="ic1"></i><span class="blind">검색</span></button>
+            </fieldset>
           </form>     
         </div>
         <div class="ct2">생산된 데이터는<br />AI 학습데이터로 활용되어<br /><span class="ct2t1">인공지능의 성능을 향상</span>시킵니다 </div>
@@ -158,7 +178,7 @@
             <li><a href="#layerPop_text" class="b1 toggle open"><strong class="t1">TEXT</strong><span class="t2">텍스트를 추출하여<br /> 분류하는 작업</span><span class="b1">체험하기</span></a></li>
             <li><a href="#layerPop_image" class="b1 toggle open"><strong class="t1">IMAGE</strong><span class="t2">이미지의 객체를 분류하여<br />수치화하는 데이터 작업</span><span class="b1">체험하기</span></a></li>
             <li><a href="#layerPop_poll" class="b1 toggle open"><strong class="t1">설문조사</strong><span class="t2">특정 타켓을 상대로 한<br />설문조사 작업</span><span class="b1">체험하기</span></a></li>
-            <li><a href="#layerPop_voice" class="b1 toggle open"><strong class="t1">VOICE</strong><span class="t2">은원파일 또는<br />음성녹음 등의 작업</span><span class="b1">체험하기</span></a></li>
+            <li><a href="#layerPop_voice" class="b1 toggle open"><strong class="t1">VOICE</strong><span class="t2">음원파일 또는<br />음성녹음 등의 작업</span><span class="b1">체험하기</span></a></li>
           </ul>
         </div>
     </div>
@@ -176,23 +196,31 @@
         <!-- bTab1 -->
         <div class="bTab1">
           <ul>
-          <li class="on"><a href="#">전체</a></li>
-          <li><a href="#">진행중</a></li>
-          <li><a href="#">완료</a></li>
+            <input type="hidden" name="schActiveYn" id="schActiveYn" th:value="${params.schActiveYn}">
+            <li th:classappend="${params.schActiveYn} == '' ? 'on' : ''"><a href="javascript:" onclick="fnSetActiveYn();">전체</a></li>
+            <li th:classappend="${params.schActiveYn} == 'ing' ? 'on' : ''"><a href="javascript:" onclick="fnSetActiveYn('ing');">진행중</a></li>
+            <li th:classappend="${params.schActiveYn} == 'cmp' ? 'on' : ''"><a href="javascript:" onclick="fnSetActiveYn('cmp');">완료</a></li>
           </ul>                
         </div>
         <!--//  bTab1 -->
         <!-- bList1 -->
         <div class="bList1 clearfix"><!-- 완료된 work 에는 class="s1" 적용 -->
           <ul>
-            <li><a href="#"><i class="c1 ic1"></i><span class="t1">설문조사</span><strong class="t2">비오는 날 듣고 싶은 음악 설문조사</strong><span class="t3">진행중</span><span class="t4"><i></i>300</span></a></li>            
-            <li><a href="#"><i class="c1 ic2"></i><span class="t1">VOICE</span><strong class="t2">영풍문고 베스트 셀러 작가와의 만남 음성 노음</strong><span class="t3">진행중</span><span class="t4"><i></i>300</span></a></li>            
-            <li class="s1"><a href="#"><i class="c1 ic3"></i><span class="t1">TEXT</span><strong class="t2">공용주차장 영수증 텍스트 입력</strong><span class="t3">완료</span><span class="t4"><i></i>300</span></a></li>                        
-            <li><a href="#"><i class="c1 ic4"></i><span class="t1">IMAGE</span><strong class="t2">맥도널드 햄버거 이미지 라벨링</strong><span class="t3">진행중</span><span class="t4"><i></i>300</span></a></li>            
-            <li class="s1"><a href="#"><i class="c1 ic3"></i><span class="t1">TEXT</span><strong class="t2">제품 설명서 텍스트 추출 데이터 입력</strong><span class="t3">완료</span><span class="t4"><i></i>300</span></a></li>            
-            <li><a href="#"><i class="c1 ic4"></i><span class="t1">IMAGE</span><strong class="t2">자동차 부품 이미지 정보 라벨링</strong><span class="t3">진행중</span><span class="t4"><i></i>300</span></a></li>            
-            <li><a href="#"><i class="c1 ic1"></i><span class="t1">설문조사</span><strong class="t2">일상생활에서의 감정 설문조사</strong><span class="t3">진행중</span><span class="t4"><i></i>300</span></a></li>                        
-            <li><a href="#"><i class="c1 ic2"></i><span class="t1">VOICE</span><strong class="t2">고3 대학설명회 특강 강사 음성 녹음</strong><span class="t3">진행중</span><span class="t4"><i></i>300</span></a></li>                        
+            <li th:if="${#lists.size(eduList)} > 0" th:each="list:${eduList}" th:classappend="${list.eduActiveYn} == N ? s1">
+              <a th:href="@{/sub/subDtl(eduSeq=${list.eduSeq})}">
+                <i class="c1" th:classappend="${list.eduType} == 'survey' ? 'ic1' :
+                                                (${list.eduType} == 'voice' ? 'ic2' :
+                                                (${list.eduType} == 'text' ? 'ic3' :
+                                                (${list.eduType} == 'image' ? 'ic4' : '')) ) "></i>
+                <span class="t1" th:text="${list.eduType} == 'survey' ? '설문조사' :
+                                                (${list.eduType} == 'voice' ? 'VOICE' :
+                                                (${list.eduType} == 'text' ? 'TEXT' :
+                                                (${list.eduType} == 'image' ? 'IMAGE' : '')) )"></span>
+                <strong class="t2" th:text="${list.subject}"></strong>
+                <span class="t3" th:text="${list.eduActiveYn} == 'Y' ? '진행중' : '완료'"></span>
+                <span class="t4" th:text="${#numbers.formatInteger(list.point, 0, 'COMMA')}"><i></i></span></a></li>
+            </a>
+            </li>
           </ul>
         </div>
       <!--/ bList1 -->          
@@ -212,11 +240,13 @@
         <!-- lankList1 -->
         <div class="lankList1 clearfix">
           <ul>
-            <li><div class="bg1"></div><i class="bg2"></i><i class="bg3"></i><a><span class="t1">1</span><span class="t2">76</span><span class="t3">gksx#####</span><span class="t4"><i></i>1,350,000</span></a></li>
-            <li><div class="bg1"></div><a><span class="t1">2</span><span class="t2">67</span><span class="t3">quee#####</span><span class="t4"><i></i>820,000</span></a></li>
-            <li><div class="bg1"></div><a><span class="t1">3</span><span class="t2">50</span><span class="t3">lees#####</span><span class="t4"><i></i>750,000</span></a></li>
-            <li><div class="bg1"></div><a><span class="t1">4</span><span class="t2">42</span><span class="t3">paste#####</span><span class="t4"><i></i>470,000</span></a></li>
-            <li><div class="bg1"></div><a><span class="t1">5</span><span class="t2">32</span><span class="t3">alli#####</span><span class="t4"><i></i>150,000</span></a></li>
+            <li th:each="rankList:${rankTop5List}">
+              <div class="bg1"></div>
+              <i th:classappend="${rankListStat.index == 0} ? 'bg2' : ''"></i><i th:classappend="${rankListStat.index == 0} ? 'bg3' : ''"></i>
+              <a><span class="t1" th:text="${rankListStat.index +1}">1</span>
+                <span class="t2" th:text="${rankList.cmpCnt}">76</span>
+                <span class="t3" th:text="${rankList.loginId}">gksx#####</span>
+                <span class="t4" th:text="${#numbers.formatInteger(rankList.sPoint, 0, 'COMMA')}"><i></i>1,350,000</span></a></li>
           </ul>
         </div>
         <!-- /lankList1 -->

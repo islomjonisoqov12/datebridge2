@@ -1,10 +1,9 @@
 package com.kdatalab.bridge.board.mapper;
 
-import java.util.List;
-
+import com.kdatalab.bridge.board.dto.BoardDto;
 import org.apache.ibatis.annotations.Mapper;
 
-import com.kdatalab.bridge.board.dto.BoardDto;
+import java.util.List;
 
 @Mapper
 public interface BoardMapper {

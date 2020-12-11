@@ -66,6 +66,8 @@
   <link rel="stylesheet" href="../assets/css/custom-lib.css">
   <link rel="stylesheet" href="../assets/css/custom-layout.css">
   <link rel="stylesheet" href="../assets/css/custom-template.css">
+  <link rel="stylesheet" href="../assets/vendor/jquery-ui/themes/redmond/jquery-ui.css">
+  <script src="../assets/vendor/jquery-ui/jquery-ui.js"></script>
   <script src="../assets/js/custom-lib.js"></script>
 
 </head>
@@ -162,7 +164,8 @@
             <col />
             <tr>
                 <th scope="row"><label for="f1input">아이디 <em class="required" title="필수항목">*</em></label></th>
-                <td><input type="input" id="f1input" placeholder="이메일 주소" lang="en" autocomplete="off" /></td>
+                <td><input type="input" id="f1input" lang="en" autocomplete="off" style="width:64.5%" />
+                <button class="b1 default1">중복체크</button></td>
             </tr>
             <tr>
               <th scope="row"><label for="f1password">비밀번호 <em class="required" title="필수항목">*</em></label></th>
@@ -179,9 +182,13 @@
             <tr>
                <th scope="row"><label for="f1birthday">생년월일</label></th>
               <td>
-                <input type="date" class="calendar" id="f1birthday" />
+                <input class="calendar" id="f1birthday" />
               </td>
             </tr>
+            <tr>
+              <th scope="row"><label for="f1email">이메일 <em class="required" title="필수항목">*</em></label></th>
+              <td><input type="input" id="f1email" placeholder="이메일 주소" /></td>
+            </tr>  
             <tr>
               <th scope="row"><label>성별 <em class="required" title="필수항목">*</em></label></th>
              <td>
@@ -226,11 +233,43 @@
                     </span>                   
                   </li>                
               </ul>
-
-            </div>          
+            </div>             
         </div>
         <!-- /step2 -->
+
+          <div class="btns tac">
+            <button class="b1 cancel1">회원가입</button>
+            <button class="b1 submit1">초기화</button>            
+          </div>
         
+
+  <!-- 레이어 팝업 : 프로그램 전 style="display:block" 지워주세요 -->
+  <!-- layerPop_system1 -->
+  <div id="layerPop_system1" class="layerPopSystem init" style="display:block"><div class="bg1"></div>   
+  <div class="wrap">
+    <div class="layerPop_head">		
+      <div class="containers">     
+        <h2>알림</h2>
+        <a href="#layerPop_system1" class="b1 toggle close"><i class="ic_close"></i><span class="blind">창닫기</span></a>
+      </div>
+    </div>
+    <div class="layerPop_body init">
+      <div class="containers">      
+
+          <div class="bSystemNote">
+            <div class="inner">
+              <p class="t1">중복된 아이디입니다.</p>
+              <a href="#layerPop_system1" class="b1 toggle">확인</a>
+            </div>
+          </div>
+        
+      </div> 
+    </div>
+  </div>
+  <!-- // layerPop_system1 -->  
+
+
+
       </div>
       <!-- /#body_content -->        
     </div>

@@ -83,6 +83,7 @@ input[class*='calendar']{border:1px solid #bbb;width:240px !important;padding:5p
 /* 버튼 */
 button.b1.submit1{background:#3b44ff;color:#fff;padding:20px 60px;margin:0;border-radius:10px;margin:0 5px;}
 button.b1.cancel1{background:#1a2049;color:#fff;padding:20px 60px;margin:0;border-radius:10px;margin:0 5px;}
+button.b1.default1{background:#1a2049;color:#fff;padding:18px 20px;margin:0;border-radius:10px;margin:0 5px;}
 
 /* 제목 */
 h2.bh1{font-size:32px;color:#222;font-weight:bold;letter-spacing:-3px;}

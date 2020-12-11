@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kdatalab.bridge.join.mapper.JoinMapper">
+
+	<insert id="saveUserInfo" parameterType="com.kdatalab.bridge.join.dto.JoinDto">
+		INSERT INTO TB_USER
+		( LOGIN_ID
+		, PASSWORD
+		, NAME
+		, E_MAIL
+		, TEL
+		, STATUS
+		, SNS_INFO
+		, BIRTH_DT
+		, GENDER_CD
+		, DUPL_INFO
+		, REG_USER
+		, REG_DT
+		, MOD_USER
+		, MOD_DT )
+		VALUES
+		( #{loginId}
+		, #{password}
+		, #{name}
+		, #{email}
+		, #{tel}
+		, 'S'
+		, #{snsInfo}
+		, #{birthDt}
+		, #{genderCd}
+		, #{duplInfo}
+		, 'system'
+		, NOW()
+		, 'system'
+		, NOW() )
+
+		on DUPLICATE KEY UPDATE
+		NAME = #{name},
+		E_MAIL = #{email},
+		TEL = #{tel},
+		SNS_INFO = #{snsInfo},
+		BIRTH_DT = #{birthDt},
+		GENDER_CD = #{genderCd}
+
+	</insert>
+
+	<insert id="saveUserPointInfo" parameterType="com.kdatalab.bridge.join.dto.JoinDto">
+		INSERT INTO TB_POINT
+		( LOGIN_ID
+		, NOWPOINT
+		, LASTUPDDE )
+		VALUES
+		( #{loginId}
+		, 0
+		, NOW() )
+	</insert>
+
+</mapper>
+
+

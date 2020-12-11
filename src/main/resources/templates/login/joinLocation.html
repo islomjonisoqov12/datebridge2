@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+
+    <script>
+
+        function fnLoad(){
+            window.opener.name = "Parent_window"; // 부모창의 이름 설정
+            document.locationFrm.target = "Parent_window"; // 타켓을 부모창으로 설정
+            document.locationFrm.submit();
+            self.close();
+        }
+
+    </script>
+
+<body onload="fnLoad()">
+    <form name="locationFrm" id="locationFrm" th:action="@{/join}" th:object="${joinDto}" method="post">
+        <input type="hidden" name="EncodeData" id="EncodeData" th:value="${EncodeData}">
+    </form>
+
+</body>
+
+</html>

@@ -1,13 +1,12 @@
 package com.kdatalab.bridge.board.service;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.kdatalab.bridge.board.dto.BoardDto;
 import com.kdatalab.bridge.board.mapper.BoardMapper;
 import com.kdatalab.bridge.board.paging.PaginationInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class BoardServiceImpl implements BoardService {

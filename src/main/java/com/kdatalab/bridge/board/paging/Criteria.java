@@ -1,9 +1,8 @@
 package com.kdatalab.bridge.board.paging;
 
+import lombok.Data;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import lombok.Data;
 
 @Data
 public class Criteria {

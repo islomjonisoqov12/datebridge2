@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+	
+	<nav th:fragment="pagination" th:if="${params != null and params.paginationSubInfo.totalRecordCount > 0}" th:object="${params.paginationSubInfo}" th:with="info=${params.paginationSubInfo}" aria-label="Page navigation" class="text-center">
+		
+		<span th:if="*{hasPreviousPage == true}" class="m control first">
+			<a href="javascript:void(0)" title="맨앞 페이지" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${params.makeQueryString(1)} ]])"><i class="ic"></i></a>
+		</span>
+       	<span th:if="*{hasPreviousPage == true}"  class="m control prev">
+       		<a href="javascript:void(0)" title="이전 페이지" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${params.makeQueryString(info.firstPage - 1)} ]])"><i class="ic"></i></a>
+       	</span>
+        <span th:each="pageNo : *{#numbers.sequence( firstPage, lastPage )}" th:classappend="${pageNo == params.currentPageNo} ? 'on'" class="m pages">
+        	<a href="javascript:void(0)" th:text="${pageNo}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${params.makeQueryString(pageNo)} ]])"></a>
+        </span>
+		<span th:if="*{hasNextPage == true}" class="m control next">
+			<a href="javascript:void(0)" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${params.makeQueryString(info.lastPage + 1)} ]])" title="다음 페이지"><i class="ic"></i></a>
+		</span>
+		<span th:if="*{hasNextPage == true}" class="m control last">
+			<a href="javascript:void(0)" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${params.makeQueryString(info.totalPageCount)} ]])" title="맨끝 페이지"><i class="ic"></i></a>
+		</span>
+	</nav>
+		
+</html>

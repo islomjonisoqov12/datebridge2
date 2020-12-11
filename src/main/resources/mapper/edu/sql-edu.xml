@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kdatalab.bridge.edu.mapper.EduMapper">
+
+	<select id="selectEduListTop8" parameterType="com.kdatalab.bridge.edu.dto.EduDto" resultType="com.kdatalab.bridge.edu.dto.EduDto">
+		SELECT TAB.*
+		FROM (
+		SELECT edu_seq
+		, edu_type
+		, subject
+		, content
+		, agree
+		, time
+		, point
+		, start_date
+		, end_date
+		, CASE WHEN now() between START_DATE and END_DATE THEN 'Y' ELSE 'N' END AS edu_active_yn
+		, reg_dt
+		FROM TB_EDU_MST
+		WHERE 1=1
+		) TAB
+		WHERE 1=1
+		<if test="schActiveYn != null">
+			<if test="schActiveYn == 'ing'">
+				AND TAB.edu_active_yn = 'Y'
+			</if>
+			<if test="schActiveYn == 'cmp'">
+				AND TAB.edu_active_yn = 'N'
+			</if>
+		</if>
+		ORDER BY TAB.reg_dt desc
+		LIMIT 0, 8
+	</select>
+
+	<select id="selectEduList" parameterType="com.kdatalab.bridge.edu.dto.EduDto" resultType="com.kdatalab.bridge.edu.dto.EduDto">
+		SELECT TAB.*
+		FROM (
+		SELECT edu_seq
+		, edu_type
+		, subject
+		, content
+		, agree
+		, time
+		, point
+		, start_date
+		, end_date
+		, CASE
+			WHEN now() between START_DATE and END_DATE
+			THEN 'Y'
+			ELSE 'N'
+			END AS edu_active_yn
+		, reg_dt
+		FROM TB_EDU_MST
+		WHERE 1=1
+		<if test="schSubject != null">
+			AND subject like '%${schSubject}%'
+		</if>
+		<if test="schEduType != null and schEduType != ''">
+			AND edu_type = #{schEduType}
+		</if>
+		) TAB
+		WHERE 1=1
+		<if test="schActiveYn != null">
+			<if test="schActiveYn == 'ing'">
+				AND TAB.edu_active_yn = 'Y'
+			</if>
+			<if test="schActiveYn == 'cmp'">
+				AND TAB.edu_active_yn = 'N'
+			</if>
+		</if>
+		ORDER BY TAB.reg_dt desc
+		LIMIT #{paginationSubInfo.firstRecordIndex}, #{recordsPerPage}
+	</select>
+	
+	<select id="selectEduTotalCount" parameterType="com.kdatalab.bridge.edu.dto.EduDto" resultType="int" >
+		SELECT count(*)
+		FROM (
+		SELECT edu_seq
+		, edu_type
+		, subject
+		, content
+		, agree
+		, time
+		, point
+		, start_date
+		, end_date
+		, CASE WHEN now() between START_DATE and END_DATE THEN 'Y' ELSE 'N' END AS edu_active_yn
+		, reg_dt
+		FROM TB_EDU_MST
+		WHERE 1=1
+		<if test="schSubject != null">
+			AND subject like '%${schSubject}%'
+		</if>
+		<if test="schEduType != null and schEduType != ''">
+			AND edu_type = #{schEduType}
+		</if>
+		) TAB
+		WHERE 1=1
+		<if test="schActiveYn != null">
+			<if test="schActiveYn == 'ing'">
+				AND TAB.edu_active_yn = 'Y'
+			</if>
+			<if test="schActiveYn == 'cmp'">
+				AND TAB.edu_active_yn = 'N'
+			</if>
+		</if>
+		ORDER BY TAB.reg_dt desc
+	</select>
+
+	<select id="selectEduInfo" parameterType="com.kdatalab.bridge.edu.dto.EduDto" resultType="com.kdatalab.bridge.edu.dto.EduDto">
+		SELECT edu_seq
+		, edu_type
+		, subject
+		, content
+		, agree
+		, CONCAT(time, '분') AS time_str
+		, point
+		, CONCAT(date_format(start_date, '%Y-%m-%d'), ' ~ ' , date_format(end_date, '%Y-%m-%d')) AS se_date
+		, CASE WHEN now() between START_DATE and END_DATE THEN 'Y' ELSE 'N' END AS edu_active_yn
+		FROM TB_EDU_MST
+		WHERE 1=1
+		AND edu_seq = #{eduSeq}
+	</select>
+
+	<select id="selectEduQueList" parameterType="com.kdatalab.bridge.edu.dto.EduDto" resultType="com.kdatalab.bridge.edu.dto.EduQueDto">
+		SELECT que_seq
+		, edu_seq
+		, subject
+		FROM TB_EDU_QUE
+		WHERE 1=1
+		AND edu_seq = #{eduSeq}
+	</select>
+
+	<select id="selectEduAnsList" parameterType="com.kdatalab.bridge.edu.dto.EduQueDto" resultType="com.kdatalab.bridge.edu.dto.EduAnsDto">
+		SELECT ans_seq
+		, que_seq
+		, subject
+		FROM TB_EDU_ANS
+		WHERE 1=1
+		AND que_seq = #{queSeq}
+	</select>
+
+	<select id="selectEduAttList" parameterType="com.kdatalab.bridge.edu.dto.EduDto" resultType="com.kdatalab.bridge.edu.dto.EduAttDto">
+		SELECT att_seq
+		, edu_seq
+		, name
+		, path
+		, size
+		, ext
+		FROM TB_ATT
+		WHERE 1=1
+		AND edu_seq = #{eduSeq}
+	</select>
+
+	<select id="selectEduAnsRsltList" parameterType="com.kdatalab.bridge.edu.dto.EduDto" resultType="com.kdatalab.bridge.edu.dto.EduAnsRsltDto">
+		SELECT RESULT_ANS_SEQ
+		, EDU_SEQ
+		, QUE_SEQ
+		, RESULT
+		FROM TB_EDU_RESULT_ANS
+		WHERE 1=1
+		AND EDU_SEQ = #{eduSeq}
+	</select>
+
+	<insert id="saveEduInfo" parameterType="com.kdatalab.bridge.edu.dto.EduDto">
+		INSERT INTO TB_EDU_RESULT
+		( LOGIN_ID
+		, EDU_SEQ
+		, STATUS
+		, COMPTPOINT
+		, VRIFYSTTUS )
+		VALUES
+		( #{loginId}
+		, #{eduSeq}
+		, 'OK'
+		, #{point}
+		, 'OK' )
+	</insert>
+
+	<select id="compEduCount" parameterType="com.kdatalab.bridge.edu.dto.EduDto" resultType="Integer">
+		SELECT COUNT(*)
+		FROM TB_EDU_RESULT
+		WHERE 1=1
+		AND LOGIN_ID = #{loginId}
+		AND EDU_SEQ = #{eduSeq}
+	</select>
+
+</mapper>
+
+
