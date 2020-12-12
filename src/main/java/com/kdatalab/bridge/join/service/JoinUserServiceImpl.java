@@ -71,4 +71,19 @@ public class JoinUserServiceImpl implements JoinUserService{
             joinMapper.saveUserPointInfo(params);
         }
     }
+
+    /**
+     * 본인 인증시 중복 가입 방지
+     *
+     * @param duplInfo
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public int getUserDuplInfo(String duplInfo) throws Exception{
+        JoinDto joinDto = new JoinDto();
+        joinDto.setDuplInfo(duplInfo);
+        return joinMapper.getUserDuplInfo(joinDto);
+    }
+
 }

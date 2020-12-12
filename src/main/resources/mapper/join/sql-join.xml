@@ -57,6 +57,13 @@
 		, NOW() )
 	</insert>
 
+	<select id="getUserDuplInfo" parameterType="com.kdatalab.bridge.join.dto.JoinDto" resultType="Integer">
+		SELECT COUNT(*)
+		FROM TB_USER
+		WHERE 1=1
+		AND DUPL_INFO = #{duplInfo}
+	</select>
+
 </mapper>
 
 

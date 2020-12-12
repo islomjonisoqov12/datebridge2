@@ -28,4 +28,13 @@ public interface JoinUserService {
      */
     void saveUserInfo(JoinDto params) throws Exception;
 
+    /**
+     * 본인 인증시 중복 가입 방지
+     *
+     * @param duplInfo
+     * @return
+     * @throws Exception
+     */
+    int getUserDuplInfo(String duplInfo) throws Exception;
+
 }

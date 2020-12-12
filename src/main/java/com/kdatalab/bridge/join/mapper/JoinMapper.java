@@ -29,4 +29,13 @@ public interface JoinMapper {
      */
     void saveUserPointInfo(JoinDto params) throws Exception;
 
+    /**
+     * 본인 인증시 중복 가입 방지
+     *
+     * @param params
+     * @return
+     * @throws Exception
+     */
+    int getUserDuplInfo(JoinDto params) throws Exception;
+
 }

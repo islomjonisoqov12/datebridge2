@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -121,8 +123,37 @@ public class JoinController {
      * @throws Exception
      */
     @RequestMapping("/join/location")
-    public ModelAndView joinLocation(HttpSession session, @RequestParam("EncodeData") String EncodeData) throws Exception{
+    public ModelAndView joinLocation(HttpSession session, @RequestParam("EncodeData") String EncodeData, HttpServletResponse response) throws Exception{
         ModelAndView mv = new ModelAndView("login/joinLocation.html");
+
+        String sSiteCode = "BT328";				// NICE로부터 부여받은 사이트 코드
+        String sSitePassword = "bd6sxEQv9Sc5";			// NICE로부터 부여받은 사이트 패스워드
+        NiceID.Check.CPClient niceCheck = new  NiceID.Check.CPClient();
+
+        String sPlainData = "";
+        String sDupInfo = "";				// 중복가입 확인값 (DI_64 byte)
+
+        int iReturn = niceCheck.fnDecode(sSiteCode, sSitePassword, EncodeData);
+
+        if( iReturn == 0 ){
+            sPlainData = niceCheck.getPlainData();
+            // 데이타를 추출합니다.
+            java.util.HashMap mapresult = niceCheck.fnParse(sPlainData);
+
+            sDupInfo		= (String)mapresult.get("DI");
+            int cnt = joinUserService.getUserDuplInfo(sDupInfo);
+
+            if(cnt > 0){
+                PrintWriter out = response.getWriter();
+                response.setContentType("text/html; charset=utf-8");
+                out.println("<script language='javascript'>");
+                out.println("alert('이미 가입된 정보 입니다.')");
+                out.println("opener.location.href='/user/login'");
+                out.println("self.close();");
+                out.println("</script>");
+                out.flush();
+            }
+        }
 
         mv.addObject("EncodeData", EncodeData);
         return mv;
