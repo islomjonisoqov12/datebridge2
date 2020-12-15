@@ -111,6 +111,74 @@
 
     }
 
+    function fnDuplEmailChk(){
+      var email = $("#email").val();
+
+      if(email == ""){
+        alert("이메일을 입력 하여 주십시오.");
+        return false;
+      }
+
+      var params = {
+        email : $("#email").val()
+      }
+
+      $.ajax({
+        type: "GET",
+        url: "/join/duplEmailChkAjax",
+        data: params,
+        dataType : "json",
+        success: function(response) {
+          // 성공 시 동작
+          if(response.code == 0){
+            $("#emailDuplChk").val("Y");
+            alert(response.msg);
+          }else {
+            $("#emailDuplChk").val("N");
+            alert(response.msg);
+          }
+        },
+        error: function(error) {
+          // 실패 시 동작
+        }
+      });
+
+    }
+
+    function fnDuplTelChk(){
+      var tel = $("#tel").val();
+
+      if(tel == ""){
+        alert("전화번호를 입력 하여 주십시오.");
+        return false;
+      }
+
+      var params = {
+        tel : $("#tel").val()
+      }
+
+      $.ajax({
+        type: "GET",
+        url: "/join/duplTelChkAjax",
+        data: params,
+        dataType : "json",
+        success: function(response) {
+          // 성공 시 동작
+          if(response.code == 0){
+            $("#telDuplChk").val("Y");
+            alert(response.msg);
+          }else {
+            $("#telDuplChk").val("N");
+            alert(response.msg);
+          }
+        },
+        error: function(error) {
+          // 실패 시 동작
+        }
+      });
+
+    }
+
     function fnAgreeAll(val){
       var agreeChkAll = $("input:checkbox[id='f1agree0']").is(":checked");
 
@@ -128,6 +196,8 @@
     function fnSave(){
       var loginId = $("#loginId").val();
       var idDuplChk = $("#idDuplChk").val();
+      var emailDuplChk = $("#emailDuplChk").val();
+      var telDuplChk = $("#telDuplChk").val();
 
       var password = $("#password").val();
       var password_cfm = $("#password_cfm").val();
@@ -135,6 +205,8 @@
       var name = $("#name").val();
 
       var email = $("#email").val();
+
+      var tel = $("#tel").val();
 
       var dulpInfo = $("#dulpInfo").val();
       var connInfo = $("#connInfo").val();
@@ -177,6 +249,21 @@
       if(email == ""){
         alert("이메일은 필수 입니다.");
         return false;
+      }else {
+        if(emailDuplChk == "N"){
+          alert("이메일 중복체크는 필수 입니다.");
+          return false;
+        }
+      }
+
+      if(tel == ""){
+        alert("전화번호는 필수 입니다.");
+        return false;
+      }else {
+        if(telDuplChk == "N"){
+          alert("전화번호 중복체크는 필수 입니다.");
+          return false;
+        }
       }
 
       var agreeChk1 = $("input:checkbox[id='f1agree1']").is(":checked");
@@ -228,7 +315,7 @@
       <!-- #gn1 -->
       <div id="gn1">
         <ul id="gn1c1" class="clearfix">
-          <li><a href="/login">로그인</a></li>
+          <li><a href="/user/login">로그인</a></li>
           <li><a href="/join">회원가입</a></li>
         </ul>
       </div>
@@ -279,6 +366,8 @@
 
     <form id="joinFrm" th:action="@{/join/confirm}" th:object="${joinDto}" method="post">
       <input type="hidden" name="idDuplChk" id="idDuplChk" value="N">
+      <input type="hidden" name="emailDuplChk" id="emailDuplChk" value="N">
+      <input type="hidden" name="telDuplChk" id="telDuplChk" value="N">
       <input type="hidden" name="duplInfo" id="duplInfo" th:value="${mapResult.DI}">
       <div id="body">
         <!-- #body_content -->
@@ -295,7 +384,7 @@
               <col />
               <tr>
                   <th scope="row"><label for="loginId">아이디 <em class="required" title="필수항목">*</em></label></th>
-                  <td><input type="input" id="loginId" name="loginId" lang="en" placeholder="아이디는 7자리 이상 입력 바랍니다." autocomplete="off" style="width:64.5%" />
+                  <td><input type="input" id="loginId" name="loginId" lang="en" maxlength="50" placeholder="아이디는 7자리 이상 입력 바랍니다." autocomplete="off" style="width:64.5%" />
                   <button type="button"  class="b1 default1" onclick="javascript:fnDuplLoginIdChk();">중복체크</button></td>
               </tr>
               <tr>
@@ -318,11 +407,13 @@
               </tr>
               <tr>
                 <th scope="row"><label for="email">이메일 <em class="required" title="필수항목">*</em></label></th>
-                <td><input type="email" id="email" name="email" placeholder="이메일 주소" /></td>
+                <td><input type="email" id="email" name="email" placeholder="이메일 주소" style="width:64.5%"/>
+                  <button type="button"  class="b1 default1" onclick="javascript:fnDuplEmailChk();">중복체크</button></td>
               </tr>
               <tr>
-                <th scope="row"><label for="email">전화번호 </label></th>
-                <td><input type="text" id="tel" name="tel" placeholder="전화번호" th:value="${mapResult.MOBILE_NO}"/></td>
+                <th scope="row"><label for="email">전화번호 <em class="required" title="필수항목">*</em></label></th>
+                <td><input type="text" id="tel" name="tel" placeholder="전화번호" th:value="${mapResult.MOBILE_NO}" style="width:64.5%"/>
+                  <button type="button"  class="b1 default1" onclick="javascript:fnDuplTelChk();">중복체크</button></td>
               </tr>
               <tr>
                 <th scope="row"><label>성별 <em class="required" title="필수항목">*</em></label></th>

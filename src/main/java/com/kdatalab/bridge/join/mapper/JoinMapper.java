@@ -38,4 +38,22 @@ public interface JoinMapper {
      */
     int getUserDuplInfo(JoinDto params) throws Exception;
 
+    /**
+     * 이메일 중복 체크
+     *
+     * @param params
+     * @return
+     * @throws Exception
+     */
+    int selectEmailDuplList(JoinDto params) throws Exception;
+
+    /**
+     * 전화번호 중복 체크
+     *
+     * @param params
+     * @return
+     * @throws Exception
+     */
+    int selectTelDuplList(JoinDto params) throws Exception;
+
 }

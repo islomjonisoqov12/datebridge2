@@ -92,7 +92,6 @@
             async: true, //동기, 비동기 여부
             cache :false, // 캐시 여부
             success: function(data){
-                console.log(data);
                 if(data.code < 0){
                     alert(data.msg);
                 } else {
@@ -284,7 +283,7 @@
                                 <input type="hidden" name="point" id="point" th:value="${eduInfo.point}">
                                 <li th:if="${#lists.size(queList)} > 0" th:each="list:${queList}">
                                     <span class="q" th:text="${list.subject}">1. 문제입니다.문제입니다.문제입니다.문제입니다.문제입니다.문제입니다.문제입니다.문제입니다.문제입니다.문제입니다.문제입니다.문제입니다.</span>
-                                    <span class="a" th:each="anslist:${list.eduAnsList}"><input type="radio" th:checked="${anslistStat.index == 0}" th:name="${'quelist'+ list.queSeq}" th:value="${anslist.ansSeq}" th:id="${'anslist['+ list.queSeq + ','+ anslist.ansSeq + ']'}"><label th:for="${'anslist['+ list.queSeq + ','+ anslist.ansSeq + ']'}" th:text="${anslist.subject}">그렇다</label></span>
+                                    <span class="a" th:each="anslist:${list.eduAnsList}"><input type="radio" th:checked="${anslistStat.index == 0}" th:name="${'quelist'+ listStat.index}" th:value="${anslist.ansSeq}" th:id="${'anslist['+ list.queSeq + ','+ anslist.ansSeq + ']'}"><label th:for="${'anslist['+ list.queSeq + ','+ anslist.ansSeq + ']'}" th:text="${anslist.subject}">그렇다</label></span>
                                 </li>
                             </form>
                         </ol>

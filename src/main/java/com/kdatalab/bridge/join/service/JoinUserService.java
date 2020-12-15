@@ -37,4 +37,22 @@ public interface JoinUserService {
      */
     int getUserDuplInfo(String duplInfo) throws Exception;
 
+    /**
+     * 이메일 중복체크
+     *
+     * @param email
+     * @return
+     * @throws Exception
+     */
+    int getEmailDuplChk(String email) throws Exception;
+
+    /**
+     * 전화번호 중복체크
+     *
+     * @param tel
+     * @return
+     * @throws Exception
+     */
+    int getTelDuplChk(String tel) throws Exception;
+
 }

@@ -67,7 +67,7 @@ public class JoinUserServiceImpl implements JoinUserService{
         UserDto userDto = new UserDto();
         userDto.setLoginId(params.getLoginId());
         List<PointDto> pointDtoList = pointService.selectPointList(userDto);
-        if(pointDtoList.size() < 0){
+        if(pointDtoList.size() < 1){
             joinMapper.saveUserPointInfo(params);
         }
     }
@@ -84,6 +84,36 @@ public class JoinUserServiceImpl implements JoinUserService{
         JoinDto joinDto = new JoinDto();
         joinDto.setDuplInfo(duplInfo);
         return joinMapper.getUserDuplInfo(joinDto);
+    }
+
+    /**
+     * 이메일 중복체크
+     *
+     * @param email
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public int getEmailDuplChk(String email) throws Exception{
+        JoinDto params = new JoinDto();
+        params.setEmail(email);
+
+        return joinMapper.selectEmailDuplList(params);
+    }
+
+    /**
+     * 전화번호 중복체크
+     *
+     * @param tel
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public int getTelDuplChk(String tel) throws Exception{
+        JoinDto params = new JoinDto();
+        params.setTel(tel);
+
+        return joinMapper.selectTelDuplList(params);
     }
 
 }

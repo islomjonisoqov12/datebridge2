@@ -53,7 +53,7 @@ public class EduController {
         for(int i=0 ; i<eduAnsRsltList.size() ; i++){
             String ansResult = ((EduAnsRsltDto)eduAnsRsltList.get(i)).getResult();
 
-            String ans = (String)paramsMap.get("quelist"+String.valueOf(i+1));
+            String ans = (String)paramsMap.get("quelist"+String.valueOf(i));
 
             if(!ansResult.equals(ans)){
                 result.put("msg", String.valueOf(i+1)+"번 문항에 정답을 확인 바랍니다.");

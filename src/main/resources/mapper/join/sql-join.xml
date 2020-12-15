@@ -64,6 +64,20 @@
 		AND DUPL_INFO = #{duplInfo}
 	</select>
 
+	<select id="selectEmailDuplList" parameterType="com.kdatalab.bridge.join.dto.JoinDto" resultType="Integer">
+		SELECT COUNT(*)
+		FROM TB_USER
+		WHERE 1=1
+		AND E_MAIL = #{email}
+	</select>
+
+	<select id="selectTelDuplList" parameterType="com.kdatalab.bridge.join.dto.JoinDto" resultType="Integer">
+		SELECT COUNT(*)
+		FROM TB_USER
+		WHERE 1=1
+		AND TEL = #{tel}
+	</select>
+
 </mapper>
 
 
