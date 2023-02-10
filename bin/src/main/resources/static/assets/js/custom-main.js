@@ -1,0 +1,7 @@
+$(function () {
+  
+  $("#visual").addClass("on");
+
+});
+
+

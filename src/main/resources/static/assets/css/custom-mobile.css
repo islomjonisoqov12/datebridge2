@@ -1,0 +1,66 @@
+@charset "utf-8";
+*{padding:0; margin:0; line-height:1.666; font-weight:400; font-size:14px;}
+body{min-width: 320px;}
+
+/*header*/
+#header{padding:0; margin:0; height:45px; background:#474ae5;}
+#header .title{font-size:0; line-height:45px; text-align:center;}
+#header .title .logo{display:inline-block; width:23px; height:23px; margin:-2px 5px 0 0; vertical-align: middle; 
+                     background:url(../images/mobile/layout/logo.png)0 0 no-repeat; background-size:contain;}
+#header .title .txt{font-weight:800; color:#fff; font-size:16px; vertical-align: middle; font-family:'NanumSquare';}
+#container .inner{margin:15px;}
+
+/*footer*/
+#footer .btn{position:fixed; bottom:0; left:0; right:0; margin:15px; padding:0;}
+#footer .btn .q_btn{width:100%; height:45px; background:#3b44ff; border-radius:10px; color:#fff; font-weight:bold; font-family:'NanumSquare'; }
+#footer .btns{padding:15px; background:#fff; border-top:1px solid #ddd;}
+#footer .btns:after{content:""; display:block; clear:both;}
+#footer .btns a{display:inline-block; width:48%; height:45px; line-height:45px; border-radius:5px; text-align:center; position: relative;}
+#footer .btns a:after{content:""; display:block; width:7px; height:13px; position:absolute; top:50%; transform: translateY(-50%);
+                      background-repeat:no-repeat; background-position:0 0; background-size:contain;}
+#footer .btns a.prev{float:left; border:1px solid #ccc; }
+#footer .btns a.prev:after{background-image:url(../images/mobile/style/ic_prev.png); left:13px;}
+#footer .btns a.next{float:right; border:1px solid #3b44ff; color:#3b44ff;}
+#footer .btns a.next:after{background-image:url(../images/mobile/style/ic_next.png); right:13px;}
+
+/*m_1*/
+#container .visual{ position:relative; width:100%; height:250px; color:#fff; text-align:center;
+        background:linear-gradient( to bottom, #35bcdc, #2bd0dc );}
+#container .visual .bg{position:absolute; width:100%; height:250px; 
+            background:url(../images/mobile/layout/bg.png)50% bottom no-repeat; background-size:contain; }               
+#container .visual h2{font-weight:700; font-size:20px; font-family:'NanumSquare'; padding:33px 0 0 0;}
+#container .visual p{font-size:14px; opacity:0.8;}
+#container .info{margin:15px 15px 0 15px;}
+#container .info ul li{border-bottom:1px solid #ddd; padding:16px 0; list-style:none;}
+#container .info ul li:first-child{padding-top:0;}
+#container .info ul li small{display:block; font-size:14px; color:#5a5a5a; line-height:100%; margin-bottom:13px;} 
+#container .info ul li strong{font-size:18px; color:#111; font-family:'NanumSquare'; line-height:100%;}
+#container .info ul li i{width:18px; height:18px; display:inline-block; margin:-4px 7px 0 0; vertical-align: middle;
+                         background-repeat:no-repeat; background-position:0 0; background-size:contain;}
+#container .info ul li i.ic_data{background-image:url(../images/mobile/style/ic_data.png);}
+#container .info ul li i.ic_time{background-image:url(../images/mobile/style/ic_time.png);}
+
+/*m_2*/
+#container .q1{width:100%; height:140px; background:url(../images/mobile/layout/question.jpg)0 0 no-repeat; background-size:cover; text-align:center;}
+#container .q1 .num{width:44px; height:44px; line-height:44px; font-size:20px; font-weight:700;
+                background:#fff; color:#36bbdc; display:inline-block; border-radius:50%; margin:15px 0 8px;}
+#container .q1 .txt{font-size:20px; line-height:1.325em; font-weight:700; color:#fff; font-family:'NanumSquare';}
+#container .q2 table{width:100%; border:1px solid #ccc;}
+#container .q2 table th{background:#e9e9e9; border-bottom:1px solid #ccc; height:40px;}
+#container .q2 table th span{font-size:14px; line-height:18px; color:#111;}
+#container .q2 .t1 table th,
+#container .q2 .t1 table td{text-align:center; height:40px;}
+#container .q2 .t1 table th span{display:block;}
+#container .q2 .t1 table td input{width:20px; height:20px; vertical-align: middle;}
+#container .q2 .t2{margin-top:15px;}
+#container .q2 .t2 table th{text-align:left; text-indent:15px;}
+#container .q2 .t2 table td{padding:4px; text-align:left; height:80px; box-sizing:border-box; font-size:0;}
+#container .q2 .t2 table td textarea{width:100%; min-height:70px; box-sizing:border-box; font-size:14px; padding:0 5px; border-color:#ccc; border-radius:5px;}
+
+/*m_3*/
+#container .fin{width:100%; height:calc(100vh - 45px); background:#f6faff url(../images/mobile/layout/dot.png)0 0 repeat; background-size:contain; position: relative;}
+#container .fin i.illust{width:222px; height:222px; background:url(../images/mobile/layout/fin.png)0 0 no-repeat; background-size:contain;
+                        position:absolute; left:50%; top:50px;margin-left:-111px; /*transform:translateX(-50%);*/}
+#container .fin .thx_txt{text-align:center; padding-top:285px;}
+#container .fin .thx_txt strong{font-size:40px; line-height:40px; font-weight:bold; color:#111;}
+#container .fin .thx_txt p{font-size:16px; color:#111;}

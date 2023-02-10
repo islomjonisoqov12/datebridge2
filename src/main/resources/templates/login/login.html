@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <!-- Title -->
+  <title>데이터브릿지</title>
+
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="favicon.ico">
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800">
+  <!-- CSS Global Compulsory -->
+  <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
+  <!-- CSS Global Icons -->
+  <link rel="stylesheet" href="/assets/vendor/icon-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/assets/vendor/icon-line/css/simple-line-icons.css">
+  <link rel="stylesheet" href="/assets/vendor/icon-etlinefont/style.css">
+  <link rel="stylesheet" href="/assets/vendor/icon-line-pro/style.css">
+  <link rel="stylesheet" href="/assets/vendor/icon-hs/style.css">
+  <link rel="stylesheet" href="/assets/vendor/animate.css">
+  <link rel="stylesheet" href="/assets/vendor/dzsparallaxer/dzsparallaxer.css">
+  <link rel="stylesheet" href="/assets/vendor/dzsparallaxer/dzsscroller/scroller.css">
+  <link rel="stylesheet" href="/assets/vendor/dzsparallaxer/advancedscroller/plugin.css">
+  <link rel="stylesheet" href="/assets/vendor/slick-carousel/slick/slick.css">
+  <link rel="stylesheet" href="/assets/vendor/fancybox/jquery.fancybox.css">
+  <link rel="stylesheet" href="/assets/vendor/hs-megamenu/src/hs.megamenu.css">
+  <link rel="stylesheet" href="/assets/vendor/hamburgers/hamburgers.min.css">
+
+  <!-- CSS Unify -->
+  <link rel="stylesheet" href="/assets/css/unify-core.css">
+  <link rel="stylesheet" href="/assets/css/unify-components.css">
+  <link rel="stylesheet" href="/assets/css/unify-globals.css">
+
+  <!-- JS Global Compulsory -->
+  <script src="/assets/vendor/jquery/jquery.min.js"></script>
+  <script src="/assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+  <script src="/assets/vendor/popper.js/popper.min.js"></script>
+  <script src="/assets/vendor/bootstrap/bootstrap.min.js"></script>
+
+  <!-- JS Implementing Plugins -->
+  <script src="/assets/vendor/appear.js"></script>
+  <script src="/assets/vendor/hs-megamenu/src/hs.megamenu.js"></script>
+  <script src="/assets/vendor/dzsparallaxer/dzsparallaxer.js"></script>
+  <script src="/assets/vendor/dzsparallaxer/dzsscroller/scroller.js"></script>
+  <script src="/assets/vendor/dzsparallaxer/advancedscroller/plugin.js"></script>
+  <script src="/assets/vendor/slick-carousel/slick/slick.js"></script>
+  <script src="/assets/vendor/fancybox/jquery.fancybox.min.js"></script>
+
+  <!-- JS Unify -->
+  <script src="/assets/js/hs.core.js"></script>
+  <script src="/assets/js/components/hs.header.js"></script>
+  <script src="/assets/js/helpers/hs.hamburgers.js"></script>
+  <script src="/assets/js/components/hs.tabs.js"></script>
+  <script src="/assets/js/components/hs.carousel.js"></script>
+  <script src="/assets/js/components/hs.progress-bar.js"></script>
+  <script src="/assets/js/components/hs.popup.js"></script>
+  <script src="/assets/js/components/hs.go-to.js"></script>
+
+  <!-- 데이터브릿지 -->
+  <link rel="stylesheet" href="/assets/css/custom-font.css">
+  <link rel="stylesheet" href="/assets/css/custom-lib.css">
+  <link rel="stylesheet" href="/assets/css/custom-layout.css">
+  <link rel="stylesheet" href="/assets/css/custom-template.css">
+  <script src="/assets/vendor/jquery-ui/jquery-ui.js"></script>
+  <script src="/assets/js/custom-lib.js"></script>
+  <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+
+  <script>
+
+    function fnLoginKakao(){
+      var url = "/oauth2/authorization/kakao";
+      window.open(url, "kakaoLogin", "toolbar=no,width=500,height=600,left=popupX,top=popupY");
+    }
+
+  </script>
+
+</head>
+
+<body>
+
+<!--◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇ #containers ◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇-->    
+<div id="container">
+
+<noscript><p>자바 스크립트 사용이 중지되었습니다. 홈페이지의 전체 기능을 사용하기 위해 JavaScript가 필요합니다. 사용할 수 있도록 설정하십시오.</p></noscript>
+<!-- #skipnav -->
+<div id="skipnav">
+	<ul>
+	<li><a href="#body">본문 바로가기</a></li>
+	</ul>
+</div>
+<!-- /#skipnav -->
+
+
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ #head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
+<div id="head" class="init">
+  <!-- #head_s1 -->
+  <div id="head_s1" class="clearfix">
+    <!-- containers -->
+    <div class="containers">
+
+	    <!-- #logo -->
+      <h1 id="logo"><a href="/" ><span class="blind">데이터브릿지</span></a></h1>
+      <!-- /#logo -->
+      <!-- #gn1 -->
+      <div id="gn1">
+        <ul id="gn1c1" class="clearfix">
+          <li><a href="/user/login">로그인</a></li>
+          <li><a href="/join/sign">회원가입</a></li>
+        </ul>
+      </div>
+      <!-- /#gn1 -->				
+    </div>
+    <!-- /containers -->   
+  </div>
+  <!-- /#head_s1 -->     
+	
+  <!-- #head_s2 -->
+  <div id="head_s2" class="clearfix"><div class="bg2"></div><div class="bg4"></div>
+    <!-- containers -->
+    <div class="containers">
+      <!-- #visual -->
+      <div id="visual">
+
+        <!-- join -->
+        <div class="login">
+          <h1>로그인</h1>
+        </div>
+        <!-- /join -->             
+                              
+      </div>
+      <!-- //#visual -->
+    </div>
+    <!-- /containers --> 		
+  </div>
+  <!-- /#head_s2 -->     	  
+
+</div>
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ /#head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->  
+
+<hr class="dpn" />
+
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ #main_wrap ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->  
+<div id="wrap" class="init">
+
+  <!-- containers --> 
+  <div class="containers">  
+    <!-- ◆◆◆ #body ◆◆◆ --> 
+    <div id="body">      
+      <!-- #body_content -->
+      <div id="body_content" class="clearfix mt1">      
+  
+        <!-- login -->
+        <div class="login clearfix">
+
+          <!-- m1 -->
+          <div class="m1">
+            <div class="h2tit">
+              <h2 class="bh1">일반 로그인</h2>            
+            </div>
+
+            <!-- 작성 폼 -->
+            <p th:if="${loginError}" class="error">Wrong user or password</p>
+            <form th:action="@{/user/login}" th:object="${loginDto}" method="post">
+              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <!-- fieldset -->
+              <div th:if="${param.error}">
+                <div class="alert alert-danger">
+                  Invalid username and password.
+                </div>
+              </div>
+            <fieldset>
+            <input id="username" name="username" type="text" title="아이디 입력" placeholder="아이디" autocomplete="off" />
+            <input id="password" name="password" type="password" title="비밀번호 입력" placeholder="비밀번호" autocomplete="off" />
+            </fieldset>
+            <!-- //fieldset -->
+            <button type="submit" value="submit">로그인하기</button>
+            </form>
+            <!-- //작성 폼 -->
+
+            <div class="btns">     
+              <div class="left">
+                <a href="#">아이디 / 비밀번호 찾기</a>
+              </div>
+              <div class="right">
+                <a href="/join/sign">회원가입하기</a>
+              </div>
+            </div>            
+
+          </div>
+          <!-- /m1 -->
+
+          <!-- m2 -->
+          <div class="m2">
+            <div class="h2tit">
+              <h2 class="bh1">간편 로그인</h2>            
+            </div>
+            <!--<button class="facebook"><i class="ic1"></i>페이스북 로그인</button>-->
+            <a th:href="@{/oauth2/authorization/kakao}" ><button class="kakao" type="button"><i class="ic1"></i>카카오톡 로그인</button></a>
+            <!--<button class="naver"><i class="ic1"></i>네이버 로그인</button>-->
+            <!--<button class="google"><i class="ic1"></i>구글 로그인</button>-->
+          </div>
+          <!-- /m2 -->          
+         
+        </div>
+        <!-- /login -->
+        
+      </div>
+      <!-- /#body_content -->        
+    </div>
+    <!-- ◆◆◆ /#body ◆◆◆ --> 
+  </div>
+  <!-- /containers -->   
+  
+</div>
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ /#main_wrap ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->  
+
+<hr class="dpn" />
+
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ /#foot ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆--> 
+<div id="foot" class="init">
+  <!-- container -->
+  <div class="containers clearfix">
+    <h2 class="blind">하단 정보</h2>
+
+    <!-- #fn1 -->
+    <div id="fn1">
+    <ul class="clearfix">
+    <li><a href="#">서비스 소개</a></li>
+    <li><a href="#">개인정보처리방침</a></li>
+    <li><a href="#">이용약관</a></li>
+    </ul>
+    </div>
+    <!-- /#fn1 -->
+
+    <!-- author1 -->
+    <div id="author1">
+      <strong class="h1 blind">작성자 (연락처/저작권)</strong>
+      <p id="foot_logo"><span class="blind">데이터브릿지</span></p>
+      <address class="address">경상남도 창원시 의창구 팔룡동 충혼로 91 창원문성대학교 벤처창업관 케이데이터랩 / 대표전화 : +82-055-980-3388 / 팩스번호 : +82-055-980-3399</address>
+      <p class="nophishing">본 사이트에 게시된 이메일주소의 자동수집을 거부하며, 이를 위반 시 정보통신망법에 의해 형사처벌됨을 유념하시기 바랍니다.</p>
+      <address class="copyright">COPYRIGHT (C) 2020 BY KDATALAB ALL RIGHTS RESERVED. </address>
+    </div>
+    <!-- /author1 -->
+
+  </div>
+  <!-- /containers --> 
+</div>
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ /#foot ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->  
+
+
+</div>   
+<!--◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇ /#containers ◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇-->
+
+
+</body>
+
+</html>

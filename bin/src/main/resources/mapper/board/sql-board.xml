@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kdatalab.bridge.board.mapper.BoardMapper">
+	<select id="selectBoardList" parameterType="com.kdatalab.bridge.board.dto.BoardDto"
+		 resultType="com.kdatalab.bridge.board.dto.BoardDto">
+		
+		select seq,
+			bbs_id,
+			title,
+			noticeat,
+			atchmnfl,
+			cn,
+			reg_user,
+			reg_dt,
+			mod_user,
+			mod_dt
+			 
+		from BBS_DTL
+		order by reg_dt desc
+		LIMIT
+			#{paginationInfo.firstRecordIndex}, #{recordsPerPage}  
+		
+	</select>
+	
+	<select id="selectBoardTotalCount" parameterType="com.kdatalab.bridge.board.dto.BoardDto"
+		resultType="int" >
+		
+		select count(*)
+		from BBS_DTL
+		
+	</select>
+	
+	<insert id="insertBoard" parameterType="com.kdatalab.bridge.board.dto.BoardDto">
+	
+		insert into BBS_DTL(bbs_id,
+			 title,
+			 noticeat,
+			 atchmnfl,
+			 cn,
+			 reg_user, 
+			 reg_dt,
+			 mod_user,
+			 mod_dt)
+		values(
+		
+			#{bbsId},
+			#{title},
+			#{noticeat},
+			#{atchmnfl},
+			#{cn},
+			#{regUser},
+			now(),
+			#{modUser},
+			now(),
+		)
+		
+	</insert>
+	 
+	
+</mapper>
+
+

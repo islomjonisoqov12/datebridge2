@@ -1,0 +1,135 @@
+@charset "utf-8";
+
+/* 폰트 정의 */
+[lang|='ko'],
+[lang|='ko']>*{
+	font-family:
+		'Apple SD Gothic Neo', /* 맥용 */
+		'Titillium','Open Sans', /* 영문 */
+		'Microsoft JhengHei', /* 한자 */
+		'Meiryo', /* 일문 */
+		'맑은 고딕','Malgun Gothic', /* 한글 */
+		'NanumSquare',
+		'돋움',Dotum,
+		Helvetica,'Helvetica Neue',
+		Arial,sans-serif;
+}
+
+html{font-size:62.5%;overflow-y:scroll;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;}
+*+html{overflow-x:hidden;}
+
+body{line-height:1.666;font-weight:400;font-size:18px;color:#666;letter-spacing:-1px;}
+
+a{text-decoration:none;}
+a[href]{color:#666;cursor:pointer;}
+[href]:hover,[href]:active,[href]:focus{text-decoration:none;}
+button{cursor:pointer;border:none;}
+
+/* 메뉴 스킵 */
+#skipnav{z-index:9999;position:absolute;left:0;top:0;width:100%;}
+#skipnav *{display:inline;list-style:none;margin:0;padding:0;}
+#skipnav a{display:block;position:absolute;left:-9999px;top:0;width:1px;height:1px;overflow:hidden;}
+#skipnav a:focus{left:0;width:100%;height:auto;background:#34241e;color:#fff;text-decoration:none;text-align:center;}
+
+/* 디자인 초기화 (윈도우 기본 사용 하지 않기) */
+.init{font-size:1em;line-height:1.333;}
+.init,
+.init *{list-style:none;max-width:none;margin:0;padding:0;}
+
+/* float 관련 초기화 */
+.brclear{display:block;clear:both;width:0;height:0;margin:0;padding:0;font-size:0;line-height:0;}
+
+.clearfix{min-height:0;}
+	.clearfix:before,
+	.clearfix:after{content:'';display:table;}
+	.clearfix:after{clear:both;}
+
+/* 화면에 보이지 않게 */
+.blind{position:absolute !important;left:-9999px;width:1px;height:1px;font-size:0;line-height:0;overflow:hidden;}
+	*+html .blind{height:0;}
+
+/* display 설정 */
+.dpn{display:none !important;}
+.dpb{display:block !important;}
+.dpi{display:inline !important;}
+.dpib{display:inline-block !important;}
+.dpt{display:table !important;}
+.dptc{display:table-cell !important;}	
+
+/* 정렬 */
+.tal{text-align:left !important;}
+.tar{text-align:right !important;}
+.tac{text-align:center !important;}
+.taj{text-align:justify !important;} 
+
+/* 링크 버튼 */
+a.button{position:relative;display:inline-block;border:1px solid #bbb;padding:5px 12px 5px 35px;color:#666;letter-spacing:-2px;}
+a.button:hover{background:#3e4452;border-color:#3e4452;color:#fff;transition: all .3s;}
+a.button i{position:absolute;left:8px;top:50%;margin-top:-11px;display:block;width:20px;height:20px;background:url() 50% 50% no-repeat;}
+a.button:hover i{transition: all .3s;}
+
+/* button */
+button.button{position:relative;display:inline-block;border:1px solid #bbb;height:32px;padding:0 12px 0 35px;color:#666;letter-spacing:-2px;}
+button.button:hover{background:#3e4452;border-color:#3e4452;color:#fff;transition: all .3s;}
+button.button i{position:absolute;left:8px;top:50%;margin-top:-11px;display:block;width:20px;height:20px;background:url() 50% 50% no-repeat;}
+button.button:hover i{transition: all .3s;}
+
+/* 캘린더 */
+input[class*='calendar']{border:1px solid #bbb;width:240px !important;padding:5px 34px 5px 5px;background:url(../images/lib/ic_calendar.png) 100% 50% no-repeat;cursor:pointer;color:#666;}
+
+/* 카피 문구 */
+.ffc1{font-family:'BMDOHYEON';}
+
+/* 버튼 */
+button.b1.submit1{background:#3b44ff;color:#fff;padding:20px 60px;margin:0;border-radius:10px;margin:0 5px;}
+button.b1.cancel1{background:#1a2049;color:#fff;padding:20px 60px;margin:0;border-radius:10px;margin:0 5px;}
+button.b1.default1{background:#1a2049;color:#fff;padding:18px 20px;margin:0;border-radius:10px;margin:0 5px;}
+
+/* 제목 */
+h2.bh1{font-size:32px;color:#222;font-weight:bold;letter-spacing:-3px;}
+
+/* */
+.required{color:#e35937;}
+
+/* bTable */
+table.t1{width:100%;border:0;border-collapse:collapse;border-top:3px solid #313642;border-bottom:1px solid #ccc;background:#fff;margin-bottom:20px;}
+table.t1>*>tr>th,
+table.t1>*>tr>td{padding:.6875em .5em;border:1px solid #ddd;}
+table.t1>*>tr>th{background:#e8ecf5;font-weight:normal;color:#444;}
+table.t1>thead>tr>th{padding:.7875em .75em;border-color:#c4cfd9;background:#e8ecf5;color:#111;line-height:1.375;text-align:center;}
+/*table.t1>tbody>tr>th{background:#e6f3ff;color:#333;}*/
+table.t1>tbody>tr:first-child>th,
+table.t1>tbody>tr:first-child>td{border-top-width:0;}
+table.t1 .ic1.new{border-radius:3px;padding:2px 5px 3px 5px;background:#e05652;color:#fff;font-size:11px;line-height:1;white-space:nowrap;font-style:normal;vertical-align:middle;margin-left:10px;}
+
+
+table.t2{width:100%;border:0;border-collapse:collapse;border-top:2px solid #222;border-bottom:1px solid #ccc;background:#fff;margin-bottom:20px;}
+table.t2>*>tr>th,
+table.t2>*>tr>td{padding:.6875em .5em;border-bottom:1px solid #ddd;}
+table.t2>*>tr>th{font-weight:normal;}
+table.t2>thead>tr>th{padding:.5em .75em;border-color:#c4cfd9;background:#e6f3ff;color:#333;line-height:1.375;text-align:center;}
+table.t2>tbody>tr>th{color:#333;}
+table.t2>tbody>tr:first-child>th,
+table.t2>tbody>tr:first-child>td{border-top-width:0;}
+
+
+/* 첨부파일 정의 */
+.files1{font-size:.923em;}
+.files1 ul{list-style:none;margin:0;overflow:hidden;}
+.files1 li{min-height:0;margin:0;padding:3px 3.333em 3px 0;white-space:nowrap;overflow:hidden;}
+.files1 a.filename{float:left;height:20px;color:#666;line-height:20px;letter-spacing:0;text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;overflow:hidden;}
+.files1 a i{display:inline-block;width:16px;height:16px;background:url() 50% 50% no-repeat;}
+.files1 a i.ic_doc{background:url(../images/lib/file/ic16_doc.png) no-repeat;}
+.files1 a i.ic_file{background:url(../images/lib/file/ic16_file.png) no-repeat;}
+.files1 a i.ic_gif{background:url(../images/lib/file/ic16_gif.png) no-repeat;}
+.files1 a i.ic_html{background:url(../images/lib/file/ic16_html.png) no-repeat;}
+.files1 a i.ic_hwp{background:url(../images/lib/file/ic16_hwp.png) no-repeat;}
+.files1 a i.ic_jpg{background:url(../images/lib/file/ic16_jpg.png) no-repeat;}
+.files1 a i.ic_pdf{background:url(../images/lib/file/ic16_pdf.png) no-repeat;}
+.files1 a i.ic_ppt{background:url(../images/lib/file/ic16_ppt.png) no-repeat;}
+.files1 a i.ic_txt{background:url(../images/lib/file/ic16_txt.png) no-repeat;}
+.files1 a i.ic_xls{background:url(../images/lib/file/ic16_xls.png) no-repeat;}
+.files1 a i.ic_zip{background:url(../images/lib/file/ic16_zip.png) no-repeat;}
+
+/* 약관 글 */
+.agree_cont{display:block;height:300px;overflow:auto;}

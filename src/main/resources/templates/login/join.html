@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <!-- Title -->
+  <title>데이터브릿지</title>
+
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/favicon.ico">
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800">
+  <!-- CSS Global Compulsory -->
+  <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
+  <!-- CSS Global Icons -->
+  <link rel="stylesheet" href="/assets/vendor/icon-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/assets/vendor/icon-line/css/simple-line-icons.css">
+  <link rel="stylesheet" href="/assets/vendor/icon-etlinefont/style.css">
+  <link rel="stylesheet" href="/assets/vendor/icon-line-pro/style.css">
+  <link rel="stylesheet" href="/assets/vendor/icon-hs/style.css">
+  <link rel="stylesheet" href="/assets/vendor/animate.css">
+  <link rel="stylesheet" href="/assets/vendor/dzsparallaxer/dzsparallaxer.css">
+  <link rel="stylesheet" href="/assets/vendor/dzsparallaxer/dzsscroller/scroller.css">
+  <link rel="stylesheet" href="/assets/vendor/dzsparallaxer/advancedscroller/plugin.css">
+  <link rel="stylesheet" href="/assets/vendor/slick-carousel/slick/slick.css">
+  <link rel="stylesheet" href="/assets/vendor/fancybox/jquery.fancybox.css">
+  <link rel="stylesheet" href="/assets/vendor/hs-megamenu/src/hs.megamenu.css">
+  <link rel="stylesheet" href="/assets/vendor/hamburgers/hamburgers.min.css">
+
+  <!-- CSS Unify -->
+  <link rel="stylesheet" href="/assets/css/unify-core.css">
+  <link rel="stylesheet" href="/assets/css/unify-components.css">
+  <link rel="stylesheet" href="/assets/css/unify-globals.css">
+
+  <!-- JS Global Compulsory -->
+  <script src="/assets/vendor/jquery/jquery.min.js"></script>
+  <script src="/assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+  <script src="/assets/vendor/popper.js/popper.min.js"></script>
+  <script src="/assets/vendor/bootstrap/bootstrap.min.js"></script>
+
+  <!-- JS Implementing Plugins -->
+  <script src="/assets/vendor/appear.js"></script>
+  <script src="/assets/vendor/hs-megamenu/src/hs.megamenu.js"></script>
+  <script src="/assets/vendor/dzsparallaxer/dzsparallaxer.js"></script>
+  <script src="/assets/vendor/dzsparallaxer/dzsscroller/scroller.js"></script>
+  <script src="/assets/vendor/dzsparallaxer/advancedscroller/plugin.js"></script>
+  <script src="/assets/vendor/slick-carousel/slick/slick.js"></script>
+  <script src="/assets/vendor/fancybox/jquery.fancybox.min.js"></script>
+
+  <!-- JS Unify -->
+  <script src="/assets/js/hs.core.js"></script>
+  <script src="/assets/js/components/hs.header.js"></script>
+  <script src="/assets/js/helpers/hs.hamburgers.js"></script>
+  <script src="/assets/js/components/hs.tabs.js"></script>
+  <script src="/assets/js/components/hs.carousel.js"></script>
+  <script src="/assets/js/components/hs.progress-bar.js"></script>
+  <script src="/assets/js/components/hs.popup.js"></script>
+  <script src="/assets/js/components/hs.go-to.js"></script>
+
+  <!-- 데이터브릿지 -->
+  <link rel="stylesheet" href="/assets/css/custom-font.css">
+  <link rel="stylesheet" href="/assets/css/custom-lib.css">
+  <link rel="stylesheet" href="/assets/css/custom-layout.css">
+  <link rel="stylesheet" href="/assets/css/custom-template.css">
+  <link rel="stylesheet" href="/assets/vendor/jquery-ui/themes/redmond/jquery-ui.css">
+  <script src="/assets/vendor/jquery-ui/jquery-ui.js"></script>
+  <script src="/assets/js/custom-lib.js"></script>
+
+  <script>
+
+    function fnDuplLoginIdChk(){
+      var loginId = $("#loginId").val();
+
+      if(loginId == ""){
+        alert("아이디를 입력 하여 주십시오.");
+        return false;
+      } else {
+        if(loginId.length < 7){
+          alert("아이디는 7자리 이상입니다.");
+          return false;
+        }
+      }
+
+      var params = {
+        loginId : $("#loginId").val()
+      }
+
+      $.ajax({
+        type: "GET",
+        url: "/join/duplLoginIdChkAjax",
+        data: params,
+        dataType : "json",
+        success: function(response) {
+          // 성공 시 동작
+          if(response.code == 0){
+            $("#idDuplChk").val("Y");
+            alert(response.msg);
+          }else {
+            $("#idDuplChk").val("N");
+            alert(response.msg);
+          }
+        },
+        error: function(error) {
+          // 실패 시 동작
+        }
+      });
+
+    }
+
+    function fnDuplEmailChk(){
+      var email = $("#email").val();
+
+      if(email == ""){
+        alert("이메일을 입력 하여 주십시오.");
+        return false;
+      }
+
+      var params = {
+        email : $("#email").val()
+      }
+
+      $.ajax({
+        type: "GET",
+        url: "/join/duplEmailChkAjax",
+        data: params,
+        dataType : "json",
+        success: function(response) {
+          // 성공 시 동작
+          if(response.code == 0){
+            $("#emailDuplChk").val("Y");
+            alert(response.msg);
+          }else {
+            $("#emailDuplChk").val("N");
+            alert(response.msg);
+          }
+        },
+        error: function(error) {
+          // 실패 시 동작
+        }
+      });
+
+    }
+
+    function fnDuplTelChk(){
+      var tel = $("#tel").val();
+
+      if(tel == ""){
+        alert("전화번호를 입력 하여 주십시오.");
+        return false;
+      }
+
+      var params = {
+        tel : $("#tel").val()
+      }
+
+      $.ajax({
+        type: "GET",
+        url: "/join/duplTelChkAjax",
+        data: params,
+        dataType : "json",
+        success: function(response) {
+          // 성공 시 동작
+          if(response.code == 0){
+            $("#telDuplChk").val("Y");
+            alert(response.msg);
+          }else {
+            $("#telDuplChk").val("N");
+            alert(response.msg);
+          }
+        },
+        error: function(error) {
+          // 실패 시 동작
+        }
+      });
+
+    }
+
+    function fnAgreeAll(val){
+      var agreeChkAll = $("input:checkbox[id='f1agree0']").is(":checked");
+
+      if(agreeChkAll){
+        $("#f1agree1").prop("checked", true);
+        $("#f1agree2").prop("checked", true);
+        $("#f1agree3").prop("checked", true);
+      }else {
+        $("#f1agree1").prop("checked", false);
+        $("#f1agree2").prop("checked", false);
+        $("#f1agree3").prop("checked", false);
+      }
+    }
+
+    function fnSave(){
+      var loginId = $("#loginId").val();
+      var idDuplChk = $("#idDuplChk").val();
+      var emailDuplChk = $("#emailDuplChk").val();
+      var telDuplChk = $("#telDuplChk").val();
+
+      var password = $("#password").val();
+      var password_cfm = $("#password_cfm").val();
+
+      var name = $("#name").val();
+
+      var email = $("#email").val();
+
+      var tel = $("#tel").val();
+
+      var dulpInfo = $("#dulpInfo").val();
+      var connInfo = $("#connInfo").val();
+
+      if(dulpInfo == "" || connInfo == ""){
+        alert("본인인증이 완료 되지 않았습니다.");
+        return false;
+      }
+
+      if(loginId == ""){
+        alert("아이디는 필수 입니다.");
+        return false;
+      } else {
+        if(idDuplChk == "N"){
+          alert("아이디 중복체크는 필수 입니다.");
+          return false;
+        }
+      }
+
+      if(password == ""){
+        alert("비밀번호는 필수 입니다.");
+        return false;
+      }
+
+      if(password_cfm == ""){
+        alert("비밀번호 확인은 필수 입니다.");
+        return false;
+      }
+
+      if(password != password_cfm){
+        alert("비밀번호가 맞지 않습니다.");
+        return false;
+      }
+
+      if(name == ""){
+        alert("이름은 필수 입니다.");
+        return false;
+      }
+
+      if(email == ""){
+        alert("이메일은 필수 입니다.");
+        return false;
+      }else {
+        if(emailDuplChk == "N"){
+          alert("이메일 중복체크는 필수 입니다.");
+          return false;
+        }
+      }
+
+      if(tel == ""){
+        alert("전화번호는 필수 입니다.");
+        return false;
+      }else {
+        if(telDuplChk == "N"){
+          alert("전화번호 중복체크는 필수 입니다.");
+          return false;
+        }
+      }
+
+      var agreeChk1 = $("input:checkbox[id='f1agree1']").is(":checked");
+      var agreeChk2 = $("input:checkbox[id='f1agree2']").is(":checked");
+
+      if(!agreeChk1){
+        alert("이용약관 동의는 필수 입니다.");
+        return false;
+      }
+
+      if(!agreeChk2){
+        alert("개인정보 취급방침 동의는 필수 입니다.");
+        return false;
+      }
+
+      $("#joinFrm").submit();
+
+    }
+
+  </script>
+
+</head>
+
+<body>
+
+<!--◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇ #containers ◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇-->    
+<div id="container">
+
+<noscript><p>자바 스크립트 사용이 중지되었습니다. 홈페이지의 전체 기능을 사용하기 위해 JavaScript가 필요합니다. 사용할 수 있도록 설정하십시오.</p></noscript>
+<!-- #skipnav -->
+<div id="skipnav">
+	<ul>
+	<li><a href="#body">본문 바로가기</a></li>
+	</ul>
+</div>
+<!-- /#skipnav -->
+
+
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ #head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
+<div id="head" class="init">
+  <!-- #head_s1 -->
+  <div id="head_s1" class="clearfix">
+    <!-- containers -->
+    <div class="containers">
+
+	    <!-- #logo -->
+      <h1 id="logo"><a href="/" ><span class="blind">데이터브릿지</span></a></h1>
+      <!-- /#logo -->
+      <!-- #gn1 -->
+      <div id="gn1">
+        <ul id="gn1c1" class="clearfix">
+          <li><a href="/user/login">로그인</a></li>
+          <li><a href="/join">회원가입</a></li>
+        </ul>
+      </div>
+      <!-- /#gn1 -->				
+    </div>
+    <!-- /containers -->   
+  </div>
+  <!-- /#head_s1 -->     
+	
+  <!-- #head_s2 -->
+  <div id="head_s2" class="clearfix"><div class="bg2"></div>
+    <!-- containers -->
+    <div class="containers">
+      <!-- #visual -->
+      <div id="visual">
+
+        <!-- join -->
+        <div class="join">
+          <h1>회원가입</h1>
+          <div class="step clearfix"><i class="line1"></i><i class="line2"></i>
+            <ul>
+              <li><i class="b1"></i><i class="ic1"></i><span class="t1">본인인증</span></li>
+              <li class="on"><i class="b1"></i><i class="ic1"></i><span class="t1">회원정보 입력</span></li>
+              <li><i class="b1"></i><i class="ic1"></i><span class="t1">회원가입 완료</span></li>
+            </ul>
+          </div>
+        </div>
+        <!-- /join -->             
+                              
+      </div>
+      <!-- //#visual -->
+    </div>
+    <!-- /containers --> 		
+  </div>
+  <!-- /#head_s2 -->     	  
+
+</div>
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ /#head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->  
+
+<hr class="dpn" />
+
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ #main_wrap ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->  
+<div id="wrap" class="init">
+
+  <!-- containers --> 
+  <div class="containers">  
+    <!-- ◆◆◆ #body ◆◆◆ -->
+
+    <form id="joinFrm" th:action="@{/join/confirm}" th:object="${joinDto}" method="post">
+      <input type="hidden" name="idDuplChk" id="idDuplChk" value="N">
+      <input type="hidden" name="emailDuplChk" id="emailDuplChk" value="N">
+      <input type="hidden" name="telDuplChk" id="telDuplChk" value="N">
+      <input type="hidden" name="duplInfo" id="duplInfo" th:value="${mapResult.DI}">
+      <div id="body">
+        <!-- #body_content -->
+        <div id="body_content" class="clearfix">
+
+          <!-- step2 -->
+          <div class="join step2">
+            <div class="h2tit">
+              <h2 class="bh1">회원정보 입력</h2>
+              <p class="tpar"><em class="required" title="필수항목">*</em> 필수입력사항</p>
+            </div>
+            <table class="t2">
+              <col style="width:220px" />
+              <col />
+              <tr>
+                  <th scope="row"><label for="loginId">아이디 <em class="required" title="필수항목">*</em></label></th>
+                  <td><input type="input" id="loginId" name="loginId" lang="en" maxlength="50" placeholder="아이디는 7자리 이상 입력 바랍니다." autocomplete="off" style="width:64.5%" />
+                  <button type="button"  class="b1 default1" onclick="javascript:fnDuplLoginIdChk();">중복체크</button></td>
+              </tr>
+              <tr>
+                <th scope="row"><label for="password">비밀번호 <em class="required" title="필수항목">*</em></label></th>
+                <td><input type="password" id="password" name="password" lang="en" autocomplete="off" /></td>
+              </tr>
+              <tr>
+                <th scope="row"><label for="password_cfm">비밀번호 확인 <em class="required" title="필수항목">*</em></label></th>
+                <td><input type="password" id="password_cfm" name="password_cfm" lang="en" autocomplete="off" /></td>
+              </tr>
+              <tr>
+                <th scope="row"><label for="name">이름 <em class="required" title="필수항목">*</em></label></th>
+                <td><input type="input" id="name" name="name" lang="ko" th:value="${mapResult.NAME}"/></td>
+              </tr>
+              <tr>
+                 <th scope="row"><label for="birthDt">생년월일</label></th>
+                <td>
+                  <input type="date" class="calendar" id="birthDt" name="birthDt" th:value="${#temporals.createDate(mapResult.BIRTHDATE, 'yyyyMMdd')}"/>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row"><label for="email">이메일 <em class="required" title="필수항목">*</em></label></th>
+                <td><input type="email" id="email" name="email" placeholder="이메일 주소" style="width:64.5%"/>
+                  <button type="button"  class="b1 default1" onclick="javascript:fnDuplEmailChk();">중복체크</button></td>
+              </tr>
+              <tr>
+                <th scope="row"><label for="email">전화번호 <em class="required" title="필수항목">*</em></label></th>
+                <td><input type="text" id="tel" name="tel" placeholder="전화번호" th:value="${mapResult.MOBILE_NO}" style="width:64.5%"/>
+                  <button type="button"  class="b1 default1" onclick="javascript:fnDuplTelChk();">중복체크</button></td>
+              </tr>
+              <tr>
+                <th scope="row"><label>성별 <em class="required" title="필수항목">*</em></label></th>
+               <td>
+                 <input type="radio" name="genderCd" id="genderCd_M" value="M" th:attr="checked=${mapResult.GENDER.toString() == '1' ? 'true' : 'false'}"/>
+                 <label for="genderCd_M">남자</label>
+                 <input type="radio" name="genderCd" id="genderCd_F" value="F" th:attr="checked=${mapResult.GENDER.toString() == '0' ? 'true' : 'false'}"/>
+                 <label for="genderCd_F">여자</label>
+               </td>
+             </tr>
+            </table>
+
+            <div class="h2tit">
+                <h2 class="bh1">약관동의</h2>
+                <p class="tpar"><input type="checkbox" id="f1agree0" onclick="javascript:fnAgreeAll();"/> <label for="f1agree0">전체 동의합니다.</label></p>
+                <ul class="terms clearfix">
+                  <li>
+                    <input type="checkbox" id="f1agree1" /> <label for="f1agree1">이용약관 동의 <em class="required" title="필수항목">(필수)</em></label>
+                    <a href="#agreement1" class="b1 toggle">약관보기</a>
+                  </li>
+                  <li id="agreement1" style="display:none;">
+                      <span class="agree_cont">
+                      약관 내용이 들어갑니다.
+                      </span>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="f1agree2" /> <label for="f1agree2">개인정보 취급방침 동의 <em class="required" title="필수항목">(필수)</em></label>
+                    <a href="#agreement2" class="b1 toggle">약관보기</a>
+                  </li>
+                  <li id="agreement2" style="display:none;">
+                      <span class="agree_cont">
+                      약관 내용이 들어갑니다.
+                      </span>
+                    </li>
+                  <li>
+                    <input type="checkbox" id="f1agree3" /> <label for="f1agree3">마케팅 정보 수신 동의 (선택)</label>
+                    <a href="#agreement3" class="b1 toggle">약관보기</a>
+                  </li>
+                  <li id="agreement3" style="display:none;">
+                      <span class="agree_cont">
+                      약관 내용이 들어갑니다.
+                      </span>
+                    </li>
+                </ul>
+
+              </div>
+          </div>
+          <!-- /step2 -->
+          <div class="btns tac">
+            <button type="button" class="b1 cancel1" onclick="javascript:fnSave();">회원가입</button>
+            <button class="b1 submit1">초기화</button>
+          </div>
+
+        </div>
+        <!-- /#body_content -->
+      </div>
+    </form>
+    <!-- ◆◆◆ /#body ◆◆◆ --> 
+  </div>
+  <!-- /containers -->   
+  
+</div>
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ /#main_wrap ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->  
+
+<hr class="dpn" />
+
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ /#foot ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆--> 
+<div id="foot" class="init">
+  <!-- container -->
+  <div class="containers clearfix">
+    <h2 class="blind">하단 정보</h2>
+
+    <!-- #fn1 -->
+    <div id="fn1">
+    <ul class="clearfix">
+    <li><a href="#">서비스 소개</a></li>
+    <li><a href="#">개인정보처리방침</a></li>
+    <li><a href="#">이용약관</a></li>
+    </ul>
+    </div>
+    <!-- /#fn1 -->
+
+    <!-- author1 -->
+    <div id="author1">
+      <strong class="h1 blind">작성자 (연락처/저작권)</strong>
+      <p id="foot_logo"><span class="blind">데이터브릿지</span></p>
+      <address class="address">경상남도 창원시 의창구 팔룡동 충혼로 91 창원문성대학교 벤처창업관 케이데이터랩 / 대표전화 : +82-055-980-3388 / 팩스번호 : +82-055-980-3399</address>
+      <p class="nophishing">본 사이트에 게시된 이메일주소의 자동수집을 거부하며, 이를 위반 시 정보통신망법에 의해 형사처벌됨을 유념하시기 바랍니다.</p>
+      <address class="copyright">COPYRIGHT (C) 2020 BY KDATALAB ALL RIGHTS RESERVED. </address>
+    </div>
+    <!-- /author1 -->
+
+  </div>
+  <!-- /containers --> 
+</div>
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ /#foot ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->  
+
+
+</div>   
+<!--◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇ /#containers ◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇-->
+
+
+</body>
+
+</html>

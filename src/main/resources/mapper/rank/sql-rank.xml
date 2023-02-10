@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kdatalab.bridge.rank.mapper.RankMapper">
+
+	<select id="selectRankTop5List" resultType="com.kdatalab.bridge.rank.dto.RankDto">
+		SELECT TAB.*
+		FROM (
+		SELECT CONCAT(LEFT(LOGIN_ID, 3), '####') AS LOGIN_ID
+		, SUM(NOWPOINT) AS S_POINT
+		, COUNT(*) AS CMP_CNT
+		FROM TB_POINT
+		WHERE 1=1
+		AND date_format(LASTUPDDE,'%Y-%m-%d') BETWEEN (SELECT ADDDATE(CURDATE(), - WEEKDAY(CURDATE()) + 0 )) AND  (SELECT ADDDATE(CURDATE(), - WEEKDAY(CURDATE()) + 6 ))
+		GROUP BY LOGIN_ID
+		) TAB
+		ORDER BY TAB.S_POINT DESC
+		LIMIT 0, 5
+	</select>
+
+	<select id="selectRankTotalCount" parameterType="com.kdatalab.bridge.rank.dto.RankDto" resultType="int" >
+		SELECT COUNT(*)
+		FROM (
+		SELECT CONCAT(LEFT(LOGIN_ID, 3), '####') AS LOGIN_ID
+		, SUM(NOWPOINT) AS S_POINT
+		, COUNT(*) AS CMP_CNT
+		FROM TB_POINT
+		WHERE 1=1
+		AND date_format(LASTUPDDE,'%Y-%m-%d') BETWEEN (SELECT ADDDATE(CURDATE(), - WEEKDAY(CURDATE()) + 0 )) AND  (SELECT ADDDATE(CURDATE(), - WEEKDAY(CURDATE()) + 6 ))
+		<if test="schLoginId != null">
+			AND LOGIN_ID like '%${schLoginId}%'
+		</if>
+		GROUP BY LOGIN_ID
+		) TAB
+		ORDER BY TAB.S_POINT DESC
+	</select>
+
+	<select id="selectRankList" parameterType="com.kdatalab.bridge.rank.dto.RankDto" resultType="com.kdatalab.bridge.rank.dto.RankDto">
+		SELECT TAB.*
+		FROM (
+		SELECT CONCAT(LEFT(LOGIN_ID, 3), '####') AS LOGIN_ID
+		, SUM(NOWPOINT) AS S_POINT
+		, COUNT(*) AS CMP_CNT
+		FROM TB_POINT
+		WHERE 1=1
+		AND date_format(LASTUPDDE,'%Y-%m-%d') BETWEEN (SELECT ADDDATE(CURDATE(), - WEEKDAY(CURDATE()) + 0 )) AND  (SELECT ADDDATE(CURDATE(), - WEEKDAY(CURDATE()) + 6 ))
+		<if test="schLoginId != null">
+			AND LOGIN_ID like '%${schLoginId}%'
+		</if>
+		GROUP BY LOGIN_ID
+		) TAB
+		ORDER BY TAB.S_POINT DESC
+		LIMIT
+		#{paginationInfo.firstRecordIndex}, #{recordsPerPage}
+	</select>
+
+</mapper>

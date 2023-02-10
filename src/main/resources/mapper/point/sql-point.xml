@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kdatalab.bridge.point.mapper.PointMapper">
+
+	<select id="selectPointList" parameterType="com.kdatalab.bridge.user.dto.UserDto" resultType="com.kdatalab.bridge.point.dto.PointDto">
+		SELECT POINT_ID
+		, LOGIN_ID
+		, NOWPOINT
+		FROM TB_POINT
+		WHERE 1=1
+		AND LOGIN_ID = #{loginId}
+	</select>
+
+	<insert id="savePointInfo" parameterType="com.kdatalab.bridge.point.dto.PointDto">
+		INSERT INTO TB_POINT
+		( LOGIN_ID
+		, NOWPOINT
+		, LASTUPDDE )
+		VALUES
+		( #{loginId}
+		, #{point}
+		, NOW() )
+	</insert>
+
+</mapper>
+
+

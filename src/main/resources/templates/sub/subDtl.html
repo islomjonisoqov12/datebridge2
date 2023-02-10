@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <!-- Title -->
+    <title>데이터브릿지</title>
+
+    <!-- Required Meta Tags Always Come First -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../favicon.ico">
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800">
+    <!-- CSS Global Compulsory -->
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css">
+    <!-- CSS Global Icons -->
+    <link rel="stylesheet" href="../assets/vendor/icon-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/vendor/icon-line/css/simple-line-icons.css">
+    <link rel="stylesheet" href="../assets/vendor/icon-etlinefont/style.css">
+    <link rel="stylesheet" href="../assets/vendor/icon-line-pro/style.css">
+    <link rel="stylesheet" href="../assets/vendor/icon-hs/style.css">
+    <link rel="stylesheet" href="../assets/vendor/animate.css">
+    <link rel="stylesheet" href="../assets/vendor/dzsparallaxer/dzsparallaxer.css">
+    <link rel="stylesheet" href="../assets/vendor/dzsparallaxer/dzsscroller/scroller.css">
+    <link rel="stylesheet" href="../assets/vendor/dzsparallaxer/advancedscroller/plugin.css">
+    <link rel="stylesheet" href="../assets/vendor/slick-carousel/slick/slick.css">
+    <link rel="stylesheet" href="../assets/vendor/fancybox/jquery.fancybox.css">
+    <link rel="stylesheet" href="../assets/vendor/hs-megamenu/src/hs.megamenu.css">
+    <link rel="stylesheet" href="../assets/vendor/hamburgers/hamburgers.min.css">
+
+    <!-- CSS Unify -->
+    <link rel="stylesheet" href="../assets/css/unify-core.css">
+    <link rel="stylesheet" href="../assets/css/unify-components.css">
+    <link rel="stylesheet" href="../assets/css/unify-globals.css">
+
+    <!-- JS Global Compulsory -->
+    <script src="../assets/vendor/jquery/jquery.min.js"></script>
+    <script src="../assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+    <script src="../assets/vendor/popper.js/popper.min.js"></script>
+    <script src="../assets/vendor/bootstrap/bootstrap.min.js"></script>
+
+    <!-- JS Implementing Plugins -->
+    <script src="../assets/vendor/appear.js"></script>
+    <script src="../assets/vendor/hs-megamenu/src/hs.megamenu.js"></script>
+    <script src="../assets/vendor/dzsparallaxer/dzsparallaxer.js"></script>
+    <script src="../assets/vendor/dzsparallaxer/dzsscroller/scroller.js"></script>
+    <script src="../assets/vendor/dzsparallaxer/advancedscroller/plugin.js"></script>
+    <script src="../assets/vendor/slick-carousel/slick/slick.js"></script>
+    <script src="../assets/vendor/fancybox/jquery.fancybox.min.js"></script>
+
+    <!-- JS Unify -->
+    <script src="../assets/js/hs.core.js"></script>
+    <script src="../assets/js/components/hs.header.js"></script>
+    <script src="../assets/js/helpers/hs.hamburgers.js"></script>
+    <script src="../assets/js/components/hs.tabs.js"></script>
+    <script src="../assets/js/components/hs.carousel.js"></script>
+    <script src="../assets/js/components/hs.progress-bar.js"></script>
+    <script src="../assets/js/components/hs.popup.js"></script>
+    <script src="../assets/js/components/hs.go-to.js"></script>
+
+    <!-- 데이터브릿지 -->
+    <link rel="stylesheet" href="../assets/css/custom-font.css">
+    <link rel="stylesheet" href="../assets/css/custom-lib.css">
+    <link rel="stylesheet" href="../assets/css/custom-layout.css">
+    <link rel="stylesheet" href="../assets/css/custom-template.css">
+    <script src="/assets/vendor/jquery-ui/jquery-ui.js"></script>
+    <script src="../assets/js/custom-lib.js"></script>
+
+    <script>
+
+        function fnAnsChk(){
+          var token = $("meta[name='_csrf']").attr("content");
+          var header = $("meta[name='_csrf_header']").attr("content");
+
+          var params = $('#frm').serialize();
+
+          $.ajax({
+			type: 'GET',
+			contentType: "application/json",
+			url:'/edu/ansChkAjax',
+			data: params,
+			beforeSend : function(xhr){
+			console.log(header);
+				xhr.setRequestHeader(header, token);
+            },
+            dataType: 'json', // success 시 받아올 데이터 형
+            async: true, //동기, 비동기 여부
+            cache :false, // 캐시 여부
+            success: function(data){
+                if(data.code < 0){
+                    alert(data.msg);
+                } else {
+                    var agreeChk1 = $("input:checkbox[id='a1_c1']").is(":checked");
+
+                    if(agreeChk1){
+                        $("#frm").attr("action", "/edu/saveEdu");
+                        $("#frm").submit();
+                    }else {
+                        alert("동의서를 동의 해 주십시오.");
+                        return false;
+                    }
+                }
+            },
+            error:function(xhr,status,error){
+                console.log('error:'+error);
+            }
+          });
+
+        }
+
+    </script>
+
+</head>
+
+<body>
+
+<!--◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇ #containers ◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇-->
+<div id="container">
+
+    <noscript><p>자바 스크립트 사용이 중지되었습니다. 홈페이지의 전체 기능을 사용하기 위해 JavaScript가 필요합니다. 사용할 수 있도록 설정하십시오.</p></noscript>
+    <!-- #skipnav -->
+    <div id="skipnav">
+        <ul>
+            <li><a href="#body">본문 바로가기</a></li>
+        </ul>
+    </div>
+    <!-- /#skipnav -->
+
+
+    <!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ #head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
+    <div id="head" class="init">
+        <!-- #head_s1 -->
+        <div id="head_s1" class="clearfix">
+            <!-- containers -->
+            <div class="containers">
+
+                <!-- #logo -->
+                <h1 id="logo"><a href="/" ><span class="blind">데이터브릿지</span></a></h1>
+                <!-- /#logo -->
+                <!-- #gn1 -->
+                <div id="gn1">
+                    <ul id="gn1c1" class="clearfix">
+                        <li sec:authorize="isAuthenticated()"><a><i class="ic_coin1"></i><span th:text="${#numbers.formatInteger(userInfo.nowpoint, 0, 'COMMA')}">320,000</span></a></li>
+                        <li sec:authorize="isAuthenticated()"><a href="#">마이페이지</a></li>
+                        <li sec:authorize="isAuthenticated()"><a th:href="@{/user/logout}">로그아웃</a></li>
+                        <li sec:authorize="!isAuthenticated()"><a href="/login">로그인</a></li>
+                        <li sec:authorize="!isAuthenticated()"><a href="/join/sign">회원가입</a></li>
+                    </ul>
+                </div>
+                <!-- /#gn1 -->
+            </div>
+            <!-- /containers -->
+        </div>
+        <!-- /#head_s1 -->
+
+        <!-- #head_s2 -->
+        <div id="head_s2" class="bg3bg1 clearfix"><div class="bg3"></div>
+            <!-- containers -->
+            <div class="containers">
+                <!-- #visual -->
+                <div id="visual">
+                    <h1>교육</h1>
+                    <div class="snb1">
+                        <div class="wrap">
+                            <p>교육의 대표 안내 문구를 <br />두 줄로 해서 이뻐보이게 구성해주세요.</p>
+                            <a href="/sub" class="golist">목록으로</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- //#visual -->
+            </div>
+            <!-- /containers -->
+        </div>
+        <!-- /#head_s2 -->
+
+    </div>
+    <!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ /#head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
+
+    <hr class="dpn" />
+
+    <!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ #main_wrap ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
+    <div id="wrap" class="init">
+
+        <!-- containers -->
+        <div class="containers">
+            <!-- ◆◆◆ #body ◆◆◆ -->
+            <div id="body">
+                <!-- #body_content -->
+                <div id="body_content" class="clearfix mt1">
+
+                    <!-- bbs_view -->
+                    <div class="bbs_view">
+                        <table class="t1">
+                            <caption class="blind">
+                                <strong class="h1">교육명 상세보기</strong>
+                            </caption>
+                            <col style="width:12%" />
+                            <col style="width:38%" />
+                            <col style="width:12%" />
+                            <col style="width:38%" />
+                            <tbody>
+                            <tr>
+                                <th class="tac">교육명</td>
+                                <td colspan="3"><a href="#" th:text="${eduInfo.subject}"> <i class="ic1 new">새 글</i></a></td>
+                            </tr>
+                            <tr>
+                                <th class="tac">교육기간</td>
+                                <td th:text="${eduInfo.seDate}"><a href="#">2019.8.1~2019.8.15</td>
+                                <th class="tac">교육시간</td>
+                                <td th:text="${eduInfo.timeStr}"></td>
+                            </tr>
+                            <tr>
+                                <th class="tac">교육내용</td>
+                                <td colspan="3" th:text="${eduInfo.content}">
+                                    직원의 안전을 위한 교육의 설명을 합니다.
+                                    직원의 안전을 위한 교육의 설명을 합니다.
+                                    직원의 안전을 위한 교육의 설명을 합니다. <br />
+                                    직원의 안전을 위한 교육의 설명을 합니다.
+                                    직원의 안전을 위한 교육의 설명을 합니다.
+                                    직원의 안전을 위한 교육의 설명을 합니다. <br />
+                                    직원의 안전을 위한 교육의 설명을 합니다.
+                                    직원의 안전을 위한 교육의 설명을 합니다.
+                                    직원의 안전을 위한 교육의 설명을 합니다.
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="tac">교육자료</td>
+                                <td colspan="3">
+                                    <!-- attach1 -->
+                                    <div class="files1">
+                                        <ul>
+                                            <li th:each="filelist:${eduInfo.attList}">
+                                                <a th:href="${filelist.name}" class="filename" target="_blank" title="첨부파일 새창 열림">
+                                                    <i th:classappend="${filelist.ext} == 'zip' ? 'ic_zip' :
+                                                                (${filelist.ext} == 'doc' ? 'ic_doc' :
+                                                                (${filelist.ext} == 'gif' ? 'ic_gif' :
+                                                                (${filelist.ext} == 'html' ? 'ic_html' :
+                                                                (${filelist.ext} == 'hwp' ? 'ic_hwp' :
+                                                                (${filelist.ext} == 'jpg' ? 'ic_jpg' :
+                                                                (${filelist.ext} == 'pdf' ? 'ic_pdf' :
+                                                                (${filelist.ext} == 'ppt' ? 'ic_ppt' :
+                                                                (${filelist.ext} == 'txt' ? 'ic_txt' :
+                                                                (${filelist.ext} == 'xls' ? 'ic_xls' : 'ic_file')))))))))"></i>
+                                                    <span th:text="${filelist.name}"></span>
+                                                </a>
+                                            </li>
+                                            <!-- 첨부파일 종류에 따라 <i class="ic_zip"></i>의 명칭을 변경 한다.
+                                              ic_doc : DOC 파일
+                                              ic_gif : GIF 파일
+                                              ic_html : HTML 파일
+                                              ic_hwp : HWP 파일
+                                              ic_jpg : JPG 파일
+                                              ic_pdf : PDF 파일
+                                              ic_ppt : PPT 파일
+                                              ic_txt : TXT 파일
+                                              ic_xls : XLS 파일
+                                              ic_zip : ZIP 파일
+                                              ic_file : 위의 종류를 제외한 나머지 파일
+                                            <li><a href="AbcdeFghijKlmnoPqrstUvwxyZ.hwp" class="filename" target="_blank" title="첨부파일 새창 열림"><i class="ic_hwp"></i> AbcdeFghijKlmnoPqrstUvwxyZ.hwp</a></li>
+                                            <li><a href="일이삼사오륙칠팔구십일이삼사오륙칠팔구십.jpg" class="filename" target="_blank" title="첨부파일 새창 열림"><i class="ic_jpg"></i> 일이삼사오륙칠팔구십일이삼사오륙칠팔구십.jpg</a></li>
+                                            <li><a href="AbcdeFghijKlmnoPqrstUvwxyZ.기타확장자" class="filename" target="_blank" title="첨부파일 새창 열림"><i class="ic_file"></i> AbcdeFghijKlmnoPqrstUvwxyZ.기타확장자</a></li>
+                                            -->
+                                        </ul>
+                                    </div>
+                                    <!-- /attach1 -->
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="bbs_q_h2">
+                            <h2>확인문제</h2>
+                        </div>
+
+                        <ol class="bbs_q_list">
+                            <form id="frm">
+                                <input type="hidden" name="eduSeq" id="eduSeq" th:value="${eduInfo.eduSeq}">
+                                <input type="hidden" name="point" id="point" th:value="${eduInfo.point}">
+                                <li th:if="${#lists.size(queList)} > 0" th:each="list:${queList}">
+                                    <span class="q" th:text="${list.subject}">1. 문제입니다.문제입니다.문제입니다.문제입니다.문제입니다.문제입니다.문제입니다.문제입니다.문제입니다.문제입니다.문제입니다.문제입니다.</span>
+                                    <span class="a" th:each="anslist:${list.eduAnsList}"><input type="radio" th:checked="${anslistStat.index == 0}" th:name="${'quelist'+ listStat.index}" th:value="${anslist.ansSeq}" th:id="${'anslist['+ list.queSeq + ','+ anslist.ansSeq + ']'}"><label th:for="${'anslist['+ list.queSeq + ','+ anslist.ansSeq + ']'}" th:text="${anslist.subject}">그렇다</label></span>
+                                </li>
+                            </form>
+                        </ol>
+
+                        <div class="bbs_q_h2">
+                            <h2>동의서</h2>
+                        </div>
+                        <ol class="bbs_q_list">
+                            <li>
+                                <span class="agree_title"><input type="checkbox" id="a1_c1"><label for="a1_c1">위에 내용에 동의합니다.</label></span><a href="#agreement1" class="b1 toggle more1">내용보기</a></span>
+                                <span id="agreement1" style="display:none"><span class="agree_cont" th:text="${eduInfo.agree}">
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+                동의서 내용이 들어갑니다.<br />
+              </span></span>
+                            </li>
+                        </ol>
+
+                        <!-- bfInfo1 -->
+                        <div class="bfInfo1 bfBtns1">
+                            <div class="center">
+                                <button type="button" onclick="javascript:fnAnsChk();" class="b1 submit1">확인하기</button>
+                                <a th:href="@{/sub}"><button type="button" class="b1 cancel1" >취소하기</button></a>
+                            </div>
+                        </div>
+                        <!-- /bfInfo1 -->
+
+                    </div>
+                    <!-- /bbs_view -->
+
+
+                    <!-- layerPop_system1 -->
+                    <!-- 경고 메시지 창입니다. 상황에 맞게 내용을 만드세요. -->
+                    <div id="layerPop_system1" class="layerPopSystem init"><div class="bg1"></div>
+                        <div class="wrap">
+                            <div class="layerPop_head">
+                                <div class="containers">
+                                    <h2>동의확인</h2>
+                                    <a href="#layerPop_system1" class="b1 toggle close"><i class="ic_close"></i><span class="blind">창닫기</span></a>
+                                </div>
+                            </div>
+                            <div class="layerPop_body init">
+                                <div class="containers">
+
+                                    <div class="bSystemNote">
+                                        <div class="inner">
+                                            <p class="t1">동의에 체크후, 확인버튼을 눌러 주세요.</p>
+                                            <a href="#layerPop_system1" class="b1 toggle">확인</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- // layerPop_system1 -->
+
+                    </div>
+                    <!-- /#body_content -->
+                </div>
+                <!-- ◆◆◆ /#body ◆◆◆ -->
+            </div>
+            <!-- /containers -->
+
+        </div>
+        <!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ /#main_wrap ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
+
+        <hr class="dpn" />
+
+        <!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ /#foot ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
+        <div id="foot" class="init">
+            <!-- container -->
+            <div class="containers clearfix">
+                <h2 class="blind">하단 정보</h2>
+
+                <!-- #fn1 -->
+                <div id="fn1">
+                    <ul class="clearfix">
+                        <li><a href="#">서비스 소개</a></li>
+                        <li><a href="#">개인정보처리방침</a></li>
+                        <li><a href="#">이용약관</a></li>
+                    </ul>
+                </div>
+                <!-- /#fn1 -->
+
+                <!-- author1 -->
+                <div id="author1">
+                    <strong class="h1 blind">작성자 (연락처/저작권)</strong>
+                    <p id="foot_logo"><span class="blind">데이터브릿지</span></p>
+                    <address class="address">경상남도 창원시 의창구 팔룡동 충혼로 91 창원문성대학교 벤처창업관 케이데이터랩 / 대표전화 : +82-055-980-3388 / 팩스번호 : +82-055-980-3399</address>
+                    <p class="nophishing">본 사이트에 게시된 이메일주소의 자동수집을 거부하며, 이를 위반 시 정보통신망법에 의해 형사처벌됨을 유념하시기 바랍니다.</p>
+                    <address class="copyright">COPYRIGHT (C) 2020 BY KDATALAB ALL RIGHTS RESERVED. </address>
+                </div>
+                <!-- /author1 -->
+
+            </div>
+            <!-- /containers -->
+        </div>
+        <!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ /#foot ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
+
+
+    </div>
+    <!--◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇ /#containers ◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇-->
+
+
+</body>
+
+</html>
