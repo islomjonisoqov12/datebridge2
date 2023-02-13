@@ -1,6 +1,7 @@
 package com.kdatalab.bridge.point.service;
 
 import com.kdatalab.bridge.point.dto.PointDto;
+import com.kdatalab.bridge.point.model.PointHistory;
 import com.kdatalab.bridge.user.dto.UserDto;
 
 import java.util.List;
@@ -29,5 +30,12 @@ public interface PointService {
      * @throws Exception
      */
     void savePointInfo(PointDto params) throws Exception;
+
+    /**
+     * List of point by user
+     * @param loginId
+     * @return List of PointHistory
+     */
+    List<PointHistory> getPointHistory(String loginId);
 
 }

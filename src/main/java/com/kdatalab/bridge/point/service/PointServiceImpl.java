@@ -1,8 +1,11 @@
 package com.kdatalab.bridge.point.service;
 
+import com.kdatalab.bridge.point.PointRepository;
 import com.kdatalab.bridge.point.dto.PointDto;
 import com.kdatalab.bridge.point.mapper.PointMapper;
+import com.kdatalab.bridge.point.model.PointHistory;
 import com.kdatalab.bridge.user.dto.UserDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +18,13 @@ import java.util.List;
  */
 
 @Service
+@RequiredArgsConstructor
 public class PointServiceImpl implements PointService {
 
     @Autowired
     private PointMapper pointMapper;
+
+    private final PointRepository pointRepository;
 
     /**
      * 포인트 조회
@@ -43,5 +49,15 @@ public class PointServiceImpl implements PointService {
     @Override
     public void savePointInfo(PointDto params) throws Exception {
         pointMapper.savePointInfo(params);
+    }
+
+    /**
+     * List of point by user
+     * @param loginId
+     * @return List of PointHistory
+     */
+    @Override
+    public List<PointHistory> getPointHistory(String loginId) {
+        return pointRepository.findByLoginId(loginId);
     }
 }
