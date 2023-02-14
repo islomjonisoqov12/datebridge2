@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Account Info</title>
+    <script src="/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="/assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+    <script src="/assets/vendor/popper.js/popper.min.js"></script>
+    <script src="/assets/vendor/bootstrap/bootstrap.min.js"></script>
+</head>
+<body>
+<div>
+        <form th:action="@{/user/info-edit}" th:method="post">
+            <label for="password">Password : </label>
+            <input name="password" type="text" id="password" placeholder="input new password"><br><br>
+            <label for="retypePassword">Password : </label>
+            <input name="retypePassword" type="text" onchange="matchRetypePassword()" id="retypePassword" placeholder="repeat password"><br>
+            <p th:text="${'Full Name:   ' + user.name}"></p>
+            <p th:text="${ 'Birthdate:   ' + user.birthDt}"></p>
+            <label for="email">Email</label>
+            <input name="email" id="email" th:value="${user.getEMail()}"/>
+            <p th:text="${ 'Phone Number:   ' + user.getTel()}"></p>
+            <button id="submitButton" disabled="disabled" type="submit" class="btn-primary">Save</button>
+        </form>
+</div>
+</body>
+<script>
+    $(document).ready(function (){
+        $('#retypePassword').onkeydown(function (){
+            const password = $('#password');
+            const retypePassword = $('#retypePassword');
+            if(password===retypePassword){
+                console.log('remove disabled')
+                $('#submitButton').removeAttr('disabled')
+            }
+        })
+    });
+    function matchRetypePassword(){
+        const password = $('#password').val();
+        const retypePassword = $('#retypePassword').val();
+        console.log(password+ '   :   '+ retypePassword)
+        if(password===retypePassword){
+            console.log('remove disabled')
+            $('#submitButton').removeAttr('disabled')
+        }
+    }
+</script>
+</html>

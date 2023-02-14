@@ -16,6 +16,22 @@
 		AND TU.login_id = TP.login_id
 		AND TU.login_id = #{loginId}
 	</select>
+
+	<select id="selectAllUserInfo" parameterType="com.kdatalab.bridge.user.dto.UserDto" resultType="com.kdatalab.bridge.user.dto.UserDto">
+		SELECT TU.login_id
+		, TU.password
+		, TU.name
+		, TU.e_mail
+		, SUM(TP.NOWPOINT) AS nowpoint
+		, TU.TEL
+		, TU.BIRTH_DT
+		, TU.GENDER_CD
+		FROM TB_USER TU
+		, TB_POINT TP
+		WHERE 1=1
+		AND TU.login_id = TP.login_id
+		AND TU.login_id = #{loginId}
+	</select>
 	
 </mapper>
 

@@ -21,5 +21,6 @@ public interface UserMapper {
      * @throws UsernameNotFoundException
      */
     UserDto selectUserInfo(UserDto params) throws UsernameNotFoundException;
+    UserDto selectAllUserInfo(UserDto params) throws UsernameNotFoundException;
 
 }
