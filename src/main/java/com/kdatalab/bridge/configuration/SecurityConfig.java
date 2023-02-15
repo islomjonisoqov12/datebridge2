@@ -45,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public final static String[] WHITE_LIST = {
             "/oauth2/**",
             "/user/login",
+//            "/user/leave-membership",
             "/user/logout",
             "/denied"
     };
@@ -110,9 +111,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.authorizeRequests()
                 //페이지권한
                 .antMatchers("/sub/**").hasRole("USER")
+                .antMatchers(HAS_ANY_AUTHENTICATION).fullyAuthenticated()
                 .antMatchers(WHITE_LIST).permitAll()
                 .antMatchers("/**").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
              .and()
                 .formLogin()
                 .successHandler(myLoginSuccessHandler())
@@ -125,8 +127,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
-             .and()
-                .exceptionHandling().accessDeniedPage("/denied")
+//             .and()
+//                .exceptionHandling().accessDeniedPage("/denied")
              .and()
                 .oauth2Login()
                 .successHandler(myLoginSuccessHandler())
