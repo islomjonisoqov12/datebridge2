@@ -6,6 +6,7 @@ import com.kdatalab.bridge.user.repository.UserRepository;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -51,13 +52,12 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDto params = new UserDto();
         params.setLoginId(username);
-        UserDto userInfo = (UserDto) userMapper.selectUserInfo(params);
-
+        UserDto userInfo = userMapper.selectAllUserInfo(params);
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
-        return new User(userInfo.getLoginId(), userInfo.getPassword(), authorities);
+        return new User(userInfo.getLoginId(), userInfo.getPassword(), true, true, true, !userInfo.getStatus().equals('Y'), authorities );
     }
 
     /**
@@ -103,6 +103,11 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    /**
+     * generate code with the given number length
+     * @param count code length
+     * @return generated code
+     */
     private String generateStringCode(int count) {
         String string = "QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVphYmNkZWZnaGlqa2xtbm9wcXJzdd4dd444b5c7665f0309cecc8901ce7c12175cebccb67f670d21c7d6dc9672425Oa05e1887ef3fb7";
         byte[] array = new byte[count];
@@ -114,7 +119,6 @@ public class UserService implements UserDetailsService {
             }
             generatedString.append(string.charAt(array[i]));
         }
-        System.out.println(generatedString);
         return generatedString.toString();
     }
 
@@ -126,6 +130,11 @@ public class UserService implements UserDetailsService {
         }
         model.addAttribute("success", true);
         return "mypage/myPage";
+    }
+
+    public boolean leaveTheMembership(String name) {
+        userRepository.updateStatus(name, 'Y', name);
+        return true;
     }
 }
 

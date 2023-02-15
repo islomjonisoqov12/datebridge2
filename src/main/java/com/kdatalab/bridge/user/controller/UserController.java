@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.PermitAll;
+
 import static com.kdatalab.bridge.user.service.UserService.GENERATED_CODES;
 
 /**
@@ -17,6 +19,7 @@ import static com.kdatalab.bridge.user.service.UserService.GENERATED_CODES;
  */
 
 @Controller
+@RequestMapping("/user")
 public class UserController {
 
    private final UserService userService;
@@ -30,7 +33,7 @@ public class UserController {
     *
     * @return
     */
-   @GetMapping("/user/login")
+   @GetMapping("/login")
    public String login(){
       return "/login/login";
    }
@@ -40,7 +43,7 @@ public class UserController {
     *
     * @return
     */
-   @GetMapping("/user/logout")
+   @GetMapping("/logout")
    public String logout(){
       return "/login/login";
    }
@@ -49,7 +52,7 @@ public class UserController {
     * get check password page
     * @return string page check password
     */
-   @GetMapping("/user/check-password")
+   @GetMapping("/check-password")
    public String getCheckPasswordPage(){
       return "user/checkPassword";
    }
@@ -60,7 +63,7 @@ public class UserController {
     * @param authentication get current logged in user
     * @return bad request or success
     */
-   @GetMapping("/user/check-password/{inputPassword}")
+   @GetMapping("/check-password/{inputPassword}")
    @ResponseBody
    @PreAuthorize(value = "isFullyAuthenticated()")
    public HttpEntity<String> checkPassword(@PathVariable String inputPassword, Authentication authentication){
@@ -74,7 +77,7 @@ public class UserController {
     * @param model for return params
     * @return page or redirect checkPassword page
     */
-   @GetMapping("/user/info-edit")
+   @GetMapping("/info-edit")
    @PreAuthorize(value = "isAuthenticated()")
    public String getEditPage(@RequestParam String code, Authentication authentication, Model model) {
       String existsCode = GENERATED_CODES.get(authentication.getName());
@@ -94,7 +97,7 @@ public class UserController {
     * @param model return params
     * @return next page
     */
-   @PostMapping("/user/info-edit")
+   @PostMapping("/info-edit")
    @PreAuthorize(value = "isAuthenticated()")
    public String saveEditPage(
            @RequestParam(required = false, defaultValue = "") String password,
@@ -103,6 +106,19 @@ public class UserController {
            Model model
    ){
       return userService.editUserInfo(password.trim(), email.trim(), authentication.getName(), model);
+   }
+
+
+   @PreAuthorize(value = "isFullyAuthenticated()")
+   @GetMapping("/leave-membership")
+   public String getLeaveTheMembershipPage(){
+      return "user/leaveMembership";
+   }
+   @GetMapping( "/leave-membership/post")
+   @ResponseBody
+   @PreAuthorize(value = "isFullyAuthenticated()")
+   public boolean leaveTheMembership(Authentication authentication){
+      return userService.leaveTheMembership(authentication.getName());
    }
 }
 
