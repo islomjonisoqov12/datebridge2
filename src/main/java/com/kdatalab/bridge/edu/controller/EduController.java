@@ -1,5 +1,6 @@
 package com.kdatalab.bridge.edu.controller;
 
+import com.kdatalab.bridge.base.BaseController;
 import com.kdatalab.bridge.edu.dto.EduAnsRsltDto;
 import com.kdatalab.bridge.edu.dto.EduDto;
 import com.kdatalab.bridge.edu.service.EduService;
@@ -26,7 +27,7 @@ import java.util.Map;
  * @since 2020.12.11
  */
 @Controller
-public class EduController {
+public class EduController extends BaseController {
 
     @Autowired
     private EduService eduService;

@@ -1,5 +1,6 @@
 package com.kdatalab.bridge.sub.controller;
 
+import com.kdatalab.bridge.base.BaseController;
 import com.kdatalab.bridge.edu.dto.EduDto;
 import com.kdatalab.bridge.edu.dto.EduQueDto;
 import com.kdatalab.bridge.edu.service.EduService;
@@ -26,7 +27,7 @@ import java.util.List;
  */
 
 @Controller
-public class SubController {
+public class SubController extends BaseController {
 
     @Autowired
     private EduService eduService;
