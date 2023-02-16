@@ -1,6 +1,7 @@
 package com.kdatalab.bridge.adminpage.projectlist.repository;
 
 import com.kdatalab.bridge.adminpage.projectlist.projection.Project;
+import com.kdatalab.bridge.adminpage.projectregistration.dto.TaskDto;
 import com.kdatalab.bridge.mypage.model.RootEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

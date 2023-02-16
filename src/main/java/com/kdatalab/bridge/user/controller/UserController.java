@@ -1,5 +1,6 @@
 package com.kdatalab.bridge.user.controller;
 
+import com.kdatalab.bridge.base.BaseController;
 import com.kdatalab.bridge.user.service.UserService;
 import org.springframework.http.HttpEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,7 +21,7 @@ import static com.kdatalab.bridge.user.service.UserService.GENERATED_CODES;
 
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController {
 
    private final UserService userService;
 

@@ -136,5 +136,9 @@ public class UserService implements UserDetailsService {
         userRepository.updateStatus(name, 'Y', name);
         return true;
     }
+
+    public List<UserDto> getUsersByQcChk(char n) {
+        return userMapper.selectUserByQcChk(n);
+    }
 }
 
