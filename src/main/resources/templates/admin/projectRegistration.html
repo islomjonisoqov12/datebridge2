@@ -3,20 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="/assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+    <script src="/assets/vendor/popper.js/popper.min.js"></script>
+    <script src="/assets/vendor/bootstrap/bootstrap.min.js"></script>
 </head>
 <body>
-<tr th:each="project: ${projectTypes}">
-  <td th:text="${project}" /><br/>
-</tr>
-
-<form method="post" th:object="*{project}" th:action="@{/admin/project-registration/saved-file}" enctype="multipart/form-data">
+<form style="margin: 5% 30% " method="post" th:object="${project}" th:action="@{/admin/project-registration}" enctype="multipart/form-data">
     <div class="form-group">
-        <input type="text" th:field="project." name="projectId" placeholder="Project Name"/>
-        <input th:if="${project.getProjectId()!=null}" name="point" th:value="${project.getPointPerImage()}" readonly>
-        <input th:if="${project.getProjectId()==null}" name="point" th:value="${project.getPointPerImage()}">
-        <input type="file" multiple name="files" class="form-control-file">
+        <input type="hidden" th:field="*{projectId}" th:value="${project.getProjectId()}" hidden readonly/>
+        <label style="margin-left: 20px" >Project Type</label>
+        <select name="projectType" th:if="${project.getProjectId()==null}" th:field="*{projectType}">
+            <option th:each="type: ${projectTypes}" th:value="${type}" th:text="${type}"></option>
+        </select>
+        <select name="projectType" th:if="${project.getProjectId()!=null}" disabled th:field="*{projectType}">
+            <option th:each="type: ${projectTypes}" th:value="${type}" th:text="${type}"></option>
+        </select><br><br>
+        <label style="margin-left: 20px" th:for="projectName">Project title</label>
+        <input th:field="*{projectName}" name="projectName" th:value="${project.getProjectName()}"><br><br>
+        <label style="margin-left: 20px" th:for="projectContent" >Project Content</label>
+        <input th:field="*{projectContent}" name="projectContent" th:value="${project.getProjectContent()}"><br><br>
+        <label style="margin-left: 20px" th:for="workDateInMinutes" >Project Time</label>
+        <input th:field="*{workDateInMinutes}" name="workDateInMinutes" th:value="${project.getWorkDateInMinutes()}"><br><br>
+
+        <label style="margin-left: 20px" th:for="projectStartDate" >Project Period</label>
+        <input th:field="*{projectStartDate}" name="projectStartDate" th:value="${project.getProjectStartDate()}">
+        <input th:field="*{projectEndDate}" name="projectEndDate" th:value="${project.getProjectEndDate()}"><br><br>
+
+        <label style="margin-left: 20px" th:for="pointPerImage" >Given Point</label>
+        <input th:field="*{pointPerImage}"  name="pointPerImage" th:if="${project.getProjectId() == null}" th:value="${project.getPointPerImage()}"><br><br>
+        <input th:field="*{pointPerImage}" name="pointPerImage" th:if="${project.getProjectId() != null}" readonly disabled th:value="${project.getPointPerImage()}"><br><br>
+
+        <label style="margin-left: 20px" th:for="taskUnit" >Task units</label>
+        <input th:field="*{taskUnit}" name="taskUnit" th:default="0" id="taskUnit" th:if="${project.getProjectId()==null}" th:value="${project.getTaskUnit()}"><br><br>
+        <input th:field="*{taskUnit}" name="taskUnit" th:default="0" th:if="${project.getProjectId()!=null}" readonly disabled th:value="${project.getTaskUnit()}"><br><br>
+        <label style="margin-left: 20px">File upload</label>
+        <input type="file" multiple th:field="*{files}" name="files" th:if="${project.getProjectId()==null}"><br><br>
+        <input type="file" multiple th:field="*{files}" name="files" th:if="${project.getProjectId()!=null}" readonly disabled th:value="${project.getTaskUnit()}"><br><br>
+
+<!--        <input type="file" multiple name="files" class="form-control-file">-->
     </div>
-    <button type="submit" class="btn btn-primary">Upload File</button>
+    <button style="margin: 1% 10%" type="submit">Next</button>
 </form>
 </body>
+<script>
+    $(document).ready(function () {
+        var taskUnit = $("#taskUnit").val();
+        if (taskUnit < 1) {
+            $("input[name='files']").attr("readonly", true);
+        } else {
+            $("input[name='files']").attr("readonly", false);
+        }
+    });
+</script>
 </html>

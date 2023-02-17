@@ -1,5 +1,6 @@
 package com.kdatalab.bridge.join.controller;
 
+import com.kdatalab.bridge.base.BaseController;
 import com.kdatalab.bridge.join.dto.JoinDto;
 import com.kdatalab.bridge.join.service.JoinUserService;
 import com.kdatalab.bridge.user.dto.UserDto;
@@ -21,7 +22,7 @@ import java.util.Map;
  */
 
 @Controller
-public class JoinController {
+public class JoinController extends BaseController {
 
     @Autowired
     private JoinUserService joinUserService;
