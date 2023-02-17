@@ -1,0 +1,34 @@
+<th:block
+        th:fragment="common(title)"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+    <div id="head" class="init">
+        <!-- #head_s1 -->
+        <th:block th:insert="fragments/layout/navigation::navigation" />
+        <!-- /#head_s1 -->
+
+        <!-- #head_s2 -->
+        <div id="head_s2" class="clearfix">
+            <div class="bg2"></div>
+            <div class="bg4"></div>
+            <!-- containers -->
+            <div class="containers">
+                <!-- #visual -->
+                <div id="visual">
+
+                    <!-- join -->
+                    <div class="login">
+                        <h1 th:text="${title}"></h1>
+                    </div>
+                    <!-- /join -->
+
+                </div>
+                <!-- //#visual -->
+            </div>
+            <!-- /containers -->
+        </div>
+        <!-- /#head_s2 -->
+
+    </div>
+</th:block>
