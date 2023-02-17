@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Leave The Membership</title>
+    <script src="/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="/assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+    <script src="/assets/vendor/popper.js/popper.min.js"></script>
+    <script src="/assets/vendor/bootstrap/bootstrap.min.js"></script>
+</head>
+<body>
+<div style="align-content: center; margin: 12% 30%">
+    <h2>Leave the membership</h2>
+  <p>
+    Please check the instructions before proceeding with withdrawal.<br>
+    If you unsubscribe from a member, your account and points will not be<br>
+    reusable and recoverable.
+  </p>
+  <input style="margin-top: 10%" type="checkbox" id="checkAgreement"> <span>I have checked the above and agree.</span>
+    <button style="margin: 5% 35%" id="leaveButton" th:text="'Leave'"></button>
+
+</div>
+</body>
+<script>
+    $(document).ready(
+        $('#leaveButton').on('click', function (){
+            if ($('#checkAgreement').is(':checked')) {
+                $.get('/user/leave-membership/post', function (data) {
+                    if(data){
+                        alert("Membership withdrawal was successfully done")
+                        window.location.replace("/user/login")
+                    }else {
+                        alert('error')
+                    }
+                });
+            }else {
+                alert("A check of consent is required.")
+            }
+        })
+    );
+</script>
+</html>

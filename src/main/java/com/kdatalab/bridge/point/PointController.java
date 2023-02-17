@@ -1,5 +1,6 @@
 package com.kdatalab.bridge.point;
 
+import com.kdatalab.bridge.base.BaseController;
 import com.kdatalab.bridge.point.model.PointHistory;
 import com.kdatalab.bridge.point.service.PointService;
 import com.kdatalab.bridge.user.dto.UserDto;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class PointController {
+public class PointController extends BaseController {
 
     private final UserService userService;
 

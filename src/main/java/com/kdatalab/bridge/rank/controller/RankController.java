@@ -1,5 +1,6 @@
 package com.kdatalab.bridge.rank.controller;
 
+import com.kdatalab.bridge.base.BaseController;
 import com.kdatalab.bridge.rank.dto.RankDto;
 import com.kdatalab.bridge.rank.service.RankService;
 import com.kdatalab.bridge.user.dto.UserDto;
@@ -23,7 +24,7 @@ import java.util.List;
  */
 
 @Controller
-public class RankController {
+public class RankController extends BaseController {
 
     @Autowired
     private RankService rankService;

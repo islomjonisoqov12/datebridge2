@@ -4,6 +4,8 @@ import com.kdatalab.bridge.user.dto.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.util.List;
+
 /**
  * 사용자 Mapper
  * @author Enclouds
@@ -21,5 +23,7 @@ public interface UserMapper {
      * @throws UsernameNotFoundException
      */
     UserDto selectUserInfo(UserDto params) throws UsernameNotFoundException;
+    UserDto selectAllUserInfo(UserDto params) throws UsernameNotFoundException;
 
+    List<UserDto> selectUserByQcChk(Character n);
 }
