@@ -3,13 +3,14 @@ package com.kdatalab.bridge.configuration;
 import com.kdatalab.bridge.auth.CustomOAuth2Provider;
 import com.kdatalab.bridge.auth.CustomOAuth2UserService;
 import com.kdatalab.bridge.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -37,13 +38,32 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserService userService;
 
-    @Autowired
-    private CustomOAuth2UserService customOAuth2UserService;
+    public final static String[] WHITE_LIST = {
+            "/oauth2/**",
+            "/user/login",
+//            "/user/leave-membership",
+            "/user/logout",
+            "/denied"
+    };
+    public final static String[] HAS_ANY_AUTHENTICATION = {
+            "/user/check-password/{inputPassword}",
+            "/user/check-password",
+            "/user/info-edit",
+            "/user/info-edit"
+
+    };
+
+    private final UserService userService;
+    private final CustomOAuth2UserService customOAuth2UserService;
+
+    public SecurityConfig(@Lazy UserService userService, CustomOAuth2UserService customOAuth2UserService) {
+        this.userService = userService;
+        this.customOAuth2UserService = customOAuth2UserService;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -93,9 +113,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.authorizeRequests()
                 //페이지권한
                 .antMatchers("/sub/**").hasRole("USER")
-                .antMatchers("/oauth2/**").permitAll()
+                .antMatchers(HAS_ANY_AUTHENTICATION).fullyAuthenticated()
+                .antMatchers(WHITE_LIST).permitAll()
                 .antMatchers("/**").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
              .and()
                 .formLogin()
                 .successHandler(myLoginSuccessHandler())
@@ -108,8 +129,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
-             .and()
-                .exceptionHandling().accessDeniedPage("/denied")
+//             .and()
+//                .exceptionHandling().accessDeniedPage("/denied")
              .and()
                 .oauth2Login()
                 .successHandler(myLoginSuccessHandler())

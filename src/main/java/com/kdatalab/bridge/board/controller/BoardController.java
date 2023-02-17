@@ -1,5 +1,6 @@
 package com.kdatalab.bridge.board.controller;
 
+import com.kdatalab.bridge.base.BaseController;
 import com.kdatalab.bridge.board.dto.BoardDto;
 import com.kdatalab.bridge.board.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-public class BoardController {
+public class BoardController extends BaseController {
 	
 	@Autowired
 	private BoardService boardService;

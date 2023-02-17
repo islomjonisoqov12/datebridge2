@@ -20,5 +20,6 @@ public class UserDto {
     private String genderCd;
     private Integer nowpoint;
     private String loginIp;
+    private Character status;
 
 }
