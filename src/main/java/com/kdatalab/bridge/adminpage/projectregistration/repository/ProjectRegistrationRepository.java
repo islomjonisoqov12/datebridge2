@@ -24,4 +24,7 @@ public interface ProjectRegistrationRepository extends JpaRepository<RootEntity,
 
     @Query(value = "select DTL_SEQ from TB_TASK_DTL where EDU_SEQ = ?1", nativeQuery = true)
     List<Integer> getTasksByProjectId(Integer projectId);
+
+    @Query(value = "{call update_tb_edu_mst(?1,?2,?3,?4,?5,?6,?7)}", nativeQuery = true)
+    void updateProject(Integer projectId, String projectName, String projectContent, Integer workDateInMinutes, LocalDate projectStartDate, LocalDate projectEndDate, String userId);
 }
