@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<tr th:each="project: ${projectTypes}">
+  <td th:text="${project}" /><br/>
+</tr>
+
+<form method="post" th:object="*{project}" th:action="@{/admin/project-registration/saved-file}" enctype="multipart/form-data">
+    <div class="form-group">
+        <input type="text" th:field="project." name="projectId" placeholder="Project Name"/>
+        <input th:if="${project.getProjectId()!=null}" name="point" th:value="${project.getPointPerImage()}" readonly>
+        <input th:if="${project.getProjectId()==null}" name="point" th:value="${project.getPointPerImage()}">
+        <input type="file" multiple name="files" class="form-control-file">
+    </div>
+    <button type="submit" class="btn btn-primary">Upload File</button>
+</form>
+</body>
+</html>
