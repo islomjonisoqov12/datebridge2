@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -28,25 +27,26 @@ public class ProjectRegistrationService {
         projectRegistrationRepository.saveTbTaskDtl(projectId, regUser, taskUnit);
     }
 
-    public void createProject(ProjectRegistrationDto dto) throws IOException {
-        if(dto.getProjectId() == null) {
-            // create project
-            projectRegistrationRepository.saveProject(dto.getProjectType(), dto.getProjectName(), dto.getProjectContent(), dto.getWorkDateInMinutes(), dto.getProjectStartDate(),
-                    dto.getProjectEndDate(), dto.getPointPerImage(), dto.getTaskUnit());
-            registerTask(dto.getProjectId(), "yanghee", dto.getTaskUnit());
-            // save images db and s3
-            attachFileToTask(dto.getProjectId(), "yanghee", dto.getFiles());
+    public Integer createProject(ProjectRegistrationDto dto) throws IOException {
 
+        String userId = "yanghee";//TODO userId get from session
+        Integer projectId;
+        if (dto.getProjectId() == null) {
+            projectId = projectRegistrationRepository.saveProject(dto.getProjectType(), dto.getProjectName(), dto.getProjectContent(), dto.getWorkDateInMinutes(),
+                    dto.getProjectStartDate(), dto.getProjectEndDate(), dto.getPointPerImage(), dto.getTaskUnit(), userId);
+            //generate task
+            registerTask(projectId, userId, dto.getTaskUnit());
+            //save image to aws s3 and image data to tb_att table
+            attachFileToTask(projectId, dto.getProjectName(), dto.getTaskUnit(), userId, dto.getFiles());
         } else {
-            //projectRegistrationRepository.updateTbProject(dto);
+            projectId = dto.getProjectId();
         }
+        return projectId;
     }
 
-    public void attachFileToTask(Integer projectId, String regUser, List<MultipartFile> files) throws IOException {
+    public void attachFileToTask(Integer projectId,String projectName, Integer taskUnit, String regUser, List<MultipartFile> files) throws IOException {
         // list of tasks
-        String projectName = "project3";
-        List<Integer> taskIds = Arrays.asList(4,5,6);//,7,8);
-        int taskUnit = 3;
+        List<Integer> taskIds = projectRegistrationRepository.getTasksByProjectId(projectId);// Arrays.asList(4,5,6);//,7,8);
         int length = files.size();//17
         int taskCount = length / taskUnit;//5
         int remainder = length % taskUnit; //2

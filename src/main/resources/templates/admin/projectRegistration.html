@@ -24,19 +24,19 @@
         <label style="margin-left: 20px" th:for="projectContent" >Project Content</label>
         <input th:field="*{projectContent}" name="projectContent" th:value="${project.getProjectContent()}"><br><br>
         <label style="margin-left: 20px" th:for="workDateInMinutes" >Project Time</label>
-        <input th:field="*{workDateInMinutes}" name="workDateInMinutes" th:value="${project.getWorkDateInMinutes()}"><br><br>
+        <input th:field="*{workDateInMinutes}" type="number" name="workDateInMinutes" th:value="${project.getWorkDateInMinutes()}"><br><br>
 
         <label style="margin-left: 20px" th:for="projectStartDate" >Project Period</label>
-        <input th:field="*{projectStartDate}" name="projectStartDate" th:value="${project.getProjectStartDate()}">
-        <input th:field="*{projectEndDate}" name="projectEndDate" th:value="${project.getProjectEndDate()}"><br><br>
+        <input th:field="*{projectStartDate}" type="date" name="projectStartDate" th:value="${project.getProjectStartDate()}">
+        <input th:field="*{projectEndDate}" type="date" name="projectEndDate" th:value="${project.getProjectEndDate()}"><br><br>
 
         <label style="margin-left: 20px" th:for="pointPerImage" >Given Point</label>
-        <input th:field="*{pointPerImage}"  name="pointPerImage" th:if="${project.getProjectId() == null}" th:value="${project.getPointPerImage()}"><br><br>
-        <input th:field="*{pointPerImage}" name="pointPerImage" th:if="${project.getProjectId() != null}" readonly disabled th:value="${project.getPointPerImage()}"><br><br>
+        <input th:field="*{pointPerImage}"  type="number"  name="pointPerImage" th:if="${project.getProjectId() == null}" th:value="${project.getPointPerImage()}"><br><br>
+        <input th:field="*{pointPerImage}" type="number" name="pointPerImage" th:if="${project.getProjectId() != null}" readonly disabled th:value="${project.getPointPerImage()}"><br><br>
 
         <label style="margin-left: 20px" th:for="taskUnit" >Task units</label>
-        <input th:field="*{taskUnit}" name="taskUnit" th:default="0" id="taskUnit" th:if="${project.getProjectId()==null}" th:value="${project.getTaskUnit()}"><br><br>
-        <input th:field="*{taskUnit}" name="taskUnit" th:default="0" th:if="${project.getProjectId()!=null}" readonly disabled th:value="${project.getTaskUnit()}"><br><br>
+        <input th:field="*{taskUnit}" type="number" name="taskUnit" th:default="0" id="taskUnit" th:if="${project.getProjectId()==null}" th:value="${project.getTaskUnit()}"><br><br>
+        <input th:field="*{taskUnit}" type="number" name="taskUnit" th:default="0" th:if="${project.getProjectId()!=null}" readonly disabled th:value="${project.getTaskUnit()}"><br><br>
         <label style="margin-left: 20px">File upload</label>
         <input type="file" multiple th:field="*{files}" name="files" th:if="${project.getProjectId()==null}"><br><br>
         <input type="file" multiple th:field="*{files}" name="files" th:if="${project.getProjectId()!=null}" readonly disabled th:value="${project.getTaskUnit()}"><br><br>

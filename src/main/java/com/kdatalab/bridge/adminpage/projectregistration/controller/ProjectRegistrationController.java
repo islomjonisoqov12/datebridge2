@@ -45,19 +45,9 @@ public class ProjectRegistrationController {
 
     @PostMapping
     public String projectRegistration(ProjectRegistrationDto dto) throws IOException {
-        projectRegistrationService.createProject(dto);
-        return "admin/projectRegistration";
+        Integer projectId = projectRegistrationService.createProject(dto);
+        return "redirect:/admin/project-registration/step-2/"+projectId;
     }
-
-
-//    @PostMapping("/saved-file")
-//    public String savedFile(@RequestParam(value = "projectId") Integer projectId,
-//                            @RequestParam(value = "files") MultipartFile[] file) throws IOException {
-//
-//        String regUser = "yanghee";
-//        projectRegistrationService.attachFileToTask(projectId, regUser, file);
-//        return "admin/projectRegistration";
-//    }
 
     @GetMapping("/step-2/{projectId}")
     @PreAuthorize("isFullyAuthenticated()")
