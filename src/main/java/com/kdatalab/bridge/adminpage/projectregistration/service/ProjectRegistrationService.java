@@ -39,7 +39,10 @@ public class ProjectRegistrationService {
             //save image to aws s3 and image data to tb_att table
             attachFileToTask(projectId, dto.getProjectName(), dto.getTaskUnit(), userId, dto.getFiles());
         } else {
+            //update project
             projectId = dto.getProjectId();
+            projectRegistrationRepository.updateProject(projectId, dto.getProjectName(), dto.getProjectContent(), dto.getWorkDateInMinutes(),
+                    dto.getProjectStartDate(), dto.getProjectEndDate(), userId);
         }
         return projectId;
     }
