@@ -19,8 +19,8 @@ public interface ProjectRegistrationRepository extends JpaRepository<RootEntity,
     Integer saveProject(String projectType, String projectName, String projectContent, Integer workDateInMinutes, LocalDate projectStartDate,
                         LocalDate projectEndDate, Integer pointPerImage, Integer taskUnit, String regUser);
 
-    @Query(value = "{call save_tb_att(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10)}", nativeQuery = true)
-    void saveTbAtt(Integer projectId, Integer taskId, String fileName, String filePath, Long fileSize, String fileExt, String regUser, String regDate, String modUser, String modDate);
+    @Query(value = "{call save_tb_att(?1,?2,?3,?4,?5,?6,?7)}", nativeQuery = true)
+    void saveTbAtt(Integer projectId, Integer taskId, String fileName, String filePath, Long fileSize, String fileExt, String regUser);
 
     @Query(value = "select DTL_SEQ from TB_TASK_DTL where EDU_SEQ = ?1", nativeQuery = true)
     List<Integer> getTasksByProjectId(Integer projectId);
