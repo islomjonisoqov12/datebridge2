@@ -6,36 +6,55 @@
 </head>
 <body>
 <div>
-    <table>
-        <thead>
+    <form action="/project-registration/step-2" method="post">
+        <table>
+            <thead>
             <tr>
-                <th th:value="'NO'">NO</th>
-                <th th:value="'태스크명'">Task name</th>
-                <th th:value="'작업 유저 할당'">Assign task user</th>
-                <th th:value="'검수자 할당(관리자)'">Assign Checker (Administrator)</th>
+                <th th:text="'NO'">NO</th>
+                <th th:text="'태스크명'">Task name</th>
+                <th th:if="${edited==true}">Process progress</th>
+                <th th:text="'작업 유저 할당'">Assign task user</th>
+                <th th:text="'검수자 할당(관리자)'">Assign Checker (Administrator)</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             <tr th:if="${tasks.isEmpty()}">
                 <td colspan="2">Something Error</td>
             </tr>
             <tr th:each="task, number : *{tasks}">
                 <td><span th:text="${number.count}"></span></td>
                 <td><span th:text="${task.taskName}"></span></td>
+                <td><span th:text="${task.getTaskDtlProg()}"></span></td>
                 <td>
                     <select name="users" th:field="*{users}">
-                        <option  th:text="${task.getLoginId()==null? 'unassigned': task.getTaskName()}" th:value="${task.getLoginId()}" selected></option>
-                        <option th:each="user: ${users}" th:value="${user.getLoginId()}" th:text="${user.getName()}"></option>
+                        <option th:if="${users.isEmpty()==false}"
+                                th:text="${task.getLoginId()==null? 'unassigned': task.getTaskName()}"
+                                th:value="${task.getLoginId()}" selected></option>
+                        <option th:if="${users.isEmpty()==false}" th:each="user: ${users}"
+                                th:value="${user.getLoginId()}" th:text="${user.getName()}"></option>
                     </select>
                 </td>
                 <td>
                     <select name="admin" th:field="*{admins}">
-                        <option th:each="admin: ${admins}" th:value="${admin.getLoginId()}" th:text="${admin.getName()}"></option>
+                        <option th:if="${admins.isEmpty()==false}"
+                                th:text="${task.getQcId()==null? 'unassigned': task.getChecker()}"
+                                th:value="${task.getQcId()}" selected></option>
+                        <option th:if="${admins.isEmpty()==false}" th:each="admin: ${admins}"
+                                th:value="${admin.getLoginId()}" th:text="${admin.getName()}"></option>
                     </select>
                 </td>
             </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+        <button type="submit">Save</button>
+        <button onclick="">Cancel</button>
+    </form>
 </div>
 </body>
+<script>
+    function cancel(){
+        alert("Do you want to cancel the operation?\nYou cannot recover after cancellation..\n")
+        window.location.replace("project-list");
+    }
+</script>
 </html>
