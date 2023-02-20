@@ -27,4 +27,7 @@ public interface ProjectRegistrationRepository extends JpaRepository<RootEntity,
 
     @Query(value = "{call update_tb_edu_mst(?1,?2,?3,?4,?5,?6,?7)}", nativeQuery = true)
     void updateProject(Integer projectId, String projectName, String projectContent, Integer workDateInMinutes, LocalDate projectStartDate, LocalDate projectEndDate, String userId);
+
+    @Query(value = "select count(*) from TB_EDU_MST where lower(SUBJECT) = ?1", nativeQuery = true)
+    int existProjectName(String projectName);
 }

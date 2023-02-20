@@ -62,4 +62,15 @@ public class ProjectRegistrationController {
         return "adminpage/projectRegistration2";
     }
 
+    /** to provide unique project name validation
+     *
+     * @param projectName
+     * @return if exist already projectName return true, else return false
+     */
+    @GetMapping("/existProjectName")
+    @ResponseBody
+    public boolean existProjectName(@RequestParam String projectName) {
+        return projectRegistrationService.existProjectName(projectName);
+    }
+
 }
