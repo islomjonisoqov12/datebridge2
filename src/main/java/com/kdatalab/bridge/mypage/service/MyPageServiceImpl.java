@@ -16,8 +16,11 @@ public class MyPageServiceImpl implements MyPageService {
     private final MyPageRepository myPageRepository;
 
     @Override
-    public List<Project> getProjectList(String userId) {
-        List<Project> projectListByUser = myPageRepository.getProjectListByUser(userId);
+    public List<Project> getProjectList(String userId, String projectStatus) throws Exception {
+        if (projectStatus == null || projectStatus.equals("")) {
+            projectStatus = "INPROGRESS";
+        }
+        List<Project> projectListByUser = myPageRepository.getProjectListByUser(userId, projectStatus);
         return projectListByUser;
     }
 
