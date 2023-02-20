@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:insert="fragments/layout/head::head(${'포인트 정보'})"/>
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ #head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
+<th:block th:insert="fragments/homes/common::common(${'포인트 정보'})"/>
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ /#head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
+<hr class="dpn"/>
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ /#head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
+<div class="container">
+    <div class="row pt-5 pb-5">
+        <div class="col-3">
+            <th:block th:insert="fragments/myPageNavigation::myPageNavi('pointHistory')" />
+        </div>
+        <div class="col-9">
+            <div class="mb-5">
+                <h2 class="h2 font-weight-bold g-font-size-56 text-dark">포인트 정보</h2>
+                <p class="text-muted" th:text="${#authentication.getName() + ' 님의 포인트는 '+ 1000 +' pt 입니다'}"></p>
+            </div>
+            <ul class="nav nav-tabs g-mb-30">
+                <li class="nav-item">
+                    <a class="nav-link active px-5 py-2" href="#">포인트 적립 내역</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-5 py-2 disabled" href="#">포인트 사용 내역</a>
+                </li>
+            </ul>
+            <div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th class="border-top-0" scope="col">NO</th>
+                        <th class="border-top-0" scope="col">작업종류</th>
+                        <th class="border-top-0" scope="col">작업명</th>
+                        <th class="border-top-0" scope="col">적립일자</th>
+                        <th class="border-top-0" scope="col">적립포인트</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="list, index : *{pointHistory}">
+                        <td th:text="${index.count}"></td>
+                        <td th:if="${list.getProjectType() == 'survey'}">조사</td>
+                        <td th:if="${list.getProjectType() == 'text'}">텍스트</td>
+                        <td th:if="${list.getProjectType() == 'voice'}">보이스</td>
+                        <td th:if="${list.getProjectType() == 'image'}">이미지</td>
+                        <td th:if="${list.getProjectType() == 'project'}">프로젝트</td>
+                        <td th:text="${list.projectName}"></td>
+                        <td th:text="${list.getGivenDate()}"></td>
+                        <td th:text="${'+' + list.getPoint() + 'pt'}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -4,6 +4,7 @@ import lombok.Data;
 
 /**
  * 로그인 정보
+ *
  * @author Enclouds
  * @since 2020.12.11
  */
