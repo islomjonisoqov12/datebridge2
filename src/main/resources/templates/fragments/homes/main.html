@@ -1,0 +1,37 @@
+<th:block
+        th:fragment="main"
+        xmlns:th="http://www.thymeleaf.org"
+>
+    <div id="head" class="init">
+        <!-- #head_s1 -->
+        <th:block th:insert="fragments/layout/navigation::navigation" />
+        <!-- /#head_s1 -->
+
+        <!-- #head_s2 -->
+        <div id="head_s2" class="clearfix">
+            <div class="bg1"></div>
+            <!-- containers -->
+            <div class="containers">
+                <!-- #visual -->
+                <div id="visual">
+                    <div class="ct1"><span class="ct1t1">AI 학습용 클라우드</span> <span class="ct1t2">소싱 플랫폼!</span></div>
+                    <div class="search1">
+                        <form action="sub">
+                            <fieldset>
+                                <legend class="blind"><strong>통합검색</strong></legend>
+                                <input type="text" name="schSubject" id="schSubject" value="" placeholder=" 작업명으로 검색"
+                                       title="검색어"/>
+                                <button type="submit"><i class="ic1"></i><span class="blind">검색</span></button>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="ct2">생산된 데이터는<br/>AI 학습데이터로 활용되어<br/><span class="ct2t1">인공지능의 성능을 향상</span>시킵니다</div>
+                </div>
+                <!-- //#visual -->
+            </div>
+            <!-- /containers -->
+        </div>
+        <!-- /#head_s2 -->
+
+    </div>
+</th:block>

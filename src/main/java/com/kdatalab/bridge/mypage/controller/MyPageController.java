@@ -1,5 +1,6 @@
 package com.kdatalab.bridge.mypage.controller;
 
+import com.kdatalab.bridge.base.BaseController;
 import com.kdatalab.bridge.mypage.model.Project;
 import com.kdatalab.bridge.mypage.model.ProjectDetail;
 import com.kdatalab.bridge.mypage.service.MyPageService;
@@ -21,7 +22,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-public class MyPageController {
+public class MyPageController extends BaseController {
 
     private final MyPageService myPageService;
 
