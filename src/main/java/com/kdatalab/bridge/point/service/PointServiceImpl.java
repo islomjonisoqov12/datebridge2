@@ -60,4 +60,14 @@ public class PointServiceImpl implements PointService {
     public List<PointHistory> getPointHistory(String loginId) {
         return pointRepository.findByLoginId(loginId);
     }
+
+    /**
+     *
+     * @param loginId
+     * @return total point by user id
+     */
+    @Override
+    public Integer getTotalPointByLoginId(String loginId) {
+        return pointRepository.getTotalPointByLoginId(loginId);
+    }
 }
