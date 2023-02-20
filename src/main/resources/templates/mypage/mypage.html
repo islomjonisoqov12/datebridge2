@@ -1,6 +1,38 @@
 <!doctype html>
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
-<th:block th:insert="fragments/layout/head::head(${'마이페이지'})"/>
+<head>
+    <th:block th:insert="fragments/layout/head::head(${'마이페이지'})"/>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+        .my-point-item {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            border: 2px solid transparent;
+            font-weight: 600;
+        }
+
+        .my-point-item.total {
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+
+        .my-point-item.finished {
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+
+        .my-point-item.rejected {
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+
+        .my-point-item.ranked {
+            background-color: rgba(108, 117, 125, 0.1);
+        }
+    </style>
+</head>
 <body>
 <!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ #head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
 <th:block th:insert="fragments/homes/common::common(${'마이페이지'})"/>
@@ -10,12 +42,76 @@
 <div class="container">
     <div class="row pt-5">
         <div class="col-3">
-
+            <div class="list-group list-group-flush">
+                <a href="/mypage" class="list-group-item g-font-size-35 text-primary font-weight-bold">마이페이지</a>
+                <a href="/" class="list-group-item g-font-size-35">포인트 정보</a>
+                <a href="/" class="list-group-item g-font-size-35">회원정보수정</a>
+                <a href="/" class="list-group-item g-font-size-35">회원탈퇴</a>
+            </div>
         </div>
         <div class="col-9">
-            <div>
-                <h2 class="h2 font-weight-bold g-font-size-48 text-dark">마이페이지</h2>
+            <div class="mb-5">
+                <h2 class="h2 font-weight-bold g-font-size-56 text-dark">마이페이지</h2>
                 <p class="text-muted" th:text="${#authentication.getName() + ' 님의 페이지'}"></p>
+            </div>
+            <div class="row g-mb-100">
+                <div class="col-3 flex justify-content-center">
+                    <div class="my-point-item total text-primary border-primary">
+                        <span class="text-uppercase">point</span>
+                        <span th:text="${totalPoint}"></span>
+                    </div>
+                </div>
+                <div class="col-3 flex justify-content-center">
+                    <div class="my-point-item finished text-success border-success">
+                        <span class="text-uppercase">완료 작업</span>
+                        <span th:text="${completedProjectCnt + '건'}"></span>
+                    </div>
+                </div>
+                <div class="col-3 flex justify-content-center">
+                    <div class="my-point-item rejected text-danger border-danger">
+                        <span class="text-uppercase">반려된 작업</span>
+                        <span th:text="${rejectedProjectCnt + '건'}"></span>
+                    </div>
+                </div>
+                <div class="col-3 flex justify-content-center">
+                    <div class="my-point-item ranked text-secondary border-secondary">
+                        <span class="text-uppercase">주간 랭킹</span>
+                        <span> - </span>
+                    </div>
+                </div>
+            </div>
+            <ul class="nav nav-tabs g-mb-100">
+                <li class="nav-item">
+                    <a class="nav-link active px-5 py-2" aria-current="page" href="#">작업중</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-5 py-2" href="#">승인 완료</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-5 py-2" href="#">반려</a>
+                </li>
+            </ul>
+            <div class="bList1 clearfix"><!-- 완료된 work 에는 class="s1" 적용 -->
+                <ul>
+                    <li th:each="list:${projects}">
+                        <a class="d-inline-block" th:href="@{/sub/subDtl(eduSeq=${list.eduSeq})}">
+                            <i class="c1" th:classappend="${list.eduType} == 'survey' ? 'ic1' :
+                                                (${list.eduType} == 'voice' ? 'ic2' :
+                                                (${list.eduType} == 'text' ? 'ic3' :
+                                                (${list.eduType} == 'image' ? 'ic4' : '')) ) "></i>
+                            <span class="t1" th:text="${list.eduType} == 'survey' ? '설문조사' :
+                                                (${list.eduType} == 'voice' ? 'VOICE' :
+                                                (${list.eduType} == 'text' ? 'TEXT' :
+                                                (${list.eduType} == 'image' ? 'IMAGE' : '')) )"></span>
+                            <strong class="t2" th:text="${list.subject}"></strong>
+                            <span class="t3" th:text="${list.eduActiveYn} == 'Y' ? '진행중' : '완료'"></span>
+                            <span class="t4" th:text="${#numbers.formatInteger(list.point, 0, 'COMMA')}">
+                                <i></i></span>
+                        </a>
+                    </li>
+                    </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

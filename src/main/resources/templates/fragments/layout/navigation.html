@@ -18,7 +18,7 @@
                     <li sec:authorize="isAuthenticated">
                         <a>
                             <i class="ic_coin1"></i>
-<!--                            <span th:text="${#numbers.formatInteger(userInfo.nowpoint, 0, 'COMMA')}">320,000</span>-->
+                            <span th:text="${#numbers.formatInteger(userInfo.nowpoint, 0, 'COMMA')}">320,000</span>
                         </a>
                     </li>
                     <li sec:authorize="isAuthenticated()"><a href="/mypage">마이페이지</a></li>
