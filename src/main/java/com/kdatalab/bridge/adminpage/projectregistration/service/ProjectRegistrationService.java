@@ -115,4 +115,9 @@ public class ProjectRegistrationService {
     public List<TaskDto> getProjectWithTasks(Long projectId) {
         return mapper.selectTasksByProjectId(projectId);
     }
+
+    public boolean existProjectName(String projectName) {
+        int cnt = projectRegistrationRepository.existProjectName(projectName.toLowerCase());
+        return cnt > 0;
+    }
 }
