@@ -93,22 +93,22 @@
             </ul>
             <div class="bList1 clearfix"><!-- 완료된 work 에는 class="s1" 적용 -->
                 <ul>
-                    <li th:each="list:${projects}">
-                        <a class="d-inline-block" th:href="@{/sub/subDtl(eduSeq=${list.eduSeq})}">
-                            <i class="c1" th:classappend="${list.eduType} == 'survey' ? 'ic1' :
-                                                (${list.eduType} == 'voice' ? 'ic2' :
-                                                (${list.eduType} == 'text' ? 'ic3' :
-                                                (${list.eduType} == 'image' ? 'ic4' : '')) ) "></i>
-                            <span class="t1" th:text="${list.eduType} == 'survey' ? '설문조사' :
-                                                (${list.eduType} == 'voice' ? 'VOICE' :
-                                                (${list.eduType} == 'text' ? 'TEXT' :
-                                                (${list.eduType} == 'image' ? 'IMAGE' : '')) )"></span>
-                            <strong class="t2" th:text="${list.subject}"></strong>
-                            <span class="t3" th:text="${list.eduActiveYn} == 'Y' ? '진행중' : '완료'"></span>
-                            <span class="t4" th:text="${#numbers.formatInteger(list.point, 0, 'COMMA')}">
-                                <i></i></span>
-                        </a>
-                    </li>
+<!--                    <li th:each="list:${projects}">-->
+<!--                        <a class="d-inline-block" th:href="@{/sub/subDtl(eduSeq=${list.eduSeq})}">-->
+<!--                            <i class="c1" th:classappend="${list.eduType} == 'survey' ? 'ic1' :-->
+<!--                                                (${list.eduType} == 'voice' ? 'ic2' :-->
+<!--                                                (${list.eduType} == 'text' ? 'ic3' :-->
+<!--                                                (${list.eduType} == 'image' ? 'ic4' : '')) ) "></i>-->
+<!--                            <span class="t1" th:text="${list.eduType} == 'survey' ? '설문조사' :-->
+<!--                                                (${list.eduType} == 'voice' ? 'VOICE' :-->
+<!--                                                (${list.eduType} == 'text' ? 'TEXT' :-->
+<!--                                                (${list.eduType} == 'image' ? 'IMAGE' : '')) )"></span>-->
+<!--                            <strong class="t2" th:text="${list.subject}"></strong>-->
+<!--                            <span class="t3" th:text="${list.eduActiveYn} == 'Y' ? '진행중' : '완료'"></span>-->
+<!--                            <span class="t4" th:text="${#numbers.formatInteger(list.point, 0, 'COMMA')}">-->
+<!--                                <i></i></span>-->
+<!--                        </a>-->
+<!--                    </li>-->
                     </a>
                     </li>
                 </ul>

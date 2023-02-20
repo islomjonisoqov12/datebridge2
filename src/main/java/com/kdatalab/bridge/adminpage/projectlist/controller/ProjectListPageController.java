@@ -3,6 +3,7 @@ package com.kdatalab.bridge.adminpage.projectlist.controller;
 import com.kdatalab.bridge.adminpage.projectlist.projection.Project;
 import com.kdatalab.bridge.adminpage.projectlist.service.ProjectListService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,7 @@ public class ProjectListPageController {
      * @return List of projects by user
      */
     @RequestMapping (value = "/project-list", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String projectList(@RequestParam(value = "type", required = false) String type,
                               // type = '1' =>only need check project, type<>'1'=> all project
                               @RequestParam(value = "projectType", required = false) String projectType,
@@ -46,6 +48,7 @@ public class ProjectListPageController {
      */
     @ResponseBody
     @RequestMapping (value = "/project-types", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<String> projectTypes() {
         List<String> projectTypes = projectListService.getProjectTypes();
         return projectTypes;

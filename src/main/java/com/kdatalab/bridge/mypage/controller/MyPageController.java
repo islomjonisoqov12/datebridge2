@@ -15,10 +15,10 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,8 +29,8 @@ public class MyPageController extends BaseController {
     private final UserService userService;
 
     @RequestMapping(value = "/mypage", method = RequestMethod.GET)
-    @PreAuthorize(value = "isAuthenticated()")
-    public ModelAndView myPage() throws Exception {
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ModelAndView myPage(@RequestParam(value = "status", required = false) String projectStatus) throws Exception {
         ModelAndView mv = new ModelAndView("/mypage/mypage.html");
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -45,8 +45,8 @@ public class MyPageController extends BaseController {
             DefaultOAuth2User auth2User = (DefaultOAuth2User) principal;
             userInfo = userService.getUserInfo(auth2User.getName());
         }
-
-        List<Project> projects = myPageService.getProjectList(userInfo.getLoginId());
+        userInfo.setLoginId("yanghee"); //TODO remove after test
+        List<Project> projects = myPageService.getProjectList(userInfo.getLoginId(), projectStatus);
         ProjectDetail projectDetail = myPageService.getProjectDetail(userInfo.getLoginId());
 
         mv.addObject("projects", projects);
