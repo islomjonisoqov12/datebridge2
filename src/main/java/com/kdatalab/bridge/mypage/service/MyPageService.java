@@ -4,9 +4,9 @@ import com.kdatalab.bridge.mypage.model.Project;
 import com.kdatalab.bridge.mypage.model.ProjectDetail;
 
 import java.util.List;
-import java.util.Map;
+
 
 public interface MyPageService {
-    List<Project> getProjectList(String userId);
+    List<Project> getProjectList(String userId, String projectStatus) throws Exception;
     ProjectDetail getProjectDetail(String loginId);
 }
