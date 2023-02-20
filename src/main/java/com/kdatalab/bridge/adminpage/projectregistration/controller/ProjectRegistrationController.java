@@ -46,8 +46,11 @@ public class ProjectRegistrationController {
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String projectRegistration(ProjectRegistrationDto dto) throws IOException {
+        if(dto.getTaskUnit() > dto.getFiles().size()) {
+            return "redirect:/admin/project-registration/error";
+        }
         Integer projectId = projectRegistrationService.createProject(dto);
-        return "redirect:/admin/project-registration/step-2/"+projectId;
+        return "redirect:/admin/project-registration/step-2/"+projectId+(dto.getProjectId()==null?"":"?edit=true");
     }
 
     @GetMapping("/step-2/{projectId}")
