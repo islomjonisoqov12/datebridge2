@@ -29,7 +29,7 @@ public class MyPageController {
 
     @RequestMapping(value = "/mypage", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ModelAndView myPage(@RequestParam("status") String projectStatus) throws Exception {
+    public ModelAndView myPage(@RequestParam(value = "status", required = false) String projectStatus) throws Exception {
         ModelAndView mv = new ModelAndView("/mypage/mypage.html");
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
