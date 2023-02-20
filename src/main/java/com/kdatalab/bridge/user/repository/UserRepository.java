@@ -19,4 +19,7 @@ public interface UserRepository extends JpaRepository<RootEntity, Integer> {
     @Transactional
     @Query(value = "update TB_USER set STATUS = :status, MOD_DT = now(), MOD_USER = :user where LOGIN_ID = :name", nativeQuery = true)
     void updateStatus(String name, char status, String user);
+
+    @Query(value = "select QC_CHK from TB_USER where LOGIN_ID = :username", nativeQuery = true)
+    String getQcChk(String username);
 }

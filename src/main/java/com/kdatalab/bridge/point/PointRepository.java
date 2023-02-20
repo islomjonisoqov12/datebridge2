@@ -19,4 +19,9 @@ public interface PointRepository extends JpaRepository<RootEntity, Long> {
                     "where e.LOGIN_ID = :loginId " +
                       "and e.COMPTPOINT > 0", nativeQuery = true)
     List<PointHistory> findByLoginId(String loginId);
+
+    @Query(value = "select sum(e.COMPTPOINT) " +
+                     "from TB_EDU_RESULT e " +
+                    "where e.LOGIN_ID = :loginId ", nativeQuery = true)
+    int getTotalPointByLoginId(String loginId);
 }
