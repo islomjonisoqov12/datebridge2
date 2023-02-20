@@ -7,7 +7,6 @@ import com.kdatalab.bridge.adminpage.projectregistration.service.ProjectRegistra
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import com.kdatalab.bridge.adminpage.projectregistration.dto.TaskDto;
 import com.kdatalab.bridge.user.dto.UserDto;
 import com.kdatalab.bridge.user.mapper.UserMapper;
@@ -36,6 +35,7 @@ public class ProjectRegistrationController {
 
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String projectRegistration(Model model) {
         List<String> projectTypes = projectListService.getProjectTypes();
         model.addAttribute("projectTypes", projectTypes);
@@ -44,6 +44,7 @@ public class ProjectRegistrationController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String projectRegistration(ProjectRegistrationDto dto) throws IOException {
         Integer projectId = projectRegistrationService.createProject(dto);
         return "redirect:/admin/project-registration/step-2/"+projectId;
