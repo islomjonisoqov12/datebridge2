@@ -6,6 +6,7 @@ import com.kdatalab.bridge.mypage.service.MyPageService;
 import com.kdatalab.bridge.user.dto.UserDto;
 import com.kdatalab.bridge.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,6 +28,7 @@ public class MyPageController {
     private final UserService userService;
 
     @RequestMapping(value = "/mypage", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ModelAndView myPage(@RequestParam("status") String projectStatus) throws Exception {
         ModelAndView mv = new ModelAndView("/mypage/mypage.html");
 
