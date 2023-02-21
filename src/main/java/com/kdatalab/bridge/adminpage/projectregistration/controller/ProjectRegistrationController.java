@@ -99,4 +99,11 @@ public class ProjectRegistrationController extends BaseController {
         return projectRegistrationService.existProjectName(projectName);
     }
 
+    @GetMapping("/delete/{projectId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ResponseBody
+    public String deleteProject(@PathVariable Integer projectId) {
+        projectRegistrationService.deleteProject(projectId);
+        return "redirect:/admin/project-list";
+    }
 }
