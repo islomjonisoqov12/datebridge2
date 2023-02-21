@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="/assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+    <script src="/assets/vendor/popper.js/popper.min.js"></script>
+    <script src="/assets/vendor/bootstrap/bootstrap.min.js"></script>
+</head>
+<body>
+<form style="margin: 5% 30% " method="post" th:object="${project}" th:action="@{/admin/project-registration}" enctype="multipart/form-data">
+    <div class="form-group">
+        <input type="hidden" th:field="*{projectId}" th:value="${project.getProjectId()}" hidden readonly/>
+        <label style="margin-left: 20px" >Project Type</label>
+        <select name="projectType" th:if="${project.getProjectId()==null}" th:field="*{projectType}">
+            <option th:each="type: ${projectTypes}" th:value="${type}" th:text="${type}"></option>
+        </select>
+        <select name="projectType" th:if="${project.getProjectId()!=null}" disabled th:field="*{projectType}">
+            <option th:each="type: ${projectTypes}" th:value="${type}" th:text="${type}"></option>
+        </select><br><br>
+        <label style="margin-left: 20px" th:for="projectName">Project title</label>
+        <input th:field="*{projectName}" name="projectName" th:value="${project.getProjectName()}"><br><br>
+        <label style="margin-left: 20px" th:for="projectContent" >Project Content</label>
+        <input th:field="*{projectContent}" name="projectContent" th:value="${project.getProjectContent()}"><br><br>
+        <label style="margin-left: 20px" th:for="workDateInMinutes" >Project Time</label>
+        <input th:field="*{workDateInMinutes}" type="number" name="workDateInMinutes" th:value="${project.getWorkDateInMinutes()}"><br><br>
+
+        <label style="margin-left: 20px" th:for="projectStartDate" >Project Period</label>
+        <input th:field="*{projectStartDate}" type="date" name="projectStartDate" th:value="${project.getProjectStartDate()}">
+        <input th:field="*{projectEndDate}" type="date" name="projectEndDate" th:value="${project.getProjectEndDate()}"><br><br>
+
+        <label style="margin-left: 20px" th:for="pointPerImage" >Given Point</label>
+        <input th:field="*{pointPerImage}"  type="number"  name="pointPerImage" th:if="${project.getProjectId() == null}" th:value="${project.getPointPerImage()}"><br><br>
+        <input th:field="*{pointPerImage}" type="number" name="pointPerImage" th:if="${project.getProjectId() != null}" readonly disabled th:value="${project.getPointPerImage()}"><br><br>
+
+        <label style="margin-left: 20px" th:for="taskUnit" >Task units</label>
+        <input th:field="*{taskUnit}" type="number" name="taskUnit" th:default="0" id="taskUnit" th:if="${project.getProjectId()==null}" th:value="${project.getTaskUnit()}"><br><br>
+        <input th:field="*{taskUnit}" type="number" name="taskUnit" th:default="0" th:if="${project.getProjectId()!=null}" readonly disabled th:value="${project.getTaskUnit()}"><br><br>
+        <label style="margin-left: 20px">File upload</label>
+        <input type="file" multiple th:field="*{files}" name="files" th:if="${project.getProjectId()==null}"><br><br>
+        <input type="file" multiple th:field="*{files}" name="files" th:if="${project.getProjectId()!=null}" readonly disabled th:value="${project.getTaskUnit()}"><br><br>
+
+<!--        <input type="file" multiple name="files" class="form-control-file">-->
+    </div>
+    <button style="margin: 1% 10%" type="submit">Next</button>
+</form>
+</body>
+<script>
+    $(document).ready(function () {
+        var taskUnit = $("#taskUnit").val();
+        if (taskUnit < 1) {
+            $("input[name='files']").attr("readonly", true);
+        } else {
+            $("input[name='files']").attr("readonly", false);
+        }
+    });
+</script>
+</html>

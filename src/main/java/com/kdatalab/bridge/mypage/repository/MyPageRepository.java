@@ -12,8 +12,8 @@ import java.util.List;
 @Repository
 public interface MyPageRepository extends JpaRepository<RootEntity, Integer> {
 
-    @Query(value = "{call list_projects_by_user(?1)}", nativeQuery = true)
-    List<Project> getProjectListByUser(String userId);
+    @Query(value = "{call list_projects_by_user(?1, ?2)}", nativeQuery = true)
+    List<Project> getProjectListByUser(String userId, String projectStatus);
 
     @Query(value = "{call project_info_by_user(?1)}", nativeQuery = true)
     ProjectDetail getProjectInfoByUser(String userId);

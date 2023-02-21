@@ -54,8 +54,13 @@ public class UserService implements UserDetailsService {
         params.setLoginId(username);
         UserDto userInfo = userMapper.selectAllUserInfo(params);
         List<GrantedAuthority> authorities = new ArrayList<>();
-
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        String qcChk = userRepository.getQcChk(userInfo.getLoginId());
+        if(qcChk.equals("Y")) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        }
+        else {
+            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        }
 
         return new User(userInfo.getLoginId(), userInfo.getPassword(), true, true, true, !userInfo.getStatus().equals('Y'), authorities );
     }
