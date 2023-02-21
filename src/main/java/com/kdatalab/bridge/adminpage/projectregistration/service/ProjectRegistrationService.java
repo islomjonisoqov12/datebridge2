@@ -6,6 +6,7 @@ import com.kdatalab.bridge.adminpage.projectregistration.dto.TaskDto;
 import com.kdatalab.bridge.adminpage.projectregistration.mapper.ProjectRegistrationMapper;
 import com.kdatalab.bridge.adminpage.projectregistration.repository.ProjectRegistrationRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +22,9 @@ public class ProjectRegistrationService {
 
     private final AWSService awsService;
     private final ProjectRegistrationMapper mapper;
+
+    @Value("${aws.folder}")
+    private String awsFolder;
 
 
     public void registerTask(Integer projectId, String regUser, Integer taskUnit) {
@@ -110,7 +114,7 @@ public class ProjectRegistrationService {
     }
 
     private String generateTaskPath(String projectName, Integer taskId) {
-        return "module/" + projectName + "/" + "task" + taskId;
+        return awsFolder + "/" + projectName + "/" + "task" + taskId;
     }
 
     public List<TaskDto> getProjectWithTasks(Long projectId) {
@@ -135,5 +139,17 @@ public class ProjectRegistrationService {
         dto.setPointPerImage((Integer) projectDetails.get("POINT"));
         dto.setTaskUnit(projectDetails.get("TASK_UNIT") == null ? 0 : Integer.parseInt(projectDetails.get("TASK_UNIT").toString()));
         return dto;
+    }
+
+    public String deleteProject(Integer projectId) {
+        if(projectRegistrationRepository.getWorkingTaskCount(projectId) > 0) {
+            return "redirect:/admin/projectRegistrationError"; //TODO : error page
+        }
+
+        Map<String, Object> projectDetails = projectRegistrationRepository.getProjectDetails(projectId);
+        String projectName = (String) projectDetails.get("SUBJECT");
+        awsService.deleteImageFromAws(awsFolder + "/" + projectName);
+        projectRegistrationRepository.deleteProject(projectId);
+        return "redirect:/admin/projectList";
     }
 }
