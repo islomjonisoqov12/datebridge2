@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -119,5 +120,20 @@ public class ProjectRegistrationService {
     public boolean existProjectName(String projectName) {
         int cnt = projectRegistrationRepository.existProjectName(projectName.toLowerCase());
         return cnt > 0;
+    }
+
+    public ProjectRegistrationDto getProjectDetailsById(Integer projectId) {
+        Map<String, Object> projectDetails = projectRegistrationRepository.getProjectDetails(projectId);
+        ProjectRegistrationDto dto = new ProjectRegistrationDto();
+        dto.setProjectId((Integer) projectDetails.get("EDU_SEQ"));
+        dto.setProjectType((String) projectDetails.get("EDU_TYPE"));
+        dto.setProjectName((String) projectDetails.get("SUBJECT"));
+        dto.setProjectContent((String) projectDetails.get("CONTENT"));
+        dto.setWorkDateInMinutes((Integer) projectDetails.get("TIME"));
+        dto.setProjectStartDate(((java.sql.Timestamp)projectDetails.get("START_DATE")).toLocalDateTime().toLocalDate());
+        dto.setProjectEndDate(((java.sql.Timestamp)projectDetails.get("END_DATE")).toLocalDateTime().toLocalDate());
+        dto.setPointPerImage((Integer) projectDetails.get("POINT"));
+        dto.setTaskUnit(projectDetails.get("TASK_UNIT") == null ? 0 : Integer.parseInt(projectDetails.get("TASK_UNIT").toString()));
+        return dto;
     }
 }
