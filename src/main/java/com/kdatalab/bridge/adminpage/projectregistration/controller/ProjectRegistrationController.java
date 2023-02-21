@@ -33,7 +33,6 @@ public class ProjectRegistrationController {
         this.awsService = awsService;
     }
 
-
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String projectRegistration(Model model) {
@@ -43,10 +42,21 @@ public class ProjectRegistrationController {
         return "admin/projectRegistration";
     }
 
+
+    @GetMapping("/{projectId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String projectRegistration(@PathVariable(value = "projectId") Integer projectId, Model model) {
+        ProjectRegistrationDto projectRegistrationDto = projectRegistrationService.getProjectDetailsById(projectId);;
+        List<String> projectTypes = projectListService.getProjectTypes();
+        model.addAttribute("projectTypes", projectTypes);
+        model.addAttribute("project", projectRegistrationDto);
+        return "admin/projectRegistration";
+    }
+
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String projectRegistration(ProjectRegistrationDto dto) throws IOException {
-        if(dto.getTaskUnit() > dto.getFiles().size()) {
+        if(dto.getProjectId() == null && dto.getTaskUnit() > dto.getFiles().size()) {
             return "redirect:/admin/project-registration/error";
         }
         Integer projectId = projectRegistrationService.createProject(dto);
