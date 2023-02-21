@@ -2,8 +2,10 @@ package com.kdatalab.bridge.adminpage.projectregistration.controller;
 
 import com.kdatalab.bridge.adminpage.projectlist.service.ProjectListService;
 import com.kdatalab.bridge.adminpage.projectregistration.dto.ProjectRegistrationDto;
+import com.kdatalab.bridge.adminpage.projectregistration.dto.TaskAssignedDto;
 import com.kdatalab.bridge.adminpage.projectregistration.service.AWSService;
 import com.kdatalab.bridge.adminpage.projectregistration.service.ProjectRegistrationService;
+import com.kdatalab.bridge.base.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,13 +13,18 @@ import com.kdatalab.bridge.adminpage.projectregistration.dto.TaskDto;
 import com.kdatalab.bridge.user.dto.UserDto;
 import com.kdatalab.bridge.user.mapper.UserMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.io.IOException;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin/project-registration")
-public class ProjectRegistrationController {
+public class ProjectRegistrationController extends BaseController {
 
     private final ProjectListService projectListService;
 
@@ -65,14 +72,20 @@ public class ProjectRegistrationController {
 
     @GetMapping("/step-2/{projectId}")
     @PreAuthorize("isFullyAuthenticated()")
-    public String getStep2Page(@PathVariable Long projectId, Model model) {
+    public String getStep2Page(@PathVariable Long projectId, @RequestParam(required = false, defaultValue = "false") Boolean edit, Model model){
         List<TaskDto> projectWithTasks = projectRegistrationService.getProjectWithTasks(projectId);
         List<UserDto> users = userService.selectUserByQcChk('N');
         List<UserDto> admins = userService.selectUserByQcChk('Y');
-        model.addAttribute("tasks", projectWithTasks);
-        model.addAttribute("users", users);
-        model.addAttribute("admins", admins);
-        return "adminpage/projectRegistration2";
+        model.addAttribute("form", new TaskAssignedDto(projectWithTasks, users, admins, edit));
+        return "admin/projectRegistration2";
+    }
+
+    @PostMapping("/step-2")
+//    @PreAuthorize(value = "isAuthenticated()")
+    public String saveStep2Project(@ModelAttribute(name = "form") TaskAssignedDto dto) {
+        // TODO: 2/20/2023 save dtos
+        int demo = dto.getTasks().size();
+        return "redirect:/admin/project-list";
     }
 
     /** to provide unique project name validation
