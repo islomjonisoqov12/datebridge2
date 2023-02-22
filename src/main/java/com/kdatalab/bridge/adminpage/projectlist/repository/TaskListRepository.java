@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface TaskListRepository extends JpaRepository<RootEntity,Integer> {
 
-    @Query(value = "call list_tasks(?1)", nativeQuery = true)
+    @Query(value = "call list_tasks_by_project(?1)", nativeQuery = true)
     List<Task> getTaskList(Integer projectId);
 
     @Query(value = "select AVG(TASK_DTL_PROG) from TB_TASK_DTL where EDU_SEQ = ?1", nativeQuery = true)
