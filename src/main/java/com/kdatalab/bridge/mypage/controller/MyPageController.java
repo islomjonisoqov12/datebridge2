@@ -34,7 +34,6 @@ public class MyPageController extends BaseController {
         ModelAndView mv = new ModelAndView("/mypage/mypage.html");
 
         String userName = userService.getUserName();
-        userName = "yanghee"; //TODO remove after test
         List<Project> projects = myPageService.getProjectList(userName, projectStatus);
         ProjectDetail projectDetail = myPageService.getProjectDetail(userName);
 
