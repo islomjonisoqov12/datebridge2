@@ -38,4 +38,12 @@ public interface ProjectRegistrationRepository extends JpaRepository<RootEntity,
 
     @Query(value = "{call task_assigned(:tasks, :name)}", nativeQuery = true)
     int saveAssignedUsers(String tasks, String name);
+    @Query(value = "select count(*) " +
+                     "from TB_TASK_DTL " +
+                    "where EDU_SEQ = ?1 " +
+                      "and TASK_DTL_PROG > 0", nativeQuery = true)
+    int getWorkingTaskCount(Integer projectId);
+
+    @Query(value = "call delete_project(?1)", nativeQuery = true)
+    void deleteProject(Integer projectId);
 }
