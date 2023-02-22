@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <title>Project Registration Step 2</title>
 </head>
-<body>
+<body style="background-color: darkkhaki">
 <div>
-    <form style="margin: 10% 35%" action="#" th:action="@{/admin/project-registration/step-2}" th:object="${form}" method="post">
+    <form style="margin: 10% 35%" action="#" th:action="${'/admin/project-registration/step-2/'+projectId}" th:object="${form}" method="post">
         <fieldset>
             <table>
                 <thead>
@@ -26,23 +26,30 @@
                     <td><span th:text="${number.count}"></span></td>
                     <td><span th:text="${task.taskName}"></span></td>
                     <td th:if="${form.edited==true}"><span th:text="${task.getTaskDtlProg()}"></span></td>
-                    <td hidden="hidden"><input th:field="*{tasks[__${number.index}__].dtlSeq}" th:value="${task.dtlSeq}"></td>
+                    <td hidden="hidden"><input th:if="${task.getTaskDtlProg()==0 || task.getQcId()==null}" th:field="*{tasks[__${number.index}__].dtlSeq}" th:value="${task.dtlSeq}"></td>
                     <td>
-                        <select th:field="*{tasks[__${number.index}__].loginId}">
+                        <select th:if="${task.getTaskDtlProg()==0}" th:field="*{tasks[__${number.index}__].loginId}">
                             <option th:if="${form.users.isEmpty()==false}"
-                                    th:text="${task.getLoginId()==null? 'unassigned': task.getTaskName()}"
+                                    th:text="${task.getLoginId()==null? 'unassigned': task.getUser()}"
                                     th:value="${task.getLoginId()}" selected></option>
                             <option th:if="${form.users.isEmpty()==false}" th:each="user: ${form.users}"
-                                    th:value="${user.getLoginId()}" th:text="${user.getName()}"></option>
+                                    th:value="${user.getLoginId()==task.getLoginId()?'':user.getLoginId()}" th:text="${user.getLoginId()==task.getLoginId()?'unassigned':user.getName()}"></option>
                         </select>
+                        <select th:if="${task.getTaskDtlProg()>0}" disabled>
+                            <option th:text="${task.getUser()}" selected></option>
+                        </select>
+
                     </td>
                     <td>
-                        <select th:name="${'admin'+number.count}" th:field="*{tasks[__${number.index}__].qcId}">
+                        <select th:if="${task.getTaskDtlProg()==0 || task.getQcId()==null}" th:field="*{tasks[__${number.index}__].qcId}">
                             <option th:if="${form.admins.isEmpty()==false}"
                                     th:text="${task.getQcId()==null? 'unassigned': task.getChecker()}"
                                     th:value="${task.getQcId()}" selected></option>
                             <option th:if="${form.admins.isEmpty()==false}" th:each="admin: ${form.admins}"
-                                    th:value="${admin.getLoginId()}" th:text="${admin.getName()}"></option>
+                                    th:value="${admin.getLoginId()==task.getQcId()?'':admin.getLoginId()}" th:text="${admin.getLoginId()==task.getQcId()?'unassigned':admin.getName()}"></option>
+                        </select>
+                        <select th:if="${task.getTaskDtlProg()>0 && task.getQcId()!=null}" disabled>
+                            <option th:text="${task.getChecker()}" selected></option>
                         </select>
                     </td>
                 </tr>

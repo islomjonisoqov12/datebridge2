@@ -36,6 +36,8 @@ public interface ProjectRegistrationRepository extends JpaRepository<RootEntity,
                      "from TB_EDU_MST where EDU_SEQ = ?1", nativeQuery = true)
     Map<String,Object> getProjectDetails(Integer projectId);
 
+    @Query(value = "{call task_assigned(:tasks, :name)}", nativeQuery = true)
+    int saveAssignedUsers(String tasks, String name);
     @Query(value = "select count(*) " +
                      "from TB_TASK_DTL " +
                     "where EDU_SEQ = ?1 " +

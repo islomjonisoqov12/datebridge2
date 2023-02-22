@@ -18,7 +18,6 @@ public class TaskDto {
     private Long eduSeq;
     private String loginId;
     private String user;
-    private String loginIdName;
     private Integer taskDtlProg;
     private Character taskDtlStat;
     private String regUser;
