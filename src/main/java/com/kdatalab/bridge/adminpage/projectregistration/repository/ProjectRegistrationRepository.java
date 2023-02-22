@@ -35,4 +35,7 @@ public interface ProjectRegistrationRepository extends JpaRepository<RootEntity,
     @Query(value = "select EDU_SEQ, EDU_TYPE, SUBJECT, CONTENT, TIME, START_DATE, END_DATE, POINT, TASK_UNIT " +
                      "from TB_EDU_MST where EDU_SEQ = ?1", nativeQuery = true)
     Map<String,Object> getProjectDetails(Integer projectId);
+
+    @Query(value = "{call task_assigned(:tasks, :name)}", nativeQuery = true)
+    int saveAssignedUsers(String tasks, String name);
 }

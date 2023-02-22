@@ -6,6 +6,7 @@ import com.kdatalab.bridge.adminpage.projectregistration.dto.TaskAssignedDto;
 import com.kdatalab.bridge.adminpage.projectregistration.service.AWSService;
 import com.kdatalab.bridge.adminpage.projectregistration.service.ProjectRegistrationService;
 import com.kdatalab.bridge.base.BaseController;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -77,15 +78,15 @@ public class ProjectRegistrationController extends BaseController {
         List<UserDto> users = userService.selectUserByQcChk('N');
         List<UserDto> admins = userService.selectUserByQcChk('Y');
         model.addAttribute("form", new TaskAssignedDto(projectWithTasks, users, admins, edit));
+        model.addAttribute("projectId", projectId);
         return "admin/projectRegistration2";
     }
 
-    @PostMapping("/step-2")
+    @PostMapping("/step-2/{projectId}")
 //    @PreAuthorize(value = "isAuthenticated()")
-    public String saveStep2Project(@ModelAttribute(name = "form") TaskAssignedDto dto) {
-        // TODO: 2/20/2023 save dtos
-        int demo = dto.getTasks().size();
-        return "redirect:/admin/project-list";
+    public String saveStep2Project(@ModelAttribute(name = "form") TaskAssignedDto dto, Authentication authentication, @PathVariable int projectId) {
+        projectRegistrationService.saveAssignedUsers(dto, authentication.getName(), projectId);
+        return "redirect:admin/project-list";
     }
 
     /** to provide unique project name validation
