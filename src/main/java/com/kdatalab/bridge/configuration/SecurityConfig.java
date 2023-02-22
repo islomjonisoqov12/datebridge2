@@ -112,6 +112,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         httpSecurity.authorizeRequests()
                 //페이지권한
+                .antMatchers("/admin/project-registration/**").hasRole("ADMIN")
                 .antMatchers("/sub/**").hasRole("USER")
                 .antMatchers(HAS_ANY_AUTHENTICATION).fullyAuthenticated()
                 .antMatchers(WHITE_LIST).permitAll()

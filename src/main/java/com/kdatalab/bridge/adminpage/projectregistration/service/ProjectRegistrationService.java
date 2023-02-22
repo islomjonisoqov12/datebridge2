@@ -2,15 +2,21 @@ package com.kdatalab.bridge.adminpage.projectregistration.service;
 
 import com.kdatalab.bridge.adminpage.projectregistration.dto.AttachmentDto;
 import com.kdatalab.bridge.adminpage.projectregistration.dto.ProjectRegistrationDto;
+import com.kdatalab.bridge.adminpage.projectregistration.dto.TaskAssignedDto;
 import com.kdatalab.bridge.adminpage.projectregistration.dto.TaskDto;
 import com.kdatalab.bridge.adminpage.projectregistration.mapper.ProjectRegistrationMapper;
 import com.kdatalab.bridge.adminpage.projectregistration.repository.ProjectRegistrationRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +26,9 @@ public class ProjectRegistrationService {
 
     private final AWSService awsService;
     private final ProjectRegistrationMapper mapper;
+
+    @Value("${aws.folder}")
+    private String awsFolder;
 
 
     public void registerTask(Integer projectId, String regUser, Integer taskUnit) {
@@ -109,7 +118,7 @@ public class ProjectRegistrationService {
     }
 
     private String generateTaskPath(String projectName, Integer taskId) {
-        return "module/" + projectName + "/" + "task" + taskId;
+        return awsFolder + "/" + projectName + "/" + "task" + taskId;
     }
 
     public List<TaskDto> getProjectWithTasks(Long projectId) {
@@ -119,5 +128,69 @@ public class ProjectRegistrationService {
     public boolean existProjectName(String projectName) {
         int cnt = projectRegistrationRepository.existProjectName(projectName.toLowerCase());
         return cnt > 0;
+    }
+
+    public ProjectRegistrationDto getProjectDetailsById(Integer projectId) {
+        Map<String, Object> projectDetails = projectRegistrationRepository.getProjectDetails(projectId);
+        ProjectRegistrationDto dto = new ProjectRegistrationDto();
+        dto.setProjectId((Integer) projectDetails.get("EDU_SEQ"));
+        dto.setProjectType((String) projectDetails.get("EDU_TYPE"));
+        dto.setProjectName((String) projectDetails.get("SUBJECT"));
+        dto.setProjectContent((String) projectDetails.get("CONTENT"));
+        dto.setWorkDateInMinutes((Integer) projectDetails.get("TIME"));
+        dto.setProjectStartDate(((java.sql.Timestamp)projectDetails.get("START_DATE")).toLocalDateTime().toLocalDate());
+        dto.setProjectEndDate(((java.sql.Timestamp)projectDetails.get("END_DATE")).toLocalDateTime().toLocalDate());
+        dto.setPointPerImage((Integer) projectDetails.get("POINT"));
+        dto.setTaskUnit(projectDetails.get("TASK_UNIT") == null ? 0 : Integer.parseInt(projectDetails.get("TASK_UNIT").toString()));
+        return dto;
+    }
+
+    public BiFunction<List<TaskDto>, Integer, String> tasksToJson = (tasks, projectId) -> {
+        StringBuilder res = new StringBuilder("[");
+        String loginId = "";
+        String qcId = "";
+        if (tasks.size()==0) {
+            return "";
+        }
+        List<TaskDto> projectWithTasks = getProjectWithTasks((long) projectId);
+        for (int i = 0; i < tasks.size(); i++) {
+            TaskDto t = tasks.get(i);
+
+            if (t.getDtlSeq() != null) {
+                TaskDto taskDto = projectWithTasks.get(i);
+                if(!taskDto.getDtlSeq().equals(t.getDtlSeq())){
+                    taskDto = projectWithTasks.stream().filter(t1 -> t1.getDtlSeq().equals(t.getDtlSeq())).findFirst().get();
+                }
+                if (t.getLoginId() == null || taskDto.getTaskDtlProg()>0) loginId = taskDto.getLoginId(); // progress > 0 dan bo'lganda uni bajaruvchisini o'zgartirib bo'lmaydi (ayyor dasturchilar uchun)
+                else if (t.getLoginId().isEmpty() && taskDto.getTaskDtlProg()==0) loginId = null;  // progress=0 ga bo'lsa va oldin buni bajaruvchisi tayinlanga bo'lganda. hozir esa o'sha tayinlanganni olib tashlasa null qo'yiladi
+                else if(taskDto.getTaskDtlProg()==0) loginId = String.format("\"%s\"", t.getLoginId()); // progress = 0 va yuqoridagi tekshiruvlardan o'tsa login id o'zgartiriladi
+                else loginId = taskDto.getLoginId(); // agar yuqoridagi shartlardan o'tmasa demak o'zgartirilmaydi
+
+                if (t.getQcId() == null) qcId = taskDto.getQcId();   // yani select option da disabled bo'lsa null keladi
+                else if (t.getQcId().isEmpty() && taskDto.getTaskDtlProg()==0) qcId = null; // yani progres hali 0 ga teng va task ni tekshiruvchisi oldin saqlangan. hozir esa o'shani null qilib qo'yganda
+                else if(taskDto.getTaskDtlProg()>0 && taskDto.getQcId() != null) qcId = taskDto.getQcId();  // yani progress 0 dan katta va oldin bu taskni tekshiruvchisi tanlagan bo'lgan holatda o'zgartirmaydi(ayyor dasturchilar uchun check)
+                else qcId = String.format("\"%s\"", t.getQcId()); // shartlardan birortasiga tushmasa qcId ni qiymati yangi tanlagangan userga o'zgartiriladi
+
+                res.append("{\"dtlSeq\":").append(t.getDtlSeq()).append(",\"loginId\":").append(loginId).append(", \"qcId\":").append(qcId).append("},");
+            }
+        }
+        res.replace(res.length()-1, res.length(),"]");
+        return res.toString();
+    };
+    public void saveAssignedUsers(TaskAssignedDto dto, String name, int projectId) {
+        String tasks = tasksToJson.apply(dto.getTasks(), projectId);
+        int i = projectRegistrationRepository.saveAssignedUsers(tasks, name);
+        System.out.println("print int: " + i);
+    }
+    public String deleteProject(Integer projectId) {
+        if(projectRegistrationRepository.getWorkingTaskCount(projectId) > 0) {
+            return "redirect:/admin/projectRegistrationError"; //TODO : error page
+        }
+
+        Map<String, Object> projectDetails = projectRegistrationRepository.getProjectDetails(projectId);
+        String projectName = (String) projectDetails.get("SUBJECT");
+        awsService.deleteImageFromAws(awsFolder + "/" + projectName);
+        projectRegistrationRepository.deleteProject(projectId);
+        return "redirect:/admin/projectList";
     }
 }

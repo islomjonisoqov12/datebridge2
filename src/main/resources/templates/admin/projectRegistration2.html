@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Project Registration Step 2</title>
+</head>
+<body style="background-color: darkkhaki">
+<div>
+    <form style="margin: 10% 35%" action="#" th:action="${'/admin/project-registration/step-2/'+projectId}" th:object="${form}" method="post">
+        <fieldset>
+            <table>
+                <thead>
+                <tr>
+                    <th th:text="'NO'">NO</th>
+                    <th th:text="'태스크명'">Task name</th>
+                    <th th:if="${form.edited==true}">Process progress</th>
+                    <th th:text="'작업 유저 할당'">Assign task user</th>
+                    <th th:text="'검수자 할당(관리자)'">Assign Checker (Administrator)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${form.tasks.isEmpty()}">
+                    <td colspan="2">Something Error</td>
+                </tr>
+                <tr th:each="task, number : *{tasks}">
+                    <td><span th:text="${number.count}"></span></td>
+                    <td><span th:text="${task.taskName}"></span></td>
+                    <td th:if="${form.edited==true}"><span th:text="${task.getTaskDtlProg()}"></span></td>
+                    <td hidden="hidden"><input th:if="${task.getTaskDtlProg()==0 || task.getQcId()==null}" th:field="*{tasks[__${number.index}__].dtlSeq}" th:value="${task.dtlSeq}"></td>
+                    <td>
+                        <select th:if="${task.getTaskDtlProg()==0}" th:field="*{tasks[__${number.index}__].loginId}">
+                            <option th:if="${form.users.isEmpty()==false}"
+                                    th:text="${task.getLoginId()==null? 'unassigned': task.getUser()}"
+                                    th:value="${task.getLoginId()}" selected></option>
+                            <option th:if="${form.users.isEmpty()==false}" th:each="user: ${form.users}"
+                                    th:value="${user.getLoginId()==task.getLoginId()?'':user.getLoginId()}" th:text="${user.getLoginId()==task.getLoginId()?'unassigned':user.getName()}"></option>
+                        </select>
+                        <select th:if="${task.getTaskDtlProg()>0}" disabled>
+                            <option th:text="${task.getUser()}" selected></option>
+                        </select>
+
+                    </td>
+                    <td>
+                        <select th:if="${task.getTaskDtlProg()==0 || task.getQcId()==null}" th:field="*{tasks[__${number.index}__].qcId}">
+                            <option th:if="${form.admins.isEmpty()==false}"
+                                    th:text="${task.getQcId()==null? 'unassigned': task.getChecker()}"
+                                    th:value="${task.getQcId()}" selected></option>
+                            <option th:if="${form.admins.isEmpty()==false}" th:each="admin: ${form.admins}"
+                                    th:value="${admin.getLoginId()==task.getQcId()?'':admin.getLoginId()}" th:text="${admin.getLoginId()==task.getQcId()?'unassigned':admin.getName()}"></option>
+                        </select>
+                        <select th:if="${task.getTaskDtlProg()>0 && task.getQcId()!=null}" disabled>
+                            <option th:text="${task.getChecker()}" selected></option>
+                        </select>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <input type="submit" id="submitButton" th:value="Save">
+            <input onclick="cancel()">Cancel</input>
+        </fieldset>
+    </form>
+</div>
+</body>
+<script>
+    function cancel() {
+        alert("Do you want to cancel the operation?\nYou cannot recover after cancellation..\n")
+        window.location.replace("/admin/project-list");
+    }
+</script>
+</html>
