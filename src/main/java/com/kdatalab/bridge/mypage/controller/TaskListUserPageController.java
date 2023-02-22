@@ -1,5 +1,6 @@
 package com.kdatalab.bridge.mypage.controller;
 
+import com.kdatalab.bridge.adminpage.projectlist.service.TaskListService;
 import com.kdatalab.bridge.adminpage.projectregistration.service.ProjectRegistrationService;
 import com.kdatalab.bridge.mypage.service.UserTaskListService;
 import com.kdatalab.bridge.user.service.UserService;
@@ -19,6 +20,8 @@ public class TaskListUserPageController {
     private final ProjectRegistrationService projectRegistrationService;
 
     private final UserTaskListService userTaskListService;
+
+    private final TaskListService taskListService;
     private final UserService userService;
 
     @GetMapping("/{projectId}")
@@ -27,6 +30,7 @@ public class TaskListUserPageController {
         String loginId = userService.getUserName();
         model.addAttribute("userTaskList", userTaskListService.getUserTaskList(projectId, loginId));
         model.addAttribute("projectInfo", projectRegistrationService.getProjectDetailsById(projectId));
+        model.addAttribute("overallProgress", taskListService.getOverallProgressRateByProject(projectId));
         return "user/taskList";
     }
 }
