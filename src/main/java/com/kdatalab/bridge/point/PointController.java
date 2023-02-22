@@ -45,7 +45,6 @@ public class PointController extends BaseController {
         }
 
         String loginId = userInfo.getLoginId();
-        loginId = "yanghee";// TODO after test this line should be removed
         List<PointHistory> pointHistory = pointService.getPointHistory(loginId);
         mv.addObject("pointHistory", pointHistory);
         mv.addObject("totalPoint", userInfo.getNowpoint());
