@@ -1,0 +1,32 @@
+package com.kdatalab.bridge.mypage.controller;
+
+import com.kdatalab.bridge.adminpage.projectregistration.service.ProjectRegistrationService;
+import com.kdatalab.bridge.mypage.service.UserTaskListService;
+import com.kdatalab.bridge.user.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequiredArgsConstructor
+@RequestMapping("/user/task-list")
+public class TaskListUserPageController {
+
+    private final ProjectRegistrationService projectRegistrationService;
+
+    private final UserTaskListService userTaskListService;
+    private final UserService userService;
+
+    @GetMapping("/{projectId}")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public String taskList(@PathVariable("projectId") Integer projectId, Model model) throws Exception {
+        String loginId = userService.getUserName();
+        model.addAttribute("userTaskList", userTaskListService.getUserTaskList(projectId, loginId));
+        model.addAttribute("projectInfo", projectRegistrationService.getProjectDetailsById(projectId));
+        return "user/taskList";
+    }
+}
