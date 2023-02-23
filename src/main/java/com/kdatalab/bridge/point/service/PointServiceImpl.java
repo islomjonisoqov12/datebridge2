@@ -65,8 +65,23 @@ public class PointServiceImpl implements PointService {
         return pointRepository.findByLoginId(loginId);
     }
 
+    /**
+     * @param date - LocalDateTime
+     * @return formatted Date
+     */
     public String getFormatDate(LocalDateTime date) {
-
+        if(date == null) {
+            return "-";
+        }
         return date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
+
+    /**
+     * @param loginId
+     * @return total point by user id
+     */
+    public Integer getTotalPointByLoginId(String loginId) {
+        return pointRepository.getTotalPointByLoginId(loginId);
+
     }
 }

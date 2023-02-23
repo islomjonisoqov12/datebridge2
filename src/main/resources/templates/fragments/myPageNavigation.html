@@ -2,7 +2,7 @@
     <div class="list-group list-group-flush">
         <a th:classappend="${activeType == 'mypage' ? 'text-primary font-weight-bold' : ''}" href="/mypage" class="list-group-item g-font-size-35">마이페이지</a>
         <a th:classappend="${activeType == 'pointHistory' ? 'text-primary font-weight-bold' : ''}" href="/point-history" class="list-group-item g-font-size-35">포인트 정보</a>
-        <a th:classappend="${activeType == 'userInfo' ? 'text-primary font-weight-bold' : ''}" href="/" class="list-group-item g-font-size-35">회원정보수정</a>
+        <a th:classappend="${activeType == 'userInfo' ? 'text-primary font-weight-bold' : ''}" href="/user/check-password" class="list-group-item g-font-size-35">회원정보수정</a>
         <a th:classappend="${activeType == 'leave' ? 'text-primary font-weight-bold' : ''}" href="/" class="list-group-item g-font-size-35">회원탈퇴</a>
     </div>
 </th:block>

@@ -28,9 +28,6 @@ public class PointController extends BaseController {
     @PreAuthorize(value = "hasRole('USER')")
     public String pointHistory(Model mv, Authentication authentication) throws Exception {
 
-//        ModelAndView mv = new ModelAndView("point/point-history.html");
-
-//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDto userInfo = null;
 
         try {
@@ -44,9 +41,10 @@ public class PointController extends BaseController {
         }
 
         String loginId = userInfo.getLoginId();
-        loginId = "yanghee";// TODO after test this line should be removed
+//        loginId = "yanghee";// TODO after test this line should be removed
         List<PointHistory> pointHistory = pointService.getPointHistory(loginId);
         mv.addAttribute("pointHistory", pointHistory);
+        mv.addAttribute("totalPoint", pointService.getTotalPointByLoginId(loginId));
 
         return "point/point-history";
     }

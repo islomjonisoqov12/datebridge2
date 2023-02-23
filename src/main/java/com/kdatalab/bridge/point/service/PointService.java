@@ -38,4 +38,11 @@ public interface PointService {
      */
     List<PointHistory> getPointHistory(String loginId);
 
+    /**
+     *
+     * @param loginId
+     * @return total point by user id
+     */
+    Integer getTotalPointByLoginId(String loginId);
+
 }

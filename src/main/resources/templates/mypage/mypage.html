@@ -2,7 +2,7 @@
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:insert="fragments/layout/head::head(${'마이페이지'})"/>
-    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/main.css">
     <style>
         .my-point-item {
             width: 150px;
@@ -57,7 +57,6 @@
     <div class="row pt-5 pb-5">
         <div class="col-3">
             <th:block th:insert="fragments/myPageNavigation::myPageNavi('mypage')" />
-
         </div>
         <div class="col-9">
             <div class="mb-5">

@@ -85,7 +85,7 @@ public class UserController extends BaseController {
       if(existsCode==null || !existsCode.equals(code)){
          return "redirect:/user/check-password";
       }
-      GENERATED_CODES.remove(authentication.getName());
+//      GENERATED_CODES.remove(authentication.getName());
       model.addAttribute("user", userService.getAllUserInfo(authentication.getName()));
       return "user/editAccountInfo";
    }
