@@ -136,7 +136,7 @@ public class UserService implements UserDetailsService {
             userRepository.updateAccountInfo(name, null, newEmail);
         }
         model.addAttribute("success", true);
-        return "mypage/myPage";
+        return "redirect:/mypage";
     }
 
     public boolean leaveTheMembership(String name) {
