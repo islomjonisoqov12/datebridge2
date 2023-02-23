@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +31,7 @@ public class MyPageController extends BaseController {
 
     @RequestMapping(value = "/mypage", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ModelAndView myPage(@RequestParam(value = "status", required = false) String projectStatus) throws Exception {
+    public ModelAndView myPage(@RequestParam(value = "status", required = false, defaultValue = "INPROGRESS") String projectStatus) throws Exception {
         ModelAndView mv = new ModelAndView("/mypage/mypage.html");
 
         String userName = userService.getUserName();
@@ -42,6 +43,7 @@ public class MyPageController extends BaseController {
         mv.addObject("rejectedProjectCnt", projectDetail.getRejectedProjectCnt());
         mv.addObject("completedProjectCnt", projectDetail.getCompletedProjectCnt());
         mv.addObject("weeklyRank", projectDetail.getWeeklyRank());
+        mv.addObject("currentStatus", projectStatus);
 
         return mv;
     }

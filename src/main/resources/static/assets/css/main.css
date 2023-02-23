@@ -1,0 +1,15 @@
+.form-control[type="password"] {
+    background: url(../images/lib/ic_password.png) 15px 17px no-repeat;
+    padding-left: 48px;
+}
+
+.btn {
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+.form-control {
+    height: 60px;
+    border-radius: 10px;
+    font-size: 20px;
+}
