@@ -34,21 +34,9 @@ public class MyPageController extends BaseController {
     public ModelAndView myPage(@RequestParam(value = "status", required = false, defaultValue = "INPROGRESS") String projectStatus) throws Exception {
         ModelAndView mv = new ModelAndView("/mypage/mypage.html");
 
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDto userInfo = null;
-
-        try {
-            if(principal != "anonymousUser") {
-                UserDetails userDetails = (UserDetails) principal;
-                userInfo = userService.getUserInfo(userDetails.getUsername());
-            }
-        } catch (ClassCastException cce){
-            DefaultOAuth2User auth2User = (DefaultOAuth2User) principal;
-            userInfo = userService.getUserInfo(auth2User.getName());
-        }
-        userInfo.setLoginId("yanghee"); //TODO remove after test
-        List<Project> projects = myPageService.getProjectList(userInfo.getLoginId(), projectStatus);
-        ProjectDetail projectDetail = myPageService.getProjectDetail(userInfo.getLoginId());
+        String userName = userService.getUserName();
+        List<Project> projects = myPageService.getProjectList(userName, projectStatus);
+        ProjectDetail projectDetail = myPageService.getProjectDetail(userName);
 
         mv.addObject("projects", projects);
         mv.addObject("totalPoint", projectDetail.getTotalPoint());

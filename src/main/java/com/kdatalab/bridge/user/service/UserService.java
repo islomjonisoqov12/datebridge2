@@ -9,11 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -144,6 +146,22 @@ public class UserService implements UserDetailsService {
 
     public List<UserDto> getUsersByQcChk(char n) {
         return userMapper.selectUserByQcChk(n);
+    }
+
+    public String getUserName() throws Exception {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDto userInfo = null;
+
+        try {
+            if(principal != "anonymousUser") {
+                UserDetails userDetails = (UserDetails) principal;
+                userInfo = getUserInfo(userDetails.getUsername());
+            }
+        } catch (Exception cce){
+            DefaultOAuth2User auth2User = (DefaultOAuth2User) principal;
+            userInfo = getUserInfo(auth2User.getName());
+        }
+        return userInfo.getLoginId();
     }
 }
 

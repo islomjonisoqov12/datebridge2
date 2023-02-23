@@ -2,6 +2,9 @@ package com.kdatalab.bridge.user.dto;
 
 import lombok.Data;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * 사용자 정보
  * @author Enclouds
@@ -21,5 +24,25 @@ public class UserDto {
     private Integer nowpoint;
     private String loginIp;
     private Character status;
+
+    public String getBirthDtFormat(){
+        if (birthDt == null) {
+            return "-";
+        }
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(new Date(Long.parseLong(birthDt)));
+    }
+
+    public String getEmailStart(){
+        return eMail.substring(0, eMail.indexOf("@"));
+    }
+    public String getEmailLast(){
+        return eMail.substring(eMail.indexOf("@")+1);
+    }
+
+    public boolean getEmailStatus(){
+        String emailLast = getEmailLast();
+        return (emailLast.equalsIgnoreCase("naver.com") || emailLast.equalsIgnoreCase("hanmail.net"));
+    }
 
 }

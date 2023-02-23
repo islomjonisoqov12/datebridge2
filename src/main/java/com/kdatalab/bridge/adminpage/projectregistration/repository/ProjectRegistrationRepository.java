@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface ProjectRegistrationRepository extends JpaRepository<RootEntity, Integer> {
@@ -30,4 +31,19 @@ public interface ProjectRegistrationRepository extends JpaRepository<RootEntity,
 
     @Query(value = "select count(*) from TB_EDU_MST where lower(SUBJECT) = ?1", nativeQuery = true)
     int existProjectName(String projectName);
+
+    @Query(value = "select EDU_SEQ, EDU_TYPE, SUBJECT, CONTENT, TIME, START_DATE, END_DATE, POINT, TASK_UNIT " +
+                     "from TB_EDU_MST where EDU_SEQ = ?1", nativeQuery = true)
+    Map<String,Object> getProjectDetails(Integer projectId);
+
+    @Query(value = "{call task_assigned(:tasks, :name)}", nativeQuery = true)
+    int saveAssignedUsers(String tasks, String name);
+    @Query(value = "select count(*) " +
+                     "from TB_TASK_DTL " +
+                    "where EDU_SEQ = ?1 " +
+                      "and TASK_DTL_PROG > 0", nativeQuery = true)
+    int getWorkingTaskCount(Integer projectId);
+
+    @Query(value = "call delete_project(?1)", nativeQuery = true)
+    void deleteProject(Integer projectId);
 }

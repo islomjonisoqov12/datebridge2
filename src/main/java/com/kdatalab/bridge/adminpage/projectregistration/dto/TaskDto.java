@@ -17,13 +17,12 @@ public class TaskDto {
     private String taskName;
     private Long eduSeq;
     private String loginId;
-    private UserDto user;
-    private String loginIdName;
+    private String user;
     private Integer taskDtlProg;
     private Character taskDtlStat;
     private String regUser;
     private LocalDateTime regDt;
     private String qcId;
-    private UserDto checker;
+    private String checker;
 
 }
