@@ -29,8 +29,7 @@ public class UserDto {
         if (birthDt == null) {
             return "-";
         }
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        return format.format(new Date(Long.parseLong(birthDt)));
+        return birthDt.substring(0,4) +"-"+ birthDt.substring(4, 6) +"-"+ birthDt.substring(6);
     }
 
     public String getEmailStart(){

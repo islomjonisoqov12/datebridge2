@@ -46,6 +46,20 @@
 		WHERE TU.QC_CHK = #{n}
 		group by TU.LOGIN_ID
 	</select>
+
+	<select id="searchUser" resultType="com.kdatalab.bridge.user.dto.UserDto">
+		SELECT TU.login_id
+		, TU.name
+		, TU.e_mail
+		, SUM(TP.NOWPOINT) AS nowpoint
+		, TU.TEL
+		, TU.BIRTH_DT
+		, TU.GENDER_CD
+		, TU.STATUS
+		FROM TB_USER TU join TB_POINT TP on  TU.login_id = TP.login_id
+		WHERE TU.QC_CHK = #{s} and lower(TU.NAME) like concat('%', #{q}, '%')
+		group by TU.LOGIN_ID
+	</select>
 	
 </mapper>
 
