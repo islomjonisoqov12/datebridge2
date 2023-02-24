@@ -6,6 +6,7 @@ import com.kdatalab.bridge.adminpage.projectregistration.dto.TaskAssignedDto;
 import com.kdatalab.bridge.adminpage.projectregistration.dto.TaskDto;
 import com.kdatalab.bridge.adminpage.projectregistration.mapper.ProjectRegistrationMapper;
 import com.kdatalab.bridge.adminpage.projectregistration.repository.ProjectRegistrationRepository;
+import com.kdatalab.bridge.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,8 @@ public class ProjectRegistrationService {
     private final AWSService awsService;
     private final ProjectRegistrationMapper mapper;
 
+    private final UserService userService;
+
     @Value("${aws.folder}")
     private String awsFolder;
 
@@ -35,9 +38,9 @@ public class ProjectRegistrationService {
         projectRegistrationRepository.saveTbTaskDtl(projectId, regUser, taskUnit);
     }
 
-    public Integer createProject(ProjectRegistrationDto dto) throws IOException {
+    public Integer createProject(ProjectRegistrationDto dto) throws Exception {
 
-        String userId = "yanghee";//TODO userId get from session
+        String userId = userService.getUserName();
         Integer projectId;
         if (dto.getProjectId() == null) {
             projectId = projectRegistrationRepository.saveProject(dto.getProjectType(), dto.getProjectName(), dto.getProjectContent(),

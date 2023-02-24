@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * 로그인 Controller
+ *
  * @author Enclouds
  * @since 2020.12.11
  */
@@ -15,17 +16,17 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class LogingController {
 
-	/**
-	 * 로그인 View
-	 * 현재 사용 안함.
-	 *
-	 * @param request
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping("/login")
-	public String login(HttpServletRequest request) throws Exception{
-		return "login/login.html";
-	}
-	
+    /**
+     * 로그인 View
+     * 현재 사용 안함.
+     *
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/login")
+    public String login(HttpServletRequest request) throws Exception {
+        return "login/login.html";
+    }
+
 }

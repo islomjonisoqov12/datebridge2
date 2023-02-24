@@ -2,7 +2,7 @@
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:insert="fragments/layout/head::head(${'마이페이지'})"/>
-    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/main.css">
     <style>
         .my-point-item {
             width: 150px;
@@ -31,6 +31,20 @@
         .my-point-item.ranked {
             background-color: rgba(108, 117, 125, 0.1);
         }
+
+        .bList1 ul li {
+            margin: 0;
+            padding: 44px 15px 0 15px
+        }
+
+        .bList1 ul li a {
+            width: 100%;
+        }
+
+        .bList1 ul li:before {
+            width: calc(100% - 34px);
+            left: 17px;
+        }
     </style>
 </head>
 <body>
@@ -40,14 +54,9 @@
 <hr class="dpn"/>
 <!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ /#head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
 <div class="container">
-    <div class="row pt-5">
+    <div class="row pt-5 pb-5">
         <div class="col-3">
-            <div class="list-group list-group-flush">
-                <a href="/mypage" class="list-group-item g-font-size-35 text-primary font-weight-bold">마이페이지</a>
-                <a href="/" class="list-group-item g-font-size-35">포인트 정보</a>
-                <a href="/" class="list-group-item g-font-size-35">회원정보수정</a>
-                <a href="/" class="list-group-item g-font-size-35">회원탈퇴</a>
-            </div>
+            <th:block th:insert="fragments/myPageNavigation::myPageNavi('mypage')" />
         </div>
         <div class="col-9">
             <div class="mb-5">
@@ -80,36 +89,43 @@
                     </div>
                 </div>
             </div>
-            <ul class="nav nav-tabs g-mb-100">
+            <ul class="nav nav-tabs g-mb-30">
                 <li class="nav-item">
-                    <a class="nav-link active px-5 py-2" aria-current="page" href="#">작업중</a>
+                    <a
+                            th:classappend="${currentStatus == 'INPROGRESS' ? 'active' : ''}"
+                            class="nav-link px-5 py-2"
+                            href="/mypage">
+                        작업중
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-5 py-2" href="#">승인 완료</a>
+                    <a th:classappend="${currentStatus == 'COMPLETED' ? 'active' : ''}" class="nav-link px-5 py-2"
+                       href="/mypage?status=COMPLETED">승인 완료</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-5 py-2" href="#">반려</a>
+                    <a th:classappend="${currentStatus == 'REJECTED' ? 'active' : ''}" class="nav-link px-5 py-2"
+                       href="/mypage?status=REJECTED">반려</a>
                 </li>
             </ul>
             <div class="bList1 clearfix"><!-- 완료된 work 에는 class="s1" 적용 -->
-                <ul>
-<!--                    <li th:each="list:${projects}">-->
-<!--                        <a class="d-inline-block" th:href="@{/sub/subDtl(eduSeq=${list.eduSeq})}">-->
-<!--                            <i class="c1" th:classappend="${list.eduType} == 'survey' ? 'ic1' :-->
-<!--                                                (${list.eduType} == 'voice' ? 'ic2' :-->
-<!--                                                (${list.eduType} == 'text' ? 'ic3' :-->
-<!--                                                (${list.eduType} == 'image' ? 'ic4' : '')) ) "></i>-->
-<!--                            <span class="t1" th:text="${list.eduType} == 'survey' ? '설문조사' :-->
-<!--                                                (${list.eduType} == 'voice' ? 'VOICE' :-->
-<!--                                                (${list.eduType} == 'text' ? 'TEXT' :-->
-<!--                                                (${list.eduType} == 'image' ? 'IMAGE' : '')) )"></span>-->
-<!--                            <strong class="t2" th:text="${list.subject}"></strong>-->
-<!--                            <span class="t3" th:text="${list.eduActiveYn} == 'Y' ? '진행중' : '완료'"></span>-->
-<!--                            <span class="t4" th:text="${#numbers.formatInteger(list.point, 0, 'COMMA')}">-->
-<!--                                <i></i></span>-->
-<!--                        </a>-->
-<!--                    </li>-->
-                    </a>
+                <ul class="p-0 m-0 row" th:if="${!projects.isEmpty()}">
+                    <li class="col-4" th:each="list:${projects}">
+                        <a class="d-inline-block" th:href="${'/sub/subDtl?eduSeq=' + list.getProjectId()}">
+                            <i class="c1" th:classappend="${list.getProjectType()} == 'survey' ? 'ic1' :
+                                                (${list.getProjectType()} == 'voice' ? 'ic2' :
+                                                (${list.getProjectType()} == 'text' ? 'ic3' :
+                                                (${list.getProjectType()} == 'image' ? 'ic4' : '')) ) "></i>
+                            <span class="t1" th:text="${list.getProjectType()} == 'survey' ? '설문조사' :
+                                                (${list.getProjectType} == 'voice' ? 'VOICE' :
+                                                (${list.getProjectType} == 'text' ? 'TEXT' :
+                                                (${list.getProjectType()} == 'image' ? 'IMAGE' : '')) )"></span>
+                            <strong class="t2" th:text="${list.getProjectName()}"></strong>
+                            <span th:if="${list.getStatus() == 'REJECTRED'}" class="t3">반려</span>
+                            <span th:if="${list.getStatus() == 'COMPLETED'}" class="t3">승인 완료</span>
+                            <span th:if="${list.getStatus() == 'INPROCESS'}" class="t3">작업중</span>
+                            <span class="t4" th:text="${#numbers.formatInteger(list.getPoint(), 0, 'COMMA')}">
+                                <i></i></span>
+                        </a>
                     </li>
                 </ul>
             </div>

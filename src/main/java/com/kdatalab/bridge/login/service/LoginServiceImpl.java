@@ -7,12 +7,13 @@ import org.springframework.stereotype.Service;
 
 /**
  * 로그인 Service
+ *
  * @author Enclouds
  * @since 2020.12.11
  */
 
 @Service
-public class LoginServiceImpl implements LoginService{
+public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private LoginMapper loginMapper;
@@ -23,7 +24,7 @@ public class LoginServiceImpl implements LoginService{
      * @param params
      * @throws Exception
      */
-    public void saveLoginHist(UserDto params) throws Exception{
+    public void saveLoginHist(UserDto params) throws Exception {
         loginMapper.saveLoginHist(params);
     }
 

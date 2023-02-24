@@ -9,6 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -62,12 +66,22 @@ public class PointServiceImpl implements PointService {
     }
 
     /**
-     *
+     * @param date - LocalDateTime
+     * @return formatted Date
+     */
+    public String getFormatDate(LocalDateTime date) {
+        if(date == null) {
+            return "-";
+        }
+        return date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
+
+    /**
      * @param loginId
      * @return total point by user id
      */
-    @Override
     public Integer getTotalPointByLoginId(String loginId) {
         return pointRepository.getTotalPointByLoginId(loginId);
+
     }
 }

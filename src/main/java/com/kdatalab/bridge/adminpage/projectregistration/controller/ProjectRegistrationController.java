@@ -16,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -59,7 +58,7 @@ public class ProjectRegistrationController extends BaseController {
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String projectRegistration(ProjectRegistrationDto dto) throws IOException {
+    public String projectRegistration(ProjectRegistrationDto dto) throws Exception {
         if(dto.getProjectId() == null && dto.getTaskUnit() > dto.getFiles().size()) {
             return "redirect:/admin/project-registration/error";
         }
