@@ -15,13 +15,14 @@
                 <ul id="gn1c1" class="clearfix">
                     <li><a href="/sub">작업리스트</a></li>
                     <li><a href="/rank">주간랭킹</a></li>
-                    <li sec:authorize="isAuthenticated">
+                    <li th:if="${userInfo.qcChk == 'N'}" sec:authorize="isAuthenticated">
                         <a>
                             <i class="ic_coin1"></i>
                             <span th:text="${#numbers.formatInteger(userInfo.nowpoint, 0, 'COMMA')}">320,000</span>
                         </a>
                     </li>
-                    <li sec:authorize="isAuthenticated()"><a href="/mypage">마이페이지</a></li>
+                    <li th:if="${userInfo.qcChk == 'N'}" sec:authorize="isAuthenticated()"><a href="/mypage">마이페이지</a></li>
+                    <li th:if="${userInfo.qcChk == 'Y'}" sec:authorize="isAuthenticated()"><a href="/admin/project-list">관리자 페이지</a></li>
                     <li sec:authorize="isAuthenticated()"><a href="/user/logout">로그아웃</a></li>
                     <li sec:authorize="!isAuthenticated()"><a href="/user/login">로그인</a></li>
                     <li sec:authorize="!isAuthenticated()"><a href="/join/sign">회원가입</a></li>
