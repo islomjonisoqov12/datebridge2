@@ -21,4 +21,9 @@ public class ProjectServiceImpl implements ProjectListService {
     public List<Project> getProjectList(String type, String projectType) {
         return projectListRepository.getProjects(type, projectType);
     }
+
+    @Override
+    public Project getProjectDetails(Integer projectId) {
+        return projectListRepository.getProjectDetails(projectId);
+    }
 }
