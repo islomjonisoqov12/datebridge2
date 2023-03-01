@@ -7,6 +7,7 @@
 	<select id="selectUserInfo" parameterType="com.kdatalab.bridge.user.dto.UserDto" resultType="com.kdatalab.bridge.user.dto.UserDto">
 		SELECT TU.login_id
 		, TU.password
+		,TU.QC_CHK
 		, TU.name
 		, TU.e_mail
 		, SUM(TP.NOWPOINT) AS nowpoint

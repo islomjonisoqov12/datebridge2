@@ -13,3 +13,13 @@
     border-radius: 10px;
     font-size: 20px;
 }
+
+.input-group-lg .form-control:not(textarea) {
+    height: calc(4rem + 2px);
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.table-striped th {
+    border-top: 0;
+}

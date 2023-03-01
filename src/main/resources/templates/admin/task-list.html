@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:insert="fragments/layout/head::head(${'마이페이지'})"/>
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ #head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
+<th:block th:insert="fragments/homes/common::common(${'관리자 페이지'})"/>
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ /#head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
+<hr class="dpn"/>
+<div class="container">
+    <div class="row pt-5 pb-5">
+        <div class="col-3">
+            <th:block th:insert="fragments/adminPageNavigation::adminPageNavi('list')"/>
+        </div>
+        <div class="col-9">
+        </div>
+    </div>
+</div>
+</body>
+</html>
