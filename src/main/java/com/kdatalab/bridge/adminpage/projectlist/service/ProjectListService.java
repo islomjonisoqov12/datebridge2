@@ -8,4 +8,6 @@ public interface ProjectListService {
     List<String> getProjectTypes();
 
     List<Project> getProjectList(String type, String projectType);
+
+    Project getProjectDetails(Integer projectId);
 }

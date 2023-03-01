@@ -6,10 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -52,5 +49,13 @@ public class ProjectListPageController {
     public List<String> projectTypes() {
         List<String> projectTypes = projectListService.getProjectTypes();
         return projectTypes;
+    }
+
+    @GetMapping("/project-list/{projectId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String projectList(@PathVariable("projectId") Integer projectId, Model model) {
+        Project project = projectListService.getProjectDetails(projectId);
+        model.addAttribute("project", project);
+        return "admin/project-list";
     }
 }
