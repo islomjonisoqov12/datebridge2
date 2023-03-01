@@ -2,6 +2,7 @@ package com.kdatalab.bridge.adminpage.projectlist.controller;
 
 import com.kdatalab.bridge.adminpage.projectlist.projection.Project;
 import com.kdatalab.bridge.adminpage.projectlist.service.ProjectListService;
+import com.kdatalab.bridge.base.BaseController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,7 @@ import java.util.List;
 @Controller
 @RequestMapping (value = "/admin")
 @RequiredArgsConstructor
-public class ProjectListPageController {
+public class ProjectListPageController extends BaseController {
 
     private final ProjectListService projectListService;
 

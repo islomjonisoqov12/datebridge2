@@ -3,23 +3,20 @@ package com.kdatalab.bridge.adminpage.projectregistration.controller;
 import com.kdatalab.bridge.adminpage.projectlist.service.ProjectListService;
 import com.kdatalab.bridge.adminpage.projectregistration.dto.ProjectRegistrationDto;
 import com.kdatalab.bridge.adminpage.projectregistration.dto.TaskAssignedDto;
+import com.kdatalab.bridge.adminpage.projectregistration.dto.TaskDto;
 import com.kdatalab.bridge.adminpage.projectregistration.service.AWSService;
 import com.kdatalab.bridge.adminpage.projectregistration.service.ProjectRegistrationService;
 import com.kdatalab.bridge.base.BaseController;
+import com.kdatalab.bridge.user.dto.UserDto;
+import com.kdatalab.bridge.user.mapper.UserMapper;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.kdatalab.bridge.adminpage.projectregistration.dto.TaskDto;
-import com.kdatalab.bridge.user.dto.UserDto;
-import com.kdatalab.bridge.user.mapper.UserMapper;
-import org.springframework.security.access.prepost.PreAuthorize;
 
-
-import java.util.HashMap;
 import java.util.List;
-import java.io.IOException;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/admin/project-registration")
@@ -70,7 +67,7 @@ public class ProjectRegistrationController extends BaseController {
     }
 
     @GetMapping("/step-2/{projectId}")
-    @PreAuthorize("isFullyAuthenticated()")
+    @PreAuthorize("hasRole('ADMIN')")
     public String getStep2Page(@PathVariable Long projectId, @RequestParam(required = false, defaultValue = "false") Boolean edit, Model model){
         List<TaskDto> projectWithTasks = projectRegistrationService.getProjectWithTasks(projectId);
         List<UserDto> users = userService.selectUserByQcChk('N');
@@ -79,9 +76,16 @@ public class ProjectRegistrationController extends BaseController {
         model.addAttribute("projectId", projectId);
         return "admin/projectRegistration2";
     }
+    @GetMapping("/search/{status}")
+    @ResponseBody
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<UserDto> searchUser(@PathVariable Character status, @RequestParam String search){
+        return userService.searchUser(status, search);
+    }
+
 
     @PostMapping("/step-2/{projectId}")
-//    @PreAuthorize(value = "isAuthenticated()")
+    @Secured(value = {"ROLE_ADMIN"})
     public String saveStep2Project(@ModelAttribute(name = "form") TaskAssignedDto dto, Authentication authentication, @PathVariable int projectId) {
         projectRegistrationService.saveAssignedUsers(dto, authentication.getName(), projectId);
         return "redirect:admin/project-list";
