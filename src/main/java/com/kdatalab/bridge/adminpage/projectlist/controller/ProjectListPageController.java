@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,7 +31,7 @@ public class ProjectListPageController extends BaseController {
     public String projectList(@RequestParam(value = "type", required = false) String type,
                               // type = '1' =>only need check project, type<>'1'=> all project
                               @RequestParam(value = "projectType", required = false) String projectType,
-                              Model model) {
+                              Model model) throws Exception {
 
         List<Project> projectList = projectListService.getProjectList(type, projectType);
         model.addAttribute("projectList", projectList);
@@ -53,5 +50,13 @@ public class ProjectListPageController extends BaseController {
     public List<String> projectTypes() {
         List<String> projectTypes = projectListService.getProjectTypes();
         return projectTypes;
+    }
+
+    @GetMapping("/project-list/{projectId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String projectList(@PathVariable("projectId") Integer projectId, Model model) {
+        Project project = projectListService.getProjectDetails(projectId);
+        model.addAttribute("project", project);
+        return "admin/project-list";
     }
 }
