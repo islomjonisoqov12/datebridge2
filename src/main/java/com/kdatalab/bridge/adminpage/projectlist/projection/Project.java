@@ -1,6 +1,5 @@
 package com.kdatalab.bridge.adminpage.projectlist.projection;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 public interface Project {
@@ -16,6 +15,14 @@ public interface Project {
     Date getStartDate();
 
     Date getEndDate();
+
+    String getProjectContent();
+
+    Integer getProjectTime();
+
+    Integer getPoint();
+
+    Integer getTaskUnit();
 
     boolean getChecked();
 }
