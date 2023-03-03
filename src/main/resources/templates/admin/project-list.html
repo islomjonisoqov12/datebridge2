@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:insert="fragments/layout/head::head(${'마이페이지'})"/>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <style>
+        .project-filter {
+            border-radius: 6px;
+            background-color: #e9ecef;
+        }
+
+        table td {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ #head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
+<th:block th:insert="fragments/homes/common::common(${'관리자 페이지'})"/>
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ /#head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
+<hr class="dpn"/>
+<div class="container">
+    <div class="row pt-5 pb-5">
+        <div class="col-3">
+            <th:block th:insert="fragments/adminPageNavigation::adminPageNavi('list')"/>
+        </div>
+        <div class="col-9">
+            <div class="project-filter px-5 py-4 d-flex align-items-center mb-5">
+                <div class="form-inline input-group-lg">
+                    <label class="mr-3" for="type">타입</label>
+                    <select class="form-control" id="type">
+                        <option selected value="">전체</option>
+                        <option value="1">검수대상</option>
+                    </select>
+                </div>
+                <div class="form-inline input-group-lg ml-5">
+                    <label class="mr-3" for="projectType">작업종류</label>
+                    <select class="form-control" id="projectType">
+                        <option value="">전체</option>
+                        <option value="image">이미지</option>
+                        <option value="text">텍스트</option>
+                        <option value="survey">설문조사</option>
+                        <option value="voice">보이스</option>
+                        <option value="project">프로젝트</option>
+                    </select>
+                </div>
+                <button id="submit-btn" class="ml-auto btn bg-primary text-white">
+                    조회 <i class="fa fa-search"> </i>
+                </button>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th class="border-top-0" scope="col">NO</th>
+                    <th class="border-top-0" scope="col">작업종류</th>
+                    <th class="border-top-0" scope="col">작업명</th>
+                    <th class="border-top-0" scope="col">기간</th>
+                    <th class="border-top-0" scope="col">상태</th>
+                    <th class="border-top-0" scope="col">검수</th>
+                    <th class="border-top-0" scope="col">태스크 조회</th>
+                </tr>
+                </thead>
+                <tbody>
+                <colgroup>
+                    <col style="width: 60px">
+                    <col style="width: 100px">
+                    <col style="width: auto">
+                    <col style="width: 120px">
+                    <col style="width: 90px">
+                    <col style="width: 70px">
+                    <col style="width: 100px">
+                </colgroup>
+                <tr th:each="list, index : *{projectList}">
+                    <td th:text="${index.count}"></td>
+                    <td>
+                        <span th:if="${list.getProjectType() == 'survey'}">조사</span>
+                        <span th:if="${list.getProjectType() == 'text'}">텍스트</span>
+                        <span th:if="${list.getProjectType() == 'voice'}">보이스</span>
+                        <span th:if="${list.getProjectType() == 'image'}">이미지</span>
+                        <span th:if="${list.getProjectType() == 'project'}">프로젝트</span>
+                    </td>
+                    <td>
+                        <a th:href="${'/admin/task-list/' + list.getProjectId()}" class="text-primary"
+                           th:text="${list.projectName}"></a>
+                    </td>
+                    <td>
+                        <span th:text="${#dates.format(list.getStartDate(), 'yyyy.MM.dd')}"></span>
+                        <span>~</span>
+                        <br/>
+                        <span th:text="${#dates.format(list.getEndDate(), 'yyyy.MM.dd')}"></span>
+                    </td>
+                    <td>
+                        <span th:if="${list.getStatus() == 'COMPLETED'}">승인 완료</span>
+                        <span th:if="${list.getStatus() == 'REJECTED'}">반려</span>
+                        <span th:if="${list.getStatus() == 'INPROGRESS'}">작업중</span>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" th:if="${list.getChecked()}"
+                                th:onclick="'goToTaskList(\'' + ${list.getProjectId()} + '\');'">검수
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-secondary btn-sm"
+                                th:onclick="'goToTaskList(\'' + ${list.getProjectId()} + '\');'"
+                                style="min-width: 60px">
+                            <i class="fa fa-search"> </i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    function goToTaskList(id) {
+        window.location.replace(`/admin_task-list/${id}`)
+    }
+
+    $('#submit-btn').on('click', () => {
+        const type = $('#type').val()
+        const projectType = $('#projectType').val()
+        const arr = []
+        if (type) {
+            arr.push(`type=${type}`)
+        }
+
+        if (projectType) {
+            arr.push(`projectType=${projectType}`)
+        }
+
+        window.location.replace(`/admin/project-list${arr.length > 0 ? `?${arr.join('&')}` : ''}`)
+    })
+
+</script>
+
+</body>
+</html>

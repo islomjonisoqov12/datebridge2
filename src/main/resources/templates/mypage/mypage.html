@@ -122,7 +122,7 @@
                             <strong class="t2" th:text="${list.getProjectName()}"></strong>
                             <span th:if="${list.getStatus() == 'REJECTRED'}" class="t3">반려</span>
                             <span th:if="${list.getStatus() == 'COMPLETED'}" class="t3">승인 완료</span>
-                            <span th:if="${list.getStatus() == 'INPROCESS'}" class="t3">작업중</span>
+                            <span th:if="${list.getStatus() == 'INPROGRESS'}" class="t3">작업중</span>
                             <span class="t4" th:text="${#numbers.formatInteger(list.getPoint(), 0, 'COMMA')}">
                                 <i></i></span>
                         </a>

@@ -2,7 +2,7 @@
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:insert="fragments/layout/head::head(${'포인트 정보'})"/>
-    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/main.css">
 </head>
 <body>
 <!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ #head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
@@ -13,7 +13,7 @@
 <div class="container">
     <div class="row pt-5 pb-5">
         <div class="col-3">
-            <th:block th:insert="fragments/myPageNavigation::myPageNavi('pointHistory')" />
+            <th:block th:insert="fragments/myPageNavigation::myPageNavi('pointHistory')"/>
         </div>
         <div class="col-9">
             <div class="mb-5">
@@ -42,11 +42,13 @@
                     <tbody>
                     <tr th:each="list, index : *{pointHistory}">
                         <td th:text="${index.count}"></td>
-                        <td th:if="${list.getProjectType() == 'survey'}">조사</td>
-                        <td th:if="${list.getProjectType() == 'text'}">텍스트</td>
-                        <td th:if="${list.getProjectType() == 'voice'}">보이스</td>
-                        <td th:if="${list.getProjectType() == 'image'}">이미지</td>
-                        <td th:if="${list.getProjectType() == 'project'}">프로젝트</td>
+                        <td>
+                            <span th:if="${list.getProjectType() == 'survey'}">조사</span>
+                            <span th:if="${list.getProjectType() == 'text'}">텍스트</span>
+                            <span th:if="${list.getProjectType() == 'voice'}">보이스</span>
+                            <span th:if="${list.getProjectType() == 'image'}">이미지</span>
+                            <span th:if="${list.getProjectType() == 'project'}">프로젝트</span>
+                        </td>
                         <td th:text="${list.projectName}"></td>
                         <td th:text="${list.getGivenDate()}"></td>
                         <td th:text="${'+' + list.getPoint() + 'pt'}"></td>
