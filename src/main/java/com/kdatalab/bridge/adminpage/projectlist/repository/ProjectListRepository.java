@@ -16,8 +16,8 @@ public interface ProjectListRepository extends JpaRepository<RootEntity, Long> {
                      "from TB_EDU_MST t ", nativeQuery = true)
     List<String> getProjectTypes();
 
-    @Query(value = "call list_projects_by_admin(?1, ?2)", nativeQuery = true)
-    List<Project> getProjects(String type, String projectType);
+    @Query(value = "call list_projects_by_admin(?1, ?2, ?3)", nativeQuery = true)
+    List<Project> getProjects(String type, String projectType, String qcId);
 
     @Query(value = "select t.EDU_SEQ projectId, t.EDU_TYPE projectType, t.SUBJECT projectName, t.CONTENT content, t.TIME projectTime, t.START_DATE startDate, t.END_DATE endDate, t.POINT point, t.TASK_UNIT taskUnit " +
                      "from TB_EDU_MST t " +
