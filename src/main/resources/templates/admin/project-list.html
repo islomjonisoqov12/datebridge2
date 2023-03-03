@@ -9,7 +9,7 @@
             background-color: #e9ecef;
         }
 
-        table td{
+        table td {
             font-size: 16px;
         }
     </style>
@@ -29,14 +29,14 @@
                 <div class="form-inline input-group-lg">
                     <label class="mr-3" for="type">타입</label>
                     <select class="form-control" id="type">
-                        <option selected value="0">전체</option>
+                        <option selected value="">전체</option>
                         <option value="1">검수대상</option>
                     </select>
                 </div>
                 <div class="form-inline input-group-lg ml-5">
                     <label class="mr-3" for="projectType">작업종류</label>
                     <select class="form-control" id="projectType">
-                        <option value="0">전체</option>
+                        <option value="">전체</option>
                         <option value="image">이미지</option>
                         <option value="text">텍스트</option>
                         <option value="survey">설문조사</option>
@@ -44,22 +44,12 @@
                         <option value="project">프로젝트</option>
                     </select>
                 </div>
-                <button class="ml-auto btn bg-primary text-white">
-                    조회
-                    <i class="fa fa-search"> </i>
+                <button id="submit-btn" class="ml-auto btn bg-primary text-white">
+                    조회 <i class="fa fa-search"> </i>
                 </button>
             </div>
             <table class="table table-striped">
                 <thead>
-                <colgroup>
-                    <col style="width: 60px">
-                    <col style="width: 100px">
-                    <col style="width: auto">
-                    <col style="width: 120px">
-                    <col style="width: 90px">
-                    <col style="width: 70px">
-                    <col style="width: 100px">
-                </colgroup>
                 <tr>
                     <th class="border-top-0" scope="col">NO</th>
                     <th class="border-top-0" scope="col">작업종류</th>
@@ -71,6 +61,15 @@
                 </tr>
                 </thead>
                 <tbody>
+                <colgroup>
+                    <col style="width: 60px">
+                    <col style="width: 100px">
+                    <col style="width: auto">
+                    <col style="width: 120px">
+                    <col style="width: 90px">
+                    <col style="width: 70px">
+                    <col style="width: 100px">
+                </colgroup>
                 <tr th:each="list, index : *{projectList}">
                     <td th:text="${index.count}"></td>
                     <td>
@@ -81,7 +80,8 @@
                         <span th:if="${list.getProjectType() == 'project'}">프로젝트</span>
                     </td>
                     <td>
-                        <a th:href="${'/admin/task-list/' + list.getProjectId()}" class="text-primary" th:text="${list.projectName}"></a>
+                        <a th:href="${'/admin/task-list/' + list.getProjectId()}" class="text-primary"
+                           th:text="${list.projectName}"></a>
                     </td>
                     <td>
                         <span th:text="${#dates.format(list.getStartDate(), 'yyyy.MM.dd')}"></span>
@@ -95,10 +95,14 @@
                         <span th:if="${list.getStatus() == 'INPROGRESS'}">작업중</span>
                     </td>
                     <td>
-                        <button class="btn btn-primary btn-sm" th:if="${list.getChecked()}" th:onclick="'goToTaskList(\'' + ${list.getProjectId()} + '\');'">검수</button>
+                        <button class="btn btn-primary btn-sm" th:if="${list.getChecked()}"
+                                th:onclick="'goToTaskList(\'' + ${list.getProjectId()} + '\');'">검수
+                        </button>
                     </td>
                     <td>
-                        <button class="btn btn-outline-secondary btn-sm" style="min-width: 60px">
+                        <button class="btn btn-outline-secondary btn-sm"
+                                th:onclick="'goToTaskList(\'' + ${list.getProjectId()} + '\');'"
+                                style="min-width: 60px">
                             <i class="fa fa-search"> </i>
                         </button>
                     </td>
@@ -112,6 +116,22 @@
     function goToTaskList(id) {
         window.location.replace(`/admin_task-list/${id}`)
     }
+
+    $('#submit-btn').on('click', () => {
+        const type = $('#type').val()
+        const projectType = $('#projectType').val()
+        const arr = []
+        if (type) {
+            arr.push(`type=${type}`)
+        }
+
+        if (projectType) {
+            arr.push(`projectType=${projectType}`)
+        }
+
+        window.location.replace(`/admin/project-list${arr.length > 0 ? `?${arr.join('&')}` : ''}`)
+    })
+
 </script>
 
 </body>
