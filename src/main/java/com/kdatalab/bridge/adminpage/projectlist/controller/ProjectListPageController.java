@@ -31,9 +31,11 @@ public class ProjectListPageController extends BaseController {
     public String projectList(@RequestParam(value = "type", required = false) String type,
                               // type = '1' =>only need check project, type<>'1'=> all project
                               @RequestParam(value = "projectType", required = false) String projectType,
-                              Model model) {
+                              Model model) throws Exception {
 
         List<Project> projectList = projectListService.getProjectList(type, projectType);
+        model.addAttribute("type", type);
+        model.addAttribute("projectType", projectType);
         model.addAttribute("projectList", projectList);
 
         return "admin/project-list";

@@ -7,7 +7,7 @@ public interface ProjectListService {
 
     List<String> getProjectTypes();
 
-    List<Project> getProjectList(String type, String projectType);
+    List<Project> getProjectList(String type, String projectType) throws Exception;
 
     Project getProjectDetails(Integer projectId);
 }
