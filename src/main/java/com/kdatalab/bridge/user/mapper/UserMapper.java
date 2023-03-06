@@ -30,4 +30,5 @@ public interface UserMapper {
 
     List<UserDto> searchUser(@Param("s") Character status, @Param("q")String search);
 
+    List<UserDto> selectUserByStatus(char n);
 }
