@@ -20,4 +20,14 @@ public class BaseController {
             return userMapper.selectUserInfo(userDto);
         }
     }
+    @ModelAttribute(value = "count")
+    public Integer getNewRequestCount(Authentication authentication) throws Exception {
+        if (authentication==null) {
+            return null;
+        }else if(authentication.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))){
+            return userMapper.selectUserByStatus('N').size();
+        }else {
+            return null;
+        }
+    }
 }
