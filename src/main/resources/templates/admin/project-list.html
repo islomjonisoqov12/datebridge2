@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:insert="fragments/layout/head::head(${'마이페이지'})"/>
+    <th:block th:insert="fragments/layout/head::head(${'작업 목록'})"/>
     <link rel="stylesheet" href="../assets/css/main.css">
     <style>
         .project-filter {
@@ -16,7 +16,7 @@
 </head>
 <body>
 <!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ #head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
-<th:block th:insert="fragments/homes/common::common(${'관리자 페이지'})"/>
+<th:block th:insert="fragments/homes/common::common(${'작업 목록'})"/>
 <!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ /#head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
 <hr class="dpn"/>
 <div class="container">
@@ -80,7 +80,7 @@
                         <span th:if="${list.getProjectType() == 'project'}">프로젝트</span>
                     </td>
                     <td>
-                        <a th:href="${'/admin/task-list/' + list.getProjectId()}" class="text-primary"
+                        <a th:href="${'/project-registration/' + list.getProjectId()}" class="text-primary"
                            th:text="${list.projectName}"></a>
                     </td>
                     <td>
@@ -114,7 +114,7 @@
 </div>
 <script>
     function goToTaskList(id) {
-        window.location.replace(`/admin_task-list/${id}`)
+        window.location.replace(`/task-list/${id}`)
     }
 
     $('#submit-btn').on('click', () => {
@@ -129,7 +129,7 @@
             arr.push(`projectType=${projectType}`)
         }
 
-        window.location.replace(`/admin/project-list${arr.length > 0 ? `?${arr.join('&')}` : ''}`)
+        window.location.replace(`/project-list${arr.length > 0 ? `?${arr.join('&')}` : ''}`)
     })
 
 </script>

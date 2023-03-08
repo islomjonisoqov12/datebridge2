@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:insert="fragments/layout/head::head(${'관리자 요청 리스트'})"/>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        h2 {
+            font-weight: 600;
+            font-size: 32px;
+        }
+    </style>
+</head>
+<body>
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ #head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
+<th:block th:insert="fragments/homes/common::common(${'관리자 요청 리스트'})"/>
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ /#head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
+<hr class="dpn"/>
+<div class="container">
+    <div class="pt-5">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Birth Date</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tr th:each="admin, index : *{admins}" th:attr="data-rowId=${admin.getLoginId()}">
+                <td th:text="${admin.getName()}"></td>
+                <td th:text="${admin.getLoginId()}"></td>
+                <td th:text="${admin.getEMail()}">.</td>
+                <td th:text="${admin.getBirthDtFormat()}">.</td>
+                <td>
+                    <button th:attr="data-loginId=${admin.getLoginId()}" class="btn btn-success"><i class="fa fa-check-circle" th:attr="data-loginId=${admin.getLoginId()}"></i></button>
+                    <button th:attr="data-loginId=${admin.getLoginId()}" class="btn btn-danger"><i class="fa fa-close" th:attr="data-loginId=${admin.getLoginId()}"></i></button>
+                </td>
+            </tr>
+        </table>
+        <h2 th:if="${admins.isEmpty()}" class="text-center mt-5 text-muted">There is no new admin request</h2>
+    </div>
+</div>
+<script>
+    function resultAdmin(status, loginId){
+        const b = $(`.btn-${status ? 'success' : 'danger'}[data-loginid="${loginId}"]`)
+        b.attr('disabled', true)
+        $.get("/check-admin/status/"+status+'?loginId='+loginId)
+            .done(() => {
+                Swal.fire({
+                    title: 'Successfully changed admin status',
+                })
+                $(`[data-rowid="${loginId}"]`).remove()
+            })
+            .fail(() => {
+                b.removeAttr('disabled')
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: '<p class="g-font-size-24">비밀번호가 일치하지 않습니다.</p>',
+                })
+            })
+    }
+
+    $('.btn-success').on('click', (e) => {
+        const b = $(e.target)
+        resultAdmin(true, b.data('loginid'))
+    })
+
+    $('.btn-danger').on('click', (e) => {
+        const b = $(e.target)
+        resultAdmin(false, b.data('loginid'))
+    })
+
+</script>
+
+</body>
+</html>

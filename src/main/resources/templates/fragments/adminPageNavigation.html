@@ -1,10 +1,10 @@
 <th:block xmlns:th="http://www.thymeleaf.org" th:fragment="adminPageNavi(activeType)">
     <div class="list-group list-group-flush">
-        <a th:classappend="${activeType == 'list' ? 'text-primary font-weight-bold' : ''}" href="/admin/project-list"
+        <a th:classappend="${activeType == 'list' ? 'text-primary font-weight-bold' : ''}" href="/project-list"
            class="list-group-item g-font-size-35">
             작업 목록
         </a>
-        <a th:classappend="${activeType == 'form' ? 'text-primary font-weight-bold' : ''}" href="/admin/project"
+        <a th:classappend="${activeType == 'form' ? 'text-primary font-weight-bold' : ''}" href="/project-registration"
            class="list-group-item g-font-size-35">작업 등록</a>
     </div>
 </th:block>

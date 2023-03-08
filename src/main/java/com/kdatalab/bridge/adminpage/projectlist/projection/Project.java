@@ -5,24 +5,14 @@ import java.util.Date;
 public interface Project {
 
     int getProjectId();
-
     String getProjectName();
-
     String getProjectType();
-
-    String getStatus();
-
-    Date getStartDate();
-
-    Date getEndDate();
-
     String getProjectContent();
-
     Integer getProjectTime();
-
+    String getStatus();
     Integer getPoint();
-
     Integer getTaskUnit();
-
+    Date getStartDate();
+    Date getEndDate();
     boolean getChecked();
 }

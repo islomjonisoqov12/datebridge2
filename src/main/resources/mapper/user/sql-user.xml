@@ -44,7 +44,7 @@
 		, TU.GENDER_CD
 		, TU.STATUS
 		FROM TB_USER TU join TB_POINT TP on  TU.login_id = TP.login_id
-		WHERE TU.QC_CHK = #{n}
+		WHERE TU.QC_CHK = #{n} and TU.STATUS = 'S'
 		group by TU.LOGIN_ID
 	</select>
 
@@ -58,10 +58,21 @@
 		, TU.GENDER_CD
 		, TU.STATUS
 		FROM TB_USER TU join TB_POINT TP on  TU.login_id = TP.login_id
-		WHERE TU.QC_CHK = #{s} and lower(TU.NAME) like concat('%', #{q}, '%')
+		WHERE TU.QC_CHK = #{s} and lower(TU.NAME) like concat('%', #{q}, '%') and TU.STATUS = 'S'
 		group by TU.LOGIN_ID
 	</select>
-	
+
+	<select id="selectUserByStatus" parameterType="java.lang.Character" resultType="com.kdatalab.bridge.user.dto.UserDto">
+		SELECT TU.login_id
+			 , TU.name
+			 , TU.e_mail
+			 , TU.TEL
+			 , TU.BIRTH_DT
+			 , TU.GENDER_CD
+			 , TU.STATUS
+		FROM TB_USER TU
+		WHERE TU.STATUS = #{n}
+	</select>
 </mapper>
 
 

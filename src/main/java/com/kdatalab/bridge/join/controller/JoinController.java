@@ -69,7 +69,7 @@ public class JoinController extends BaseController {
             sCipherTime = niceCheck.getCipherDateTime();
 
             // 데이타를 추출합니다.
-            java.util.HashMap mapresult = niceCheck.fnParse(sPlainData);
+            HashMap mapresult = niceCheck.fnParse(sPlainData);
 
             sRequestNumber  = (String)mapresult.get("REQ_SEQ");
             sResponseNumber = (String)mapresult.get("RES_SEQ");
@@ -139,7 +139,7 @@ public class JoinController extends BaseController {
         if( iReturn == 0 ){
             sPlainData = niceCheck.getPlainData();
             // 데이타를 추출합니다.
-            java.util.HashMap mapresult = niceCheck.fnParse(sPlainData);
+            HashMap mapresult = niceCheck.fnParse(sPlainData);
 
             sDupInfo		= (String)mapresult.get("DI");
             int cnt = joinUserService.getUserDuplInfo(sDupInfo);
