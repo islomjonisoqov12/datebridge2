@@ -3,6 +3,23 @@
         xmlns:th="http://www.thymeleaf.org"
         xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
+    <style>
+        .circular-badge {
+            display: inline-block;
+            position: absolute;
+            min-width: 20px;
+            height: 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-family: "Arial", sans-serif;
+            text-align: center;
+            padding: 0 4px 0 3px;
+            line-height: 20px;
+            font-size: 12px;
+            top: -10px;
+            right: 0;
+        }
+    </style>
     <div id="head_s1" class="clearfix">
         <!-- containers -->
         <div class="containers">
@@ -21,8 +38,14 @@
                             <span th:text="${#numbers.formatInteger(userInfo.nowpoint, 0, 'COMMA')}">320,000</span>
                         </a>
                     </li>
-                    <li th:if="${userInfo.qcChk == 'N'}" sec:authorize="isAuthenticated()"><a href="/mypage">마이페이지</a></li>
-                    <li th:if="${userInfo.qcChk == 'Y'}" sec:authorize="isAuthenticated()"><a href="/project-list">관리자 페이지</a></li>
+                    <li th:if="${userInfo.qcChk == 'N'}" sec:authorize="isAuthenticated()"><a href="/mypage">마이페이지</a>
+                    </li>
+                    <li th:if="${userInfo.qcChk == 'Y'}" sec:authorize="isAuthenticated()" style="position: relative;">
+                        <a href="/check-admin">관리자 요청리스트</a>
+                        <span class="circular-badge text-light bg-danger">1</span>
+                    </li>
+                    <li th:if="${userInfo.qcChk == 'Y'}" sec:authorize="isAuthenticated()"><a href="/project-list">관리자
+                        페이지</a></li>
                     <li sec:authorize="isAuthenticated()"><a href="/user/logout">로그아웃</a></li>
                     <li sec:authorize="!isAuthenticated()"><a href="/user/login">로그인</a></li>
                     <li sec:authorize="!isAuthenticated()"><a href="/join/sign">회원가입</a></li>
