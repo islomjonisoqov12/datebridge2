@@ -1,71 +1,60 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!doctype html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:insert="fragments/layout/head::head(${'Check Admin'})"/>
+    <th:block th:insert="fragments/layout/head::head(${'관리자 요청 리스트'})"/>
     <link rel="stylesheet" href="../assets/css/main.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <meta charset="UTF-8">
-    <title>Check Admin</title>
-
     <style>
-        .spinner-border {
-            border-width: 0.15em;
-            margin-right: 8px;
-        }
-        .btn {
-            display: flex;
-            align-items: center;
-        }
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        td, th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #dddddd;
+        h2 {
+            font-weight: 600;
+            font-size: 32px;
         }
     </style>
 </head>
 <body>
-
-<h2>HTML Table</h2>
-
-<table>
-    <tr>
-        <th>Username</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Birth Date</th>
-        <th>Gender</th>
-        <th>Acceptance</th>
-        <th>Rejection</th>
-    </tr>
-    <tr th:each="admin, index : *{admins}">
-        <td th:text="${admin.getLoginId()}">.</td>
-        <td th:text="${admin.getName()}">.</td>
-        <td th:text="${admin.getEMail()}">.</td>
-        <td th:text="${admin.getBirthDtFormat()}">.</td>
-        <td th:text="${admin.getGenderCd()}">.</td>
-        <td><button th:data-id="${admin.getLoginId()}" th:data-count="${index.count}" onclick="resultAdmin(true, this.getAttribute('data-id'), this.getAttribute('data-count'))">Accept</button></td>
-        <td><button th:data-id="${admin.getLoginId()}" th:data-count="${index.count}" onclick="resultAdmin(false, this.getAttribute('data-id'), this.getAttribute('data-count'))">Reject</button></td>
-    </tr>
-
-</table>
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ #head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
+<th:block th:insert="fragments/homes/common::common(${'관리자 요청 리스트'})"/>
+<!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ /#head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
+<hr class="dpn"/>
+<div class="container">
+    <div class="pt-5">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Birth Date</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tr th:each="admin, index : *{admins}" th:attr="data-rowId=${admin.getLoginId()}">
+                <td th:text="${admin.getName()}"></td>
+                <td th:text="${admin.getLoginId()}"></td>
+                <td th:text="${admin.getEMail()}">.</td>
+                <td th:text="${admin.getBirthDtFormat()}">.</td>
+                <td>
+                    <button th:attr="data-loginId=${admin.getLoginId()}" class="btn btn-success"><i class="fa fa-check-circle" th:attr="data-loginId=${admin.getLoginId()}"></i></button>
+                    <button th:attr="data-loginId=${admin.getLoginId()}" class="btn btn-danger"><i class="fa fa-close" th:attr="data-loginId=${admin.getLoginId()}"></i></button>
+                </td>
+            </tr>
+        </table>
+        <h2 th:if="${admins.isEmpty()}" class="text-center mt-5 text-muted">There is no new admin request</h2>
+    </div>
+</div>
 <script>
-    function resultAdmin(status, loginId, count){
+    function resultAdmin(status, loginId){
+        const b = $(`.btn-${status ? 'success' : 'danger'}[data-loginid="${loginId}"]`)
+        b.attr('disabled', true)
         $.get("/check-admin/status/"+status+'?loginId='+loginId)
-            .done((data) => {
-                console.log(loginId+': '+status?'ACCEPTED':'REJECTED')
+            .done(() => {
+                Swal.fire({
+                    title: 'Successfully changed admin status',
+                })
+                $(`[data-rowid="${loginId}"]`).remove()
             })
             .fail(() => {
-                $('#spinner').addClass('d-none')
+                b.removeAttr('disabled')
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -73,6 +62,18 @@
                 })
             })
     }
+
+    $('.btn-success').on('click', (e) => {
+        const b = $(e.target)
+        resultAdmin(true, b.data('loginid'))
+    })
+
+    $('.btn-danger').on('click', (e) => {
+        const b = $(e.target)
+        resultAdmin(false, b.data('loginid'))
+    })
+
 </script>
+
 </body>
 </html>

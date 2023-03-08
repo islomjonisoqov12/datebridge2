@@ -17,12 +17,12 @@ public class ProjectRegistrationDto {
     String projectType;
     String projectName;
     String projectContent;
-    Integer workDateInMinutes;
+    int workDateInMinutes;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     LocalDate projectStartDate;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     LocalDate projectEndDate;
-    Integer pointPerImage;
-    Integer taskUnit;
+    int pointPerImage;
+    int taskUnit;
     List<MultipartFile> files;
 }

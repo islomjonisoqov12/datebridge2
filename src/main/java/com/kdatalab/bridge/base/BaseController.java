@@ -20,7 +20,7 @@ public class BaseController {
             return userMapper.selectUserInfo(userDto);
         }
     }
-    @ModelAttribute(value = "count")
+    @ModelAttribute(value = "requestCount")
     public Integer getNewRequestCount(Authentication authentication) throws Exception {
         if (authentication==null) {
             return null;

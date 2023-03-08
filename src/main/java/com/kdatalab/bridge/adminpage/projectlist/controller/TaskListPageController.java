@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin_task-list")
+@RequestMapping("/task-list")
 @RequiredArgsConstructor
 public class TaskListPageController extends BaseController {
 
