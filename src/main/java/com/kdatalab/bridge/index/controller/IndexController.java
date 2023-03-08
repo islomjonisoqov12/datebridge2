@@ -1,5 +1,6 @@
 package com.kdatalab.bridge.index.controller;
 
+import com.kdatalab.bridge.base.BaseController;
 import com.kdatalab.bridge.edu.dto.EduDto;
 import com.kdatalab.bridge.edu.service.EduService;
 import com.kdatalab.bridge.rank.dto.RankDto;
@@ -26,7 +27,7 @@ import java.util.List;
  */
 
 @Controller
-public class IndexController {
+public class IndexController extends BaseController {
 
 	@Autowired
 	private EduService eduService;
