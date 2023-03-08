@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/project-registration")
+@RequestMapping("/project-registration")
 public class ProjectRegistrationController extends BaseController {
 
     private final ProjectListService projectListService;
@@ -60,15 +60,15 @@ public class ProjectRegistrationController extends BaseController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String projectRegistration(ProjectRegistrationDto dto) throws Exception {
         if(dto.getProjectId() == null && dto.getTaskUnit() > dto.getFiles().size()) {
-            return "redirect:/admin/project-registration/error";
+            return "redirect:/project-registration/error";
         }
         Integer projectId = projectRegistrationService.createProject(dto);
-        return "redirect:/admin/project-registration/step-2/"+projectId+(dto.getProjectId()==null?"":"?edit=true");
+        return "redirect:/project-registration/step-2/"+projectId+(dto.getProjectId()==null?"":"?edit=true");
     }
 
-    @GetMapping("/step-2/{projectId}")
+    @GetMapping("/step-2")
     @PreAuthorize("hasRole('ADMIN')")
-    public String getStep2Page(@PathVariable Long projectId, @RequestParam(required = false, defaultValue = "false") Boolean edit, Model model){
+    public String getStep2Page(@RequestParam Long projectId, @RequestParam(required = false, defaultValue = "false") Boolean edit, Model model){
         List<TaskDto> projectWithTasks = projectRegistrationService.getProjectWithTasks(projectId);
         List<UserDto> users = userService.selectUserByQcChk('N');
         List<UserDto> admins = userService.selectUserByQcChk('Y');
@@ -84,9 +84,9 @@ public class ProjectRegistrationController extends BaseController {
     }
 
 
-    @PostMapping("/step-2/{projectId}")
+    @PostMapping("/step-2")
     @Secured(value = {"ROLE_ADMIN"})
-    public String saveStep2Project(@ModelAttribute(name = "form") TaskAssignedDto dto, Authentication authentication, @PathVariable int projectId) {
+    public String saveStep2Project(@ModelAttribute(name = "form") TaskAssignedDto dto, Authentication authentication, @RequestParam int projectId) {
         projectRegistrationService.saveAssignedUsers(dto, authentication.getName(), projectId);
         return "redirect:admin/project-list";
     }

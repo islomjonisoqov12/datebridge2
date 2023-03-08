@@ -80,7 +80,7 @@
                         <span th:if="${list.getProjectType() == 'project'}">프로젝트</span>
                     </td>
                     <td>
-                        <a th:href="${'/admin/task-list/' + list.getProjectId()}" class="text-primary"
+                        <a th:href="${'/project-registration/' + list.getProjectId()}" class="text-primary"
                            th:text="${list.projectName}"></a>
                     </td>
                     <td>
@@ -114,7 +114,7 @@
 </div>
 <script>
     function goToTaskList(id) {
-        window.location.replace(`/admin_task-list/${id}`)
+        window.location.replace(`/task-list/${id}`)
     }
 
     $('#submit-btn').on('click', () => {
@@ -129,7 +129,7 @@
             arr.push(`projectType=${projectType}`)
         }
 
-        window.location.replace(`/admin/project-list${arr.length > 0 ? `?${arr.join('&')}` : ''}`)
+        window.location.replace(`/project-list${arr.length > 0 ? `?${arr.join('&')}` : ''}`)
     })
 
 </script>

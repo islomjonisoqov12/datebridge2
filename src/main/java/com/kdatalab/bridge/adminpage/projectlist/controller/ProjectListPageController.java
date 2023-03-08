@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping (value = "/admin")
+
 @RequiredArgsConstructor
 public class ProjectListPageController extends BaseController {
 
@@ -52,11 +52,11 @@ public class ProjectListPageController extends BaseController {
         return projectTypes;
     }
 
-    @GetMapping("/project-list/{projectId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String projectList(@PathVariable("projectId") Integer projectId, Model model) {
-        Project project = projectListService.getProjectDetails(projectId);
-        model.addAttribute("project", project);
-        return "admin/project-list";
-    }
+//    @GetMapping("/project-list/{projectId}")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    public String projectList(@PathVariable("projectId") Integer projectId, Model model) {
+//        Project project = projectListService.getProjectDetails(projectId);
+//        model.addAttribute("project", project);
+//        return "admin/project-list";
+//    }
 }
