@@ -26,7 +26,7 @@
 		, #{name}
 		, #{email}
 		, #{tel}
-		, 'S'
+		, IF(#{isAdmin}, 'N', 'S')
 		, #{snsInfo}
 		, #{birthDt}
 		, #{genderCd}

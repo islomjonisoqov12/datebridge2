@@ -34,6 +34,8 @@ public class ProjectListPageController extends BaseController {
                               Model model) throws Exception {
 
         List<Project> projectList = projectListService.getProjectList(type, projectType);
+        model.addAttribute("type", type);
+        model.addAttribute("projectType", projectType);
         model.addAttribute("projectList", projectList);
 
         return "admin/project-list";

@@ -23,5 +23,9 @@ public class JoinDto extends CommonDto {
     private String snsInfo;
     private String duplInfo;
     private String connInfo;
+    private boolean isAdmin;
 
+    public void setAdmin(String admin) {
+        isAdmin = admin!=null && !admin.isEmpty();
+    }
 }
