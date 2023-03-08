@@ -42,7 +42,7 @@
                     </li>
                     <li th:if="${userInfo.qcChk == 'Y'}" sec:authorize="isAuthenticated()" style="position: relative;">
                         <a href="/check-admin">관리자 요청리스트</a>
-                        <span class="circular-badge text-light bg-danger">1</span>
+                        <span th:if="${requestCount != null && requestCount != 0}" class="circular-badge text-dark bg-warning" th:text="${requestCount}">1</span>
                     </li>
                     <li th:if="${userInfo.qcChk == 'Y'}" sec:authorize="isAuthenticated()"><a href="/project-list">관리자
                         페이지</a></li>
