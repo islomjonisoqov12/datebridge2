@@ -8,16 +8,38 @@
     font-size: 20px;
 }
 
+button.b1.default1 {
+    line-height: 24px;
+    font-size: 18px;
+}
+
 .form-control {
     height: 60px;
+    padding: 0;
+    margin: 0;
     border-radius: 10px;
-    font-size: 20px;
+    border: 1px solid #ccc;
+    text-indent: 15px;
+    letter-spacing: -2px;
+    font-size: 18px;
+}
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-control::placeholder {
+    letter-spacing: 0;
+}
+
+.form-control:focus {
+    border-color: #374df2;
 }
 
 .input-group-lg .form-control:not(textarea) {
-    height: calc(4rem + 2px);
-    border-radius: 8px;
-    font-size: 16px;
+    height: 60px;
+    border-radius: 10px;
+    font-size: 18px;
 }
 
 .table-striped th {
@@ -37,4 +59,75 @@ table th, table td{
 .badge {
     padding: 8px 12px;
     border-radius: 6px;
+}
+
+.note-dropdown-menu li {
+    font-size: 14px;
+}
+
+.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+    font-size: 15px;
+    border-radius: 4px;
+}
+
+.note-icon-caret {
+    display: none;
+}
+
+.panel-default > .panel-heading {
+    color: #333;
+    background-color: #f5f5f5;
+    border-color: #ddd;
+}
+
+.note-editor .note-toolbar .note-color .dropdown-toggle,
+.note-popover .popover-content .note-color .dropdown-toggle {
+    width: unset;
+    padding-left: unset;
+}
+
+.note-editor {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.input-group-text {
+    height: 42px !important;
+    background-color: #f5f5f5;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.custom-file {
+    height: 60px;
+}
+
+.custom-file input[type='file'] {
+    visibility: hidden;
+}
+
+.custom-file-label {
+    height: 60px;
+    line-height: 51px;
+    margin-bottom: 0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.custom-file-label::after {
+    height: 60px;
+    line-height: 51px;
+}
+
+input[type='file']:disabled + .custom-file-label {
+    background-color: #f5f5f5;
+}
+
+.input-group-text {
+    height: 60px !important;
+    width: 40px;
 }

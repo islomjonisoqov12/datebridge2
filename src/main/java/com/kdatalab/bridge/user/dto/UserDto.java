@@ -32,10 +32,16 @@ public class UserDto {
     }
 
     public String getEmailStart() {
+        if(eMail==null || eMail.indexOf("@")<2){
+            return null;
+        }
         return eMail.substring(0, eMail.indexOf("@"));
     }
 
     public String getEmailLast() {
+        if(eMail==null || eMail.indexOf("@")<2){
+            return null;
+        }
         return eMail.substring(eMail.indexOf("@") + 1);
     }
 

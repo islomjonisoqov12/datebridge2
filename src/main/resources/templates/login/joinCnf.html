@@ -68,6 +68,21 @@
     <link rel="stylesheet" href="../assets/css/custom-template.css">
     <script src="../assets/js/custom-lib.js"></script>
 
+    <style>
+        #head_s2 .join .step li:nth-child(2) {
+            left: 163px;
+            margin-left: 0;
+        }
+
+        #head_s2 .join .step li:nth-child(3) {
+            right: 163px;
+        }
+        #head_s2 .join .step i.line2 {
+            left: 50%;
+            right: unset;
+            transform: translateX(-50%);
+        }
+    </style>
 </head>
 
 <body>
@@ -120,7 +135,7 @@
                         <h1>회원가입</h1>
                         <div class="step clearfix"><i class="line1"></i><i class="line2"></i>
                             <ul>
-                                <li><i class="b1"></i><i class="ic1"></i><span class="t1">본인인증</span></li>
+                                <li class="d-none"><i class="b1"></i><i class="ic1"></i><span class="t1">본인인증</span></li>
                                 <li><i class="b1"></i><i class="ic1"></i><span class="t1">회원정보 입력</span></li>
                                 <li class="on"><i class="b1"></i><i class="ic1"></i><span class="t1">회원가입 완료</span></li>
                             </ul>
