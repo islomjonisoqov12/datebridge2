@@ -1,82 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:insert="fragments/layout/head::head(${'마이페이지'})"/>
-    <link rel="stylesheet" href="../assets/vendor/summernote/summernote.min.css"/>
+    <link
+            rel="stylesheet"
+            href="../assets/vendor/summernote/summernote.min.css"
+    />
     <script src="../assets/vendor/summernote/summernote.min.js"></script>
-    <link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.standalone.min.css"/>
-    <link rel="stylesheet" href="../assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css"/>
+    <link
+            rel="stylesheet"
+            href="../assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.standalone.min.css"
+    />
+    <link
+            rel="stylesheet"
+            href="../assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css"
+    />
     <script src="../assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-    <link rel="stylesheet" href="../assets/css/main.css">
-    <style>
-
-
-        .note-dropdown-menu li {
-            font-size: 14px;
-        }
-
-        .btn-default {
-            color: #333;
-            background-color: #fff;
-            border-color: #ccc;
-            font-size: 15px;
-            border-radius: 4px;
-        }
-
-        .note-icon-caret {
-            display: none;
-        }
-
-        .panel-default > .panel-heading {
-            color: #333;
-            background-color: #f5f5f5;
-            border-color: #ddd;
-
-        }
-
-        .note-editor .note-toolbar .note-color .dropdown-toggle, .note-popover .popover-content .note-color .dropdown-toggle {
-            width: unset;
-            padding-left: unset;
-        }
-
-        .note-editor {
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .input-group-text {
-            height: 42px !important;
-            background-color: #f5f5f5;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-        }
-
-        .custom-file {
-            height: 42px;
-        }
-
-        .custom-file input[type="file"] {
-            visibility: hidden;
-        }
-
-        .custom-file-label {
-            height: 42px;
-            line-height: 31px;
-            margin-bottom: 0;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .custom-file-label::after {
-            height: 40px;
-            line-height: 31px;
-        }
-
-        input[type="file"]:disabled + .custom-file-label {
-            background-color: #f5f5f5;
-        }
-    </style>
+    <link rel="stylesheet" href="../assets/css/main.css"/>
 </head>
 <body>
 <!--◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ #head ◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆-->
@@ -86,47 +26,109 @@
 <div class="container">
     <div class="row pt-5 pb-5">
         <div class="col-xl-2 col-3">
-            <th:block th:insert="fragments/adminPageNavigation::adminPageNavi('form')"/>
+            <th:block
+                    th:insert="fragments/adminPageNavigation::adminPageNavi('form')"
+            />
         </div>
         <div class="col-xl-10 col-9">
-            <form id="form" method="post" th:object="${project}" th:action="@{/admin/project-registration}"
-                  enctype="multipart/form-data">
+            <form
+                    id="form"
+                    method="post"
+                    th:object="${project}"
+                    th:action="@{/admin/project-registration}"
+                    enctype="multipart/form-data"
+            >
                 <div class="form-group row align-items-center">
-                    <div class="col-xl-2 col-3"><label class="font-weight-bold" for="projectType">작업 종류</label></div>
+                    <div class="col-xl-2 col-3">
+                        <label class="font-weight-bold" for="projectType">
+                            <span class="required">*</span> 작업 종류</label
+                        >
+                    </div>
                     <div class="col-xl-10 col-9 input-group-lg d-flex flex-column">
-                        <input type="hidden" th:field="*{projectId}" th:value="${project.getProjectId()}" hidden
-                               readonly/>
-                        <select class="form-control g-max-width-120" id="projectType" name="projectType"
-                                th:disabled="${project.getProjectId()!=null}" th:field="*{projectType}">
-                            <option value="" th:selected="${project.getProjectId() == null}">Default</option>
-                            <option th:each="type: ${projectTypes}" th:value="${type}"
-                                    th:selected="${project.getProjectType() == type}" th:text="${type}"></option>
+                        <input
+                                hidden
+                                readonly
+                                type="hidden"
+                                th:field="*{projectId}"
+                                th:value="${project.getProjectId()}"
+                        />
+                        <select
+                                class="form-control g-max-width-120"
+                                id="projectType"
+                                name="projectType"
+                                th:disabled="${project.getProjectId()!=null}"
+                                th:field="*{projectType}"
+                        >
+                            <option
+                                    value=""
+                                    th:selected="${project.getProjectId() == null}"
+                            >
+                                Default
+                            </option>
+                            <option
+                                    th:each="type: ${projectTypes}"
+                                    th:value="${type}"
+                                    th:selected="${project.getProjectType() == type}"
+                                    th:text="${type}"
+                            ></option>
                         </select>
+                        <div id="projectTypeValidation" class="invalid-feedback">
+                            비밀번호 불일치
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row align-items-center">
-                    <div class="col-xl-2 col-3"><label class="font-weight-bold" for="projectName">작업 제목</label></div>
+                    <div class="col-xl-2 col-3">
+                        <label class="font-weight-bold" for="projectName">
+                            <span class="required">*</span> 작업 제목</label
+                        >
+                    </div>
                     <div class="col-xl-10 col-9 input-group-lg d-flex flex-column">
-                        <input class="form-control" th:field="*{projectName}" placeholder="프로젝트1" id="projectName"
-                               name="projectName" th:value="${project.getProjectName()}">
+                        <input
+                                class="form-control"
+                                th:field="*{projectName}"
+                                placeholder="프로젝트1"
+                                id="projectName"
+                                name="projectName"
+                                th:value="${project.getProjectName()}"
+                        />
+                        <div id="projectNameValidation" class="invalid-feedback">
+                            비밀번호 불일치
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-xl-2 col-3"><label class="font-weight-bold" for="summernote">작업 내용</label></div>
+                    <div class="col-xl-2 col-3">
+                        <label class="font-weight-bold" for="summernote">
+                            <span class="required">*</span> 작업 내용</label
+                        >
+                    </div>
                     <div class="col-xl-10 col-9 input-group-lg d-flex flex-column">
-                        <textarea id="summernote" th:field="*{projectContent}" name="projectContent"
-                                  th:value="${project.getProjectContent()}"></textarea>
+                <textarea
+                        id="summernote"
+                        th:field="*{projectContent}"
+                        name="projectContent"
+                        th:value="${project.getProjectContent()}"
+                ></textarea>
                     </div>
                 </div>
                 <div class="form-group row align-items-center">
-                    <div class="col-xl-2 col-3"><label class="font-weight-bold" for="workDateInMinutes">작업 시간</label>
+                    <div class="col-xl-2 col-3">
+                        <label class="font-weight-bold" for="workDateInMinutes">
+                            <span class="required">*</span> 작업 시간</label
+                        >
                     </div>
                     <div class="col-auto d-flex flex-column">
                         <div class="input-group-lg input-group">
-                            <input id="workDateInMinutes" class="form-control" th:field="*{workDateInMinutes}" type="number"
-                                   name="workDateInMinutes"
-                                   th:value="${project.getWorkDateInMinutes()}"
-                                   th:disabled="${project.getProjectId()!=null}">
+                            <input
+                                    id="workDateInMinutes"
+                                    class="form-control"
+                                    th:field="*{workDateInMinutes}"
+                                    type="number"
+                                    name="workDateInMinutes"
+                                    th:value="${project.getWorkDateInMinutes()}"
+                                    th:disabled="${project.getProjectId()!=null}"
+                            />
                             <div class="input-group-append">
                                 <span class="input-group-text font-weight-bold">min.</span>
                             </div>
@@ -134,32 +136,56 @@
                     </div>
                 </div>
                 <div class="form-group row align-items-center">
-                    <div class="col-xl-2 col-3"><label class="font-weight-bold">작업 날짜</label></div>
+                    <div class="col-xl-2 col-3">
+                        <label class="font-weight-bold">
+                            <span class="required">*</span> 작업 날짜</label
+                        >
+                    </div>
                     <div class="col-xl-10 col-9">
                         <div class="input-group-lg input-group w-75">
-                            <input data-date-format="mm/dd/yyyy" id="projectStartDate" class="form-control"
-                                   th:field="*{projectStartDate}" name="projectStartDate"
-                                   th:value="${project.getProjectStartDate()}" placeholder="mm/dd/yyyy"
-                                   th:disabled="${project.getProjectId()!=null}">
+                            <input
+                                    data-date-format="mm/dd/yyyy"
+                                    id="projectStartDate"
+                                    class="form-control"
+                                    th:field="*{projectStartDate}"
+                                    name="projectStartDate"
+                                    th:value="${project.getProjectStartDate()}"
+                                    placeholder="mm/dd/yyyy"
+                                    th:disabled="${project.getProjectId()!=null}"
+                            />
                             <div class="input-group-append">
                                 <span class="input-group-text font-weight-bold">~</span>
                             </div>
-                            <input data-date-format="mm/dd/yyyy" th:field="*{projectEndDate}" id="projectEndDate"
-                                   class="form-control border-left-0" name="projectEndDate"
-                                   th:value="${project.getProjectEndDate()}" placeholder="mm/dd/yyyy"
-                                   th:disabled="${project.getProjectId()!=null}">
+                            <input
+                                    data-date-format="mm/dd/yyyy"
+                                    th:field="*{projectEndDate}"
+                                    id="projectEndDate"
+                                    class="form-control border-left-0"
+                                    name="projectEndDate"
+                                    th:value="${project.getProjectEndDate()}"
+                                    placeholder="mm/dd/yyyy"
+                                    th:disabled="${project.getProjectId()!=null}"
+                            />
                         </div>
                     </div>
                 </div>
                 <div class="form-group row align-items-center">
-                    <div class="col-xl-2 col-3"><label class="font-weight-bold" for="pointPerImage">지급포인트</label>
+                    <div class="col-xl-2 col-3">
+                        <label class="font-weight-bold" for="pointPerImage">
+                            <span class="required">*</span> 지급포인트</label
+                        >
                     </div>
                     <div class="col-auto">
                         <div class="input-group-lg input-group">
-                            <input id="pointPerImage" th:field="*{pointPerImage}" type="number" name="pointPerImage"
-                                   class="form-control"
-                                   th:disabled="${project.getProjectId() != null}"
-                                   th:value="${project.getPointPerImage()}">
+                            <input
+                                    id="pointPerImage"
+                                    th:field="*{pointPerImage}"
+                                    type="number"
+                                    name="pointPerImage"
+                                    class="form-control"
+                                    th:disabled="${project.getProjectId() != null}"
+                                    th:value="${project.getPointPerImage()}"
+                            />
                             <div class="input-group-append">
                                 <span class="input-group-text font-weight-bold">pt</span>
                             </div>
@@ -167,31 +193,59 @@
                     </div>
                 </div>
                 <div class="form-group row align-items-center">
-                    <div class="col-xl-2 col-3"><label class="font-weight-bold" for="taskUnit">태스크 단위 </label>
+                    <div class="col-xl-2 col-3">
+                        <label class="font-weight-bold" for="taskUnit">
+                            <span class="required">*</span>
+                            태스 크 단위
+                        </label>
                     </div>
                     <div class="col-auto input-group-lg d-flex flex-column">
-                        <input th:field="*{taskUnit}" type="number" name="taskUnit" id="taskUnit"
-                               th:disabled="${project.getProjectId()!=null}" th:value="${project.getTaskUnit()}"
-                               class="form-control">
+                        <input
+                                th:field="*{taskUnit}"
+                                type="number"
+                                name="taskUnit"
+                                id="taskUnit"
+                                th:disabled="${project.getProjectId()!=null}"
+                                th:value="${project.getTaskUnit()}"
+                                class="form-control"
+                        />
                     </div>
                 </div>
                 <div class="form-group row align-items-center">
-                    <div class="col-xl-2 col-3"><label class="font-weight-bold" for="file">파일 업로드</label>
+                    <div class="col-xl-2 col-3">
+                        <label class="font-weight-bold" for="file">
+                            <span class="required">*</span> 파일 업로드
+                        </label>
                     </div>
                     <div class="col-auto input-group-lg d-flex flex-column">
                         <div class="custom-file">
-                            <input id="file" type="file" multiple th:field="*{files}" name="files"
-                                   th:disabled="${project.getProjectId()!=null || project.getTaskUnit() == 0}">
-                            <label class="custom-file-label" for="file">Choose file...</label>
+                            <input
+                                    id="file"
+                                    type="file"
+                                    multiple
+                                    th:field="*{files}"
+                                    name="files"
+                                    th:disabled="${project.getProjectId()!=null || project.getTaskUnit() == 0}"
+                            />
+                            <label class="custom-file-label" for="file"
+                            >Choose file...</label
+                            >
                         </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-end mt-5">
-                    <button th:if="${project.getProjectId()!=null}" onclick="goToProjectList()" type="button"
-                            class="btn bg-danger text-light ml-auto g-min-width-110 btn-lg">
+                    <button
+                            th:if="${project.getProjectId()!=null}"
+                            onclick="goToProjectList()"
+                            type="button"
+                            class="ml-auto b1 submit1 ml-4 g-min-width-110"
+                    >
                         삭제
                     </button>
-                    <button type="submit" class="btn bg-primary text-light ml-4 g-min-width-110 btn-lg">
+                    <button
+                            type="submit"
+                            class="b1 default1 ml-4 g-min-width-110"
+                    >
                         저장
                     </button>
                 </div>
@@ -201,14 +255,14 @@
 </div>
 <script>
     function goToProjectList() {
-        window.location.replace('/project-list')
+        window.location.replace('/project-list');
     }
 
     $(document).ready(function () {
         $('#summernote').summernote({
             height: 200,
             lang: 'ko-KR',
-            tooltip: false,
+            tooltip: false, errorElement: null,
             toolbar: [
                 ['style', ['style']],
                 ['font', ['bold', 'underline', 'clear']],
@@ -216,44 +270,52 @@
                 ['para', ['ul', 'ol', 'paragraph']],
                 ['table', ['table']],
                 ['insert', ['link', 'picture', 'video']],
-                ['view', ['fullscreen', 'codeview', 'help']]
-            ]
+                ['view', ['fullscreen', 'codeview', 'help']],
+            ],
         });
 
-        $('#projectStartDate').datepicker()
-        $('#projectEndDate').datepicker()
+        $('#projectStartDate').datepicker();
+        $('#projectEndDate').datepicker();
 
         $('#taskUnit').on('input', function (e) {
-            const value = e.target.value
-            const file = $('#file')
+            const value = e.target.value;
+            const file = $('#file');
 
             if (!!value) {
-                file.removeAttr('disabled')
+                file.removeAttr('disabled');
             }
-        })
+        });
 
         const formItems = [
-            {element: $('#projectType'), message: null},
-            {element: $('#projectName'), message: null},
-            {element: $('#summernote'), message: null},
-            {element: $('#workDateInMinutes'), message: null},
-            {element: $('#projectStartDate'), message: null},
-            {element: $('#projectEndDate'), message: null},
-            {element: $('#pointPerImage'), message: null},
-            {element: $('#taskUnit'), message: null},
-            {element: $('#file'), message: null},
-        ]
+            {element: $('#projectType'), hasError: false, errorElement: null},
+            {element: $('#projectName'), hasError: false, errorElement: null},
+            {element: $('#summernote'), hasError: false, errorElement: null},
+            {element: $('#workDateInMinutes'), hasError: false, errorElement: null},
+            {element: $('#projectStartDate'), hasError: false, errorElement: null},
+            {element: $('#projectEndDate'), hasError: false, errorElement: null},
+            {element: $('#pointPerImage'), hasError: false, errorElement: null},
+            {element: $('#taskUnit'), hasError: false, errorElement: null},
+            {element: $('#file'), hasError: false, errorElement: null},
+        ];
 
         const validate = () => {
+            const tmp = [];
+            for (let item of formItems) {
+                const val = item.element.val();
+                const id = item.element.attr('id')
+                if (!val || val === '0') {
 
-        }
+                } else {
+                    tmp.push({...item, errorElement: $(``)})
+                }
+            }
+        };
 
         $('#form').on('submit', function (e) {
-            e.preventDefault()
-        })
-
+            e.preventDefault();
+            validate();
+        });
     });
 </script>
 </body>
 </html>
-

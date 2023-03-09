@@ -1,42 +1,42 @@
-package com.kdatalab.bridge.join.controller;
-
-import com.kdatalab.bridge.base.BaseController;
-import com.kdatalab.bridge.join.dto.JoinDto;
-import com.kdatalab.bridge.join.service.JoinUserService;
-import com.kdatalab.bridge.user.dto.UserDto;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * 회원가입 Controller
- * @author Enclouds
- * @since 2020.12.11
- */
-
-@Controller
-public class JoinController extends BaseController {
-
-    @Autowired
-    private JoinUserService joinUserService;
-
-    /**
-     * 가입 처리
-     *
-     * @param session
-     * @param joinDto
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping({"/join", "/join/sign"})
-    public String join(HttpSession session, @ModelAttribute("joinDto") JoinDto joinDto) throws Exception{
+//package com.kdatalab.bridge.join.controller;
+//
+//import com.kdatalab.bridge.base.BaseController;
+//import com.kdatalab.bridge.join.dto.JoinDto;
+//import com.kdatalab.bridge.join.service.JoinUserService;
+//import com.kdatalab.bridge.user.dto.UserDto;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.stereotype.Controller;
+//import org.springframework.web.bind.annotation.*;
+//import org.springframework.web.servlet.ModelAndView;
+//
+//import javax.servlet.http.HttpServletResponse;
+//import javax.servlet.http.HttpSession;
+//import java.io.PrintWriter;
+//import java.util.HashMap;
+//import java.util.Map;
+//
+///**
+// * 회원가입 Controller
+// * @author Enclouds
+// * @since 2020.12.11
+// */
+//
+//@Controller
+//public class JoinController1 extends BaseController {
+//
+//    @Autowired
+//    private JoinUserService joinUserService;
+//
+//    /**
+//     * 가입 처리
+//     *
+//     * @param session
+//     * @param joinDto
+//     * @return
+//     * @throws Exception
+//     */
+//    @RequestMapping("/join")
+//    public ModelAndView join(HttpSession session, @ModelAttribute("joinDto") JoinDto joinDto) throws Exception{
 //        ModelAndView mv = new ModelAndView("login/join.html");
 //
 //        //인증 후 결과값이 null로 나오는 부분은 관리담당자에게 문의 바랍니다.
@@ -113,17 +113,16 @@ public class JoinController extends BaseController {
 //        }
 //
 //        return mv;
-        return "login/join";
-    }
-
-    /**
-     * Nice에서 받은 정보 부모창 전송
-     *
-     * @param session
-     * @param EncodeData
-     * @return
-     * @throws Exception
-     */
+//    }
+//
+//    /**
+//     * Nice에서 받은 정보 부모창 전송
+//     *
+//     * @param session
+//     * @param EncodeData
+//     * @return
+//     * @throws Exception
+//     */
 //    @RequestMapping("/join/location")
 //    public ModelAndView joinLocation(HttpSession session, @RequestParam("EncodeData") String EncodeData, HttpServletResponse response) throws Exception{
 //        ModelAndView mv = new ModelAndView("login/joinLocation.html");
@@ -160,14 +159,14 @@ public class JoinController extends BaseController {
 //        mv.addObject("EncodeData", EncodeData);
 //        return mv;
 //    }
-
-    /**
-     * 본인 인증
-     *
-     * @param session
-     * @return
-     * @throws Exception
-     */
+//
+//    /**
+//     * 본인 인증
+//     *
+//     * @param session
+//     * @return
+//     * @throws Exception
+//     */
 //    @RequestMapping("/join/sign")
 //    public ModelAndView joinSignView(HttpSession session) throws Exception{
 //        ModelAndView mv = new ModelAndView("login/joinSign.html");
@@ -226,144 +225,144 @@ public class JoinController extends BaseController {
 //
 //        return mv;
 //    }
-
-    /**
-     * ID 중복 확인 Ajax
-     *
-     * @param loginId
-     * @return
-     * @throws Exception
-     */
-    @GetMapping("/join/duplLoginIdChkAjax")
-    public @ResponseBody Map<String, Object> getLoginIdDuplChk(@RequestParam String loginId) throws Exception{
-        UserDto userInfo = joinUserService.getUserInfo(loginId);
-
-        Map<String, Object> result = new HashMap<String, Object>();
-
-        if(userInfo == null) {
-            result.put("msg", "사용 가능한 ID 입니다.");
-            result.put("code", 0);
-        }else {
-            result.put("msg", "사용중인 ID 입니다.");
-            result.put("code", -1);
-        }
-
-        return result;
-    }
-
-    /**
-     * 이메일 중복 확인 Ajax
-     *
-     * @param email
-     * @return
-     * @throws Exception
-     */
-    @GetMapping("/join/duplEmailChkAjax")
-    public @ResponseBody Map<String, Object> getEmailDuplChk(@RequestParam String email) throws Exception{
-        int cnt = joinUserService.getEmailDuplChk(email);
-
-        Map<String, Object> result = new HashMap<String, Object>();
-
-        if(cnt < 1) {
-            result.put("msg", "사용 가능한 이메일 입니다.");
-            result.put("code", 0);
-        }else {
-            result.put("msg", "사용중인 이메일 입니다.");
-            result.put("code", -1);
-        }
-
-        return result;
-    }
-
-    /**
-     * 전화번호 중복 확인 Ajax
-     *
-     * @param tel
-     * @return
-     * @throws Exception
-     */
-    @GetMapping("/join/duplTelChkAjax")
-    public @ResponseBody Map<String, Object> getTelDuplChk(@RequestParam String tel) throws Exception{
-        int cnt = joinUserService.getTelDuplChk(tel);
-
-        Map<String, Object> result = new HashMap<String, Object>();
-
-        if(cnt < 1) {
-            result.put("msg", "사용 가능한 전화번호 입니다.");
-            result.put("code", 0);
-        }else {
-            result.put("msg", "사용중인 전화번호 입니다.");
-            result.put("code", -1);
-        }
-
-        return result;
-    }
-
-    /**
-     * 가입 처리 완료
-     *
-     * @param params
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping("/join/confirm")
-    @ResponseBody
-    public ModelAndView saveUserInfo(@ModelAttribute("joinDto") JoinDto params) throws Exception{
-        ModelAndView mv = new ModelAndView("login/joinCnf.html");
-
-        if(params.getLoginId() == null){
-            return new ModelAndView("redirect:/join");
-        }
-
-        joinUserService.saveUserInfo(params);
-
-        return mv;
-    }
-
-    /**
-     * Nice 정보 치환
-     *
-     * @param paramValue
-     * @param gubun
-     * @return
-     */
-    public String requestReplace (String paramValue, String gubun) {
-
-        String result = "";
-
-        if (paramValue != null) {
-
-            paramValue = paramValue.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-
-            paramValue = paramValue.replaceAll("\\*", "");
-            paramValue = paramValue.replaceAll("\\?", "");
-            paramValue = paramValue.replaceAll("\\[", "");
-            paramValue = paramValue.replaceAll("\\{", "");
-            paramValue = paramValue.replaceAll("\\(", "");
-            paramValue = paramValue.replaceAll("\\)", "");
-            paramValue = paramValue.replaceAll("\\^", "");
-            paramValue = paramValue.replaceAll("\\$", "");
-            paramValue = paramValue.replaceAll("'", "");
-            paramValue = paramValue.replaceAll("@", "");
-            paramValue = paramValue.replaceAll("%", "");
-            paramValue = paramValue.replaceAll(";", "");
-            paramValue = paramValue.replaceAll(":", "");
-            paramValue = paramValue.replaceAll("-", "");
-            paramValue = paramValue.replaceAll("#", "");
-            paramValue = paramValue.replaceAll("--", "");
-            paramValue = paramValue.replaceAll("-", "");
-            paramValue = paramValue.replaceAll(",", "");
-
-            if(gubun != "encodeData"){
-                paramValue = paramValue.replaceAll("\\+", "");
-                paramValue = paramValue.replaceAll("/", "");
-                paramValue = paramValue.replaceAll("=", "");
-            }
-
-            result = paramValue;
-
-        }
-        return result;
-    }
-
-}
+//
+//    /**
+//     * ID 중복 확인 Ajax
+//     *
+//     * @param loginId
+//     * @return
+//     * @throws Exception
+//     */
+//    @GetMapping("/join/duplLoginIdChkAjax")
+//    public @ResponseBody Map<String, Object> getLoginIdDuplChk(@RequestParam String loginId) throws Exception{
+//        UserDto userInfo = joinUserService.getUserInfo(loginId);
+//
+//        Map<String, Object> result = new HashMap<String, Object>();
+//
+//        if(userInfo == null) {
+//            result.put("msg", "사용 가능한 ID 입니다.");
+//            result.put("code", 0);
+//        }else {
+//            result.put("msg", "사용중인 ID 입니다.");
+//            result.put("code", -1);
+//        }
+//
+//        return result;
+//    }
+//
+//    /**
+//     * 이메일 중복 확인 Ajax
+//     *
+//     * @param email
+//     * @return
+//     * @throws Exception
+//     */
+//    @GetMapping("/join/duplEmailChkAjax")
+//    public @ResponseBody Map<String, Object> getEmailDuplChk(@RequestParam String email) throws Exception{
+//        int cnt = joinUserService.getEmailDuplChk(email);
+//
+//        Map<String, Object> result = new HashMap<String, Object>();
+//
+//        if(cnt < 1) {
+//            result.put("msg", "사용 가능한 이메일 입니다.");
+//            result.put("code", 0);
+//        }else {
+//            result.put("msg", "사용중인 이메일 입니다.");
+//            result.put("code", -1);
+//        }
+//
+//        return result;
+//    }
+//
+//    /**
+//     * 전화번호 중복 확인 Ajax
+//     *
+//     * @param tel
+//     * @return
+//     * @throws Exception
+//     */
+//    @GetMapping("/join/duplTelChkAjax")
+//    public @ResponseBody Map<String, Object> getTelDuplChk(@RequestParam String tel) throws Exception{
+//        int cnt = joinUserService.getTelDuplChk(tel);
+//
+//        Map<String, Object> result = new HashMap<String, Object>();
+//
+//        if(cnt < 1) {
+//            result.put("msg", "사용 가능한 전화번호 입니다.");
+//            result.put("code", 0);
+//        }else {
+//            result.put("msg", "사용중인 전화번호 입니다.");
+//            result.put("code", -1);
+//        }
+//
+//        return result;
+//    }
+//
+//    /**
+//     * 가입 처리 완료
+//     *
+//     * @param params
+//     * @return
+//     * @throws Exception
+//     */
+//    @RequestMapping("/join/confirm")
+//    @ResponseBody
+//    public ModelAndView saveUserInfo(@ModelAttribute("joinDto") JoinDto params) throws Exception{
+//        ModelAndView mv = new ModelAndView("login/joinCnf.html");
+//
+//        if(params.getLoginId() == null){
+//            return new ModelAndView("redirect:/join/sign");
+//        }
+//
+//        joinUserService.saveUserInfo(params);
+//
+//        return mv;
+//    }
+//
+//    /**
+//     * Nice 정보 치환
+//     *
+//     * @param paramValue
+//     * @param gubun
+//     * @return
+//     */
+//    public String requestReplace (String paramValue, String gubun) {
+//
+//        String result = "";
+//
+//        if (paramValue != null) {
+//
+//            paramValue = paramValue.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+//
+//            paramValue = paramValue.replaceAll("\\*", "");
+//            paramValue = paramValue.replaceAll("\\?", "");
+//            paramValue = paramValue.replaceAll("\\[", "");
+//            paramValue = paramValue.replaceAll("\\{", "");
+//            paramValue = paramValue.replaceAll("\\(", "");
+//            paramValue = paramValue.replaceAll("\\)", "");
+//            paramValue = paramValue.replaceAll("\\^", "");
+//            paramValue = paramValue.replaceAll("\\$", "");
+//            paramValue = paramValue.replaceAll("'", "");
+//            paramValue = paramValue.replaceAll("@", "");
+//            paramValue = paramValue.replaceAll("%", "");
+//            paramValue = paramValue.replaceAll(";", "");
+//            paramValue = paramValue.replaceAll(":", "");
+//            paramValue = paramValue.replaceAll("-", "");
+//            paramValue = paramValue.replaceAll("#", "");
+//            paramValue = paramValue.replaceAll("--", "");
+//            paramValue = paramValue.replaceAll("-", "");
+//            paramValue = paramValue.replaceAll(",", "");
+//
+//            if(gubun != "encodeData"){
+//                paramValue = paramValue.replaceAll("\\+", "");
+//                paramValue = paramValue.replaceAll("/", "");
+//                paramValue = paramValue.replaceAll("=", "");
+//            }
+//
+//            result = paramValue;
+//
+//        }
+//        return result;
+//    }
+//
+//}

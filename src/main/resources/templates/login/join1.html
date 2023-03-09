@@ -70,22 +70,6 @@
   <script src="/assets/vendor/jquery-ui/jquery-ui.js"></script>
   <script src="/assets/js/custom-lib.js"></script>
 
-  <style>
-    #head_s2 .join .step li:nth-child(2) {
-      left: 163px;
-      margin-left: 0;
-    }
-
-    #head_s2 .join .step li:nth-child(3) {
-      right: 163px;
-    }
-    #head_s2 .join .step i.line2 {
-      left: 50%;
-      right: unset;
-      transform: translateX(-50%);
-    }
-  </style>
-
   <script>
 
     function fnDuplLoginIdChk(){
@@ -351,9 +335,9 @@
         <!-- join -->
         <div class="join">
           <h1>회원가입</h1>
-          <div class="step clearfix"><i class="line2"></i>
-            <ul class="">
-              <li class="d-none"><i class="b1"></i><i class="ic1"></i><span class="t1">본인인증</span></li>
+          <div class="step clearfix"><i class="line1"></i><i class="line2"></i>
+            <ul>
+              <li><i class="b1"></i><i class="ic1"></i><span class="t1">본인인증</span></li>
               <li class="on"><i class="b1"></i><i class="ic1"></i><span class="t1">회원정보 입력</span></li>
               <li><i class="b1"></i><i class="ic1"></i><span class="t1">회원가입 완료</span></li>
             </ul>
@@ -384,7 +368,7 @@
       <input type="hidden" name="idDuplChk" id="idDuplChk" value="N">
       <input type="hidden" name="emailDuplChk" id="emailDuplChk" value="N">
       <input type="hidden" name="telDuplChk" id="telDuplChk" value="N">
-      <input type="hidden" name="duplInfo" id="duplInfo" th:value="${'mapResult.DI'}">
+      <input type="hidden" name="duplInfo" id="duplInfo" th:value="${mapResult.DI}">
       <div id="body">
         <!-- #body_content -->
         <div id="body_content" class="clearfix">
@@ -413,12 +397,12 @@
               </tr>
               <tr>
                 <th scope="row"><label for="name">이름 <em class="required" title="필수항목">*</em></label></th>
-                <td><input type="input" id="name" name="name" lang="ko" th:value="${'mapResult.NAME'}"/></td>
+                <td><input type="input" id="name" name="name" lang="ko" th:value="${mapResult.NAME}"/></td>
               </tr>
               <tr>
                  <th scope="row"><label for="birthDt">생년월일</label></th>
                 <td>
-                  <input type="date" class="calendar" id="birthDt" name="birthDt" th:value="${#temporals.createDate('20021003', 'yyyyMMdd')}"/>
+                  <input type="date" class="calendar" id="birthDt" name="birthDt" th:value="${#temporals.createDate(mapResult.BIRTHDATE, 'yyyyMMdd')}"/>
                 </td>
               </tr>
               <tr>
@@ -428,15 +412,15 @@
               </tr>
               <tr>
                 <th scope="row"><label for="email">전화번호 <em class="required" title="필수항목">*</em></label></th>
-                <td><input type="text" id="tel" name="tel" placeholder="전화번호" th:value="${'mapResult.MOBILE_NO'}" style="width:64.5%"/>
+                <td><input type="text" id="tel" name="tel" placeholder="전화번호" th:value="${mapResult.MOBILE_NO}" style="width:64.5%"/>
                   <button type="button"  class="b1 default1" onclick="javascript:fnDuplTelChk();">중복체크</button></td>
               </tr>
               <tr>
                 <th scope="row"><label>성별 <em class="required" title="필수항목">*</em></label></th>
                <td>
-                 <input type="radio" name="genderCd" id="genderCd_M" value="M" th:attr="checked=${'true'}"/>
+                 <input type="radio" name="genderCd" id="genderCd_M" value="M" th:attr="checked=${mapResult.GENDER.toString() == '1' ? 'true' : 'false'}"/>
                  <label for="genderCd_M">남자</label>
-                 <input type="radio" name="genderCd" id="genderCd_F" value="F" th:attr="checked=${'false'}"/>
+                 <input type="radio" name="genderCd" id="genderCd_F" value="F" th:attr="checked=${mapResult.GENDER.toString() == '0' ? 'true' : 'false'}"/>
                  <label for="genderCd_F">여자</label>
                </td>
              </tr>
@@ -486,7 +470,7 @@
           <!-- /step2 -->
           <div class="btns tac">
             <button type="button" class="b1 cancel1" onclick="javascript:fnSave();">회원가입</button>
-            <button type="button" class="b1 submit1">초기화</button>
+            <button class="b1 submit1">초기화</button>
           </div>
 
         </div>
