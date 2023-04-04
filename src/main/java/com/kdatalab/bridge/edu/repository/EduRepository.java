@@ -30,12 +30,12 @@ public interface EduRepository extends JpaRepository<RootEntity, Integer> {
             ", start_date" +
             ", end_date" +
             ", CASE WHEN now() between START_DATE and END_DATE THEN 'Y' ELSE 'N' END AS edu_active_yn" +
-            ", reg_dt" +
-            "FROM TB_EDU_MST" +
+            ", reg_dt " +
+            "FROM TB_EDU_MST " +
             "WHERE 1=1" +
-            ") TAB" +
+            ") TAB " +
             "WHERE 1=1 " +
-            "ORDER BY TAB.reg_dt desc" +
+            "ORDER BY TAB.reg_dt desc " +
             "LIMIT 0, 8")
     List<EduDto> selectEduListTop8(EduDto param) throws Exception;
 

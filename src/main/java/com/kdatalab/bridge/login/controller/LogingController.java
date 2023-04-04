@@ -70,7 +70,7 @@ public class LogingController {
             this.idToken = idToken;
         }
 
-        @JsonProperty("id_token")
+        @JsonProperty("idToken")
         String getIdToken() {return idToken;}
 
         void setIdToken(String idToken) { this.idToken = idToken; }
